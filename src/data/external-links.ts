@@ -44,14 +44,14 @@ export const externalLinks: ExternalLink[] = [
     category: 'Advocacy',
   },
   {
-    label: 'Georgia ABLE Account',
-    url: 'https://georgiaable.com',
+    label: 'Georgia STABLE Account',
+    url: 'https://georgiastable.com',
     description: 'Tax-advantaged savings for individuals with disabilities without losing benefits.',
     category: 'Financial',
   },
   {
     label: 'GA DOE Special Education',
-    url: 'https://www.gadoe.org/Curriculum-Instruction-and-Assessment/Special-Education-Services',
+    url: 'https://gadoe.org/special-education/',
     description: 'Georgia Department of Education special education services, IEP resources, and transition planning.',
     category: 'Education',
   },

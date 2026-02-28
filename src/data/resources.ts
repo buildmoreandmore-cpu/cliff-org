@@ -83,7 +83,7 @@ export const resourcePanels: ResourcePanel[] = [
     ],
     links: [
       { label: 'SSA', url: 'https://ssa.gov' },
-      { label: 'GA DOE Special Education', url: 'https://www.gadoe.org/Curriculum-Instruction-and-Assessment/Special-Education-Services' },
+      { label: 'GA DOE Special Education', url: 'https://gadoe.org/special-education/' },
     ],
     alertText: 'Start planning 2 years before each transition age. These deadlines are firm.',
   },
@@ -104,16 +104,16 @@ export const resourcePanels: ResourcePanel[] = [
   },
   {
     id: 'financial',
-    title: 'Financial Planning & ABLE',
+    title: 'Financial Planning & STABLE',
     icon: 'dollar',
-    summary: 'Protect benefits while saving. ABLE accounts, special needs trusts, and financial strategies.',
+    summary: 'Protect benefits while saving. STABLE accounts, special needs trusts, and financial strategies.',
     content: [
-      'Georgia ABLE accounts let individuals with disabilities save up to $100,000+ without affecting SSI or Medicaid eligibility.',
+      'Georgia STABLE accounts let individuals with disabilities save up to $100,000+ without affecting SSI or Medicaid eligibility.',
       'Special Needs Trusts (SNTs) can hold unlimited assets without affecting benefits. Consider a first-party or third-party trust.',
-      'Plan for the ABLE account early. Contributions can be used for housing, education, transportation, health, and more.',
+      'Plan for the STABLE account early. Contributions can be used for housing, education, transportation, health, and more.',
     ],
     links: [
-      { label: 'Georgia ABLE Account', url: 'https://georgiaable.com' },
+      { label: 'Georgia STABLE Account', url: 'https://georgiastable.com' },
     ],
   },
   {

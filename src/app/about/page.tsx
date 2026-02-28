@@ -45,7 +45,7 @@ export default function AboutPage() {
               'NOW & COMP Waiver Planning List enrollment',
               'GAPP for medically fragile children',
               'IEP transition planning',
-              'Georgia ABLE account setup',
+              'Georgia STABLE account setup',
               'Employment services through Bobby Dodd Institute',
               'Advocacy connections through Parent to Parent GA',
             ].map((item) => (

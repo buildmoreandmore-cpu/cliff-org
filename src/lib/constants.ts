@@ -27,10 +27,10 @@ export const EXTERNAL_LINKS = {
   dbhdd: { label: 'DBHDD', url: 'https://dbhdd.georgia.gov' },
   ssa: { label: 'Social Security (SSI)', url: 'https://ssa.gov' },
   camAndMadisPromise: { label: "Cam & Madi's Promise", url: 'https://camandmadispromise.org' },
-  georgiaABLE: { label: 'Georgia ABLE Account', url: 'https://georgiaable.com' },
+  georgiaABLE: { label: 'Georgia STABLE Account', url: 'https://georgiastable.com' },
   gadoeSpecialEd: {
     label: 'GA DOE Special Education',
-    url: 'https://www.gadoe.org/Curriculum-Instruction-and-Assessment/Special-Education-Services',
+    url: 'https://gadoe.org/special-education/',
   },
 } as const
 

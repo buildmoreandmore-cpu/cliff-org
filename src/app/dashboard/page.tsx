@@ -12,7 +12,7 @@ import ContactsManager from '@/components/dashboard/ContactsManager'
 import type { ChildBenefit, Application, Reminder, SavedDocument, Profile } from '@/lib/types'
 
 export default function DashboardPage() {
-  const { user } = useUser()
+  const { user, loading: userLoading, error: userError } = useUser()
   const [profile, setProfile] = useState<Profile | null>(null)
   const [benefits, setBenefits] = useState<ChildBenefit[]>([])
   const [applications, setApplications] = useState<Application[]>([])
@@ -21,30 +21,53 @@ export default function DashboardPage() {
 
   const fetchData = useCallback(async () => {
     if (!user) return
-    const supabase = createClient()
+    try {
+      const supabase = createClient()
 
-    const profileRes = await supabase.from('profiles').select('*').eq('user_id', user.id).single()
-    const prof = profileRes.data as Profile | null
-    setProfile(prof)
+      const profileRes = await supabase.from('profiles').select('*').eq('user_id', user.id).single()
+      const prof = profileRes.data as Profile | null
+      setProfile(prof)
 
-    if (prof) {
-      const [benefitsRes, appsRes, remindersRes, docsRes] = await Promise.all([
-        supabase.from('child_benefits').select('*').eq('profile_id', prof.id),
-        supabase.from('applications').select('*').eq('profile_id', prof.id),
-        supabase.from('reminders').select('*').eq('profile_id', prof.id).order('due_date'),
-        supabase.from('saved_documents').select('*').eq('profile_id', prof.id).order('id', { ascending: false }),
-      ])
+      if (prof) {
+        const [benefitsRes, appsRes, remindersRes, docsRes] = await Promise.all([
+          supabase.from('child_benefits').select('*').eq('profile_id', prof.id),
+          supabase.from('applications').select('*').eq('profile_id', prof.id),
+          supabase.from('reminders').select('*').eq('profile_id', prof.id).order('due_date'),
+          supabase.from('saved_documents').select('*').eq('profile_id', prof.id).order('id', { ascending: false }),
+        ])
 
-      setBenefits((benefitsRes.data || []) as ChildBenefit[])
-      setApplications((appsRes.data || []) as Application[])
-      setReminders((remindersRes.data || []) as Reminder[])
-      setDocuments((docsRes.data || []) as SavedDocument[])
+        setBenefits((benefitsRes.data || []) as ChildBenefit[])
+        setApplications((appsRes.data || []) as Application[])
+        setReminders((remindersRes.data || []) as Reminder[])
+        setDocuments((docsRes.data || []) as SavedDocument[])
+      }
+    } catch {
+      // Supabase not configured — leave defaults
     }
   }, [user])
 
   useEffect(() => {
     fetchData()
   }, [fetchData])
+
+  if (userError) {
+    return (
+      <div className="text-center py-16">
+        <h1 className="font-display text-xl font-bold text-navy">Dashboard</h1>
+        <p className="mt-3 text-sm text-navy/50">
+          The database is not configured yet. Please set up Supabase to use the dashboard.
+        </p>
+      </div>
+    )
+  }
+
+  if (userLoading) {
+    return (
+      <div className="text-center py-16">
+        <p className="text-sm text-navy/50">Loading...</p>
+      </div>
+    )
+  }
 
   return (
     <div>

@@ -7,23 +7,30 @@ import type { User } from '@supabase/supabase-js'
 export function useUser() {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    const supabase = createClient()
+    let subscription: { unsubscribe: () => void } | null = null
 
-    supabase.auth.getUser().then(({ data }) => {
-      setUser(data.user)
+    try {
+      const supabase = createClient()
+
+      supabase.auth.getUser().then(({ data }) => {
+        setUser(data.user)
+        setLoading(false)
+      })
+
+      const { data } = supabase.auth.onAuthStateChange((_event, session) => {
+        setUser(session?.user ?? null)
+      })
+      subscription = data.subscription
+    } catch {
+      setError('Supabase is not configured')
       setLoading(false)
-    })
+    }
 
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null)
-    })
-
-    return () => subscription.unsubscribe()
+    return () => subscription?.unsubscribe()
   }, [])
 
-  return { user, loading }
+  return { user, loading, error }
 }

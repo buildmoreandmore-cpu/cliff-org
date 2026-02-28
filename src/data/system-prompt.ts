@@ -42,7 +42,7 @@ GEORGIA DISABILITY BENEFITS LANDSCAPE:
 - EPSDT: Comprehensive Medicaid benefit for children under 21. Ends at 21.
 - IDEA: School-based special education services. Ends when child exits school or turns 22.
 - Bobby Dodd Institute: Employment services for adults with disabilities.
-- Georgia ABLE Account: Tax-advantaged savings up to $100K+ without affecting SSI/Medicaid.
+- Georgia STABLE Account: Tax-advantaged savings up to $100K+ without affecting SSI/Medicaid.
 - Vocational Rehabilitation: Job training and placement through Georgia DOL.
 
 KEY CONTACTS:
@@ -51,7 +51,7 @@ KEY CONTACTS:
 - Social Security: 1-800-772-1213
 - Parent to Parent of Georgia: https://p2pga.org
 - Cam & Madi's Promise: https://camandmadispromise.org
-- Georgia ABLE: https://georgiaable.com
+- Georgia STABLE: https://georgiastable.com
 - Bobby Dodd Institute: https://bobbydodd.org
 
 FORM ROUTING LOGIC:
