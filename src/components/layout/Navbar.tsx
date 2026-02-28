@@ -2,12 +2,24 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { NAV_LINKS } from '@/lib/constants'
 import { MenuIcon } from '@/components/ui/SVGIcons'
+import { useUser } from '@/hooks/useUser'
+import { createClient } from '@/lib/supabase/client'
 import MobileMenu from './MobileMenu'
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
+  const { user, loading } = useUser()
+  const router = useRouter()
+
+  async function handleSignOut() {
+    const supabase = createClient()
+    await supabase.auth.signOut()
+    router.push('/')
+    router.refresh()
+  }
 
   return (
     <>
@@ -31,18 +43,39 @@ export default function Navbar() {
             </nav>
 
             <div className="hidden md:flex items-center gap-3">
-              <Link
-                href="/auth/login"
-                className="text-sm font-medium text-navy/70 hover:text-coral transition-colors"
-              >
-                Sign In
-              </Link>
-              <Link
-                href="/auth/signup"
-                className="inline-flex items-center px-4 py-2 bg-coral text-white text-sm font-medium rounded-lg hover:bg-coral-dark transition-colors"
-              >
-                Get Started
-              </Link>
+              {loading ? (
+                <div className="w-20 h-8" />
+              ) : user ? (
+                <>
+                  <Link
+                    href="/dashboard"
+                    className="text-sm font-medium text-navy/70 hover:text-coral transition-colors"
+                  >
+                    Dashboard
+                  </Link>
+                  <button
+                    onClick={handleSignOut}
+                    className="inline-flex items-center px-4 py-2 border border-gray-200 text-navy/70 text-sm font-medium rounded-lg hover:bg-gray-50 transition-colors"
+                  >
+                    Sign Out
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    href="/auth/login"
+                    className="text-sm font-medium text-navy/70 hover:text-coral transition-colors"
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    href="/auth/signup"
+                    className="inline-flex items-center px-4 py-2 bg-coral text-white text-sm font-medium rounded-lg hover:bg-coral-dark transition-colors"
+                  >
+                    Get Started
+                  </Link>
+                </>
+              )}
             </div>
 
             <button
@@ -56,7 +89,7 @@ export default function Navbar() {
         </div>
       </header>
 
-      <MobileMenu open={mobileOpen} onClose={() => setMobileOpen(false)} />
+      <MobileMenu open={mobileOpen} onClose={() => setMobileOpen(false)} user={user} onSignOut={handleSignOut} />
     </>
   )
 }
