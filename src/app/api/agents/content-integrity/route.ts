@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { anthropic } from '@/lib/claude'
+import { chatCompletion } from '@/lib/minimax'
 import type { ContentBlock } from '@/lib/types'
 
 export async function POST(request: NextRequest) {
@@ -12,7 +12,6 @@ export async function POST(request: NextRequest) {
   const supabase = createAdminClient()
 
   try {
-    // Get all published content blocks
     const { data: blocks, error } = await supabase
       .from('content_blocks')
       .select('*')
@@ -28,7 +27,6 @@ export async function POST(request: NextRequest) {
 
     for (const block of blocks as ContentBlock[]) {
       try {
-        // Fetch source URL if available
         let sourceContent = ''
         if (block.source_url) {
           try {
@@ -38,21 +36,14 @@ export async function POST(request: NextRequest) {
             })
             if (res.ok) {
               const html = await res.text()
-              // Strip HTML tags for comparison
               sourceContent = html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').substring(0, 5000)
             }
-          } catch {
-            // Source unreachable
-          }
+          } catch { /* source unreachable */ }
         }
 
-        // Use Claude to compare
-        const response = await anthropic.messages.create({
-          model: 'claude-sonnet-4-5-20250929',
-          max_tokens: 1024,
-          messages: [{
-            role: 'user',
-            content: `You are a content integrity checker for CLIFF, a Georgia disability benefits nonprofit.
+        const response = await chatCompletion([{
+          role: 'user',
+          content: `You are a content integrity checker for CLIFF, a Georgia disability benefits nonprofit.
 
 Compare our stored content against the source. Identify any factual changes, outdated info, or discrepancies.
 
@@ -61,7 +52,7 @@ ${block.body?.substring(0, 3000)}
 
 ${sourceContent ? `SOURCE CONTENT (from ${block.source_url}):\n${sourceContent}` : 'SOURCE: Not available (could not fetch). Check if the URL is still valid.'}
 
-Respond in JSON only:
+Respond in JSON only (no other text):
 {
   "has_changes": boolean,
   "severity": "critical" | "high" | "medium" | "low",
@@ -73,23 +64,21 @@ Respond in JSON only:
 }
 
 If no changes detected, set has_changes to false.`,
-          }],
-        })
+        }])
 
-        const text = response.content.filter((b) => b.type === 'text').map((b) => (b as any).text).join('')
+        let text = response.choices[0]?.message?.content || ''
+        text = text.replace(/<think>[\s\S]*?<\/think>/g, '').trim()
         const jsonMatch = text.match(/\{[\s\S]*\}/)
         if (!jsonMatch) continue
 
         const analysis = JSON.parse(jsonMatch[0])
 
-        // Update last_verified
         await supabase
           .from('content_blocks')
           .update({ last_verified: now })
           .eq('id', block.id)
 
         if (analysis.has_changes) {
-          // Insert into content_changes
           await supabase.from('content_changes').insert({
             content_block_id: block.id,
             detected_at: now,
@@ -99,7 +88,7 @@ If no changes detected, set has_changes to false.`,
             proposed_text: analysis.proposed_text,
             source_url: block.source_url,
             source_name: block.source_name,
-            confidence: analysis.confidence,
+            confidence: String(analysis.confidence),
             status: 'pending',
           })
 
@@ -112,30 +101,27 @@ If no changes detected, set has_changes to false.`,
         }
       } catch (err) {
         console.error(`Error checking block ${block.id}:`, err)
-        // Continue with next block
       }
     }
 
-    // Send admin summary email if there are findings
     if (findings.length > 0) {
       const { data: admins } = await supabase
         .from('profiles')
-        .select('user_id')
+        .select('id')
         .eq('is_admin', true)
 
       if (admins?.length) {
         const summary = findings
           .sort((a, b) => {
-            const order = { critical: 0, high: 1, medium: 2, low: 3 }
-            return (order[a.severity as keyof typeof order] ?? 4) - (order[b.severity as keyof typeof order] ?? 4)
+            const order: Record<string, number> = { critical: 0, high: 1, medium: 2, low: 3 }
+            return (order[a.severity] ?? 4) - (order[b.severity] ?? 4)
           })
           .map((f) => `[${f.severity.toUpperCase()}] ${f.block_title}: ${f.topic}`)
           .join('\n')
 
-        // Create notification for each admin
         for (const admin of admins) {
           await supabase.from('notifications').insert({
-            profile_id: admin.user_id,
+            profile_id: admin.id,
             trigger_type: 'content_integrity',
             subject: `Content Integrity Report: ${findings.length} change(s) detected`,
             body: `The monthly content integrity check found ${findings.length} potential change(s):\n\n${summary}\n\nPlease review in the admin dashboard.`,

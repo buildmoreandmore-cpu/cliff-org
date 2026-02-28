@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { anthropic } from '@/lib/claude'
+import { chatCompletion } from '@/lib/minimax'
 
 export async function POST(request: NextRequest) {
-  // Verify API key for internal calls
   const apiKey = request.headers.get('x-api-key')
   if (apiKey !== process.env.AGENT_API_KEY) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -17,7 +16,7 @@ export async function POST(request: NextRequest) {
   const supabase = createAdminClient()
 
   try {
-    // Step 1: Search content_blocks first
+    // Step 1: Search content_blocks
     const { data: contentResults } = await supabase
       .from('content_blocks')
       .select('id, slug, title, body, source_url, source_name, last_verified')
@@ -41,6 +40,7 @@ export async function POST(request: NextRequest) {
       )
       if (searchRes.ok) {
         const searchData = await searchRes.json()
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         webResults = (searchData.web?.results || []).map((r: any) => ({
           title: r.title,
           url: r.url,
@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
       // Web search failed, continue with content results only
     }
 
-    // Step 3: Use Claude to synthesize results
+    // Step 3: Synthesize with MiniMax
     const synthesisPrompt = `You are a research assistant for CLIFF, a nonprofit helping Georgia families navigate disability benefits.
 
 Query: "${query}"
@@ -64,16 +64,12 @@ ${webResults.length ? webResults.map((w) => `- ${w.title}: ${w.snippet} (${w.url
 
 Synthesize these into a clear, concise answer with sources. Focus on actionable information for Georgia families. If info is outdated or uncertain, say so.`
 
-    const response = await anthropic.messages.create({
-      model: 'claude-sonnet-4-5-20250929',
-      max_tokens: 2048,
-      messages: [{ role: 'user', content: synthesisPrompt }],
-    })
+    const response = await chatCompletion([
+      { role: 'user', content: synthesisPrompt },
+    ])
 
-    const answer = response.content
-      .filter((b) => b.type === 'text')
-      .map((b) => (b as any).text)
-      .join('')
+    let answer = response.choices[0]?.message?.content || 'No answer generated.'
+    answer = answer.replace(/<think>[\s\S]*?<\/think>/g, '').trim()
 
     return NextResponse.json({
       answer,
