@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { NAV_LINKS, EASING } from '@/lib/constants'
-import { XIcon } from '@/components/ui/SVGIcons'
+import { XIcon, BellIcon } from '@/components/ui/SVGIcons'
 import type { User } from '@supabase/supabase-js'
 
 interface MobileMenuProps {
@@ -11,9 +11,10 @@ interface MobileMenuProps {
   onClose: () => void
   user: User | null
   onSignOut: () => void
+  unreadCount?: number
 }
 
-export default function MobileMenu({ open, onClose, user, onSignOut }: MobileMenuProps) {
+export default function MobileMenu({ open, onClose, user, onSignOut, unreadCount = 0 }: MobileMenuProps) {
   return (
     <AnimatePresence>
       {open && (
@@ -53,6 +54,18 @@ export default function MobileMenu({ open, onClose, user, onSignOut }: MobileMen
               <hr className="my-3 border-gray-100" />
               {user ? (
                 <>
+                  <Link
+                    href="/dashboard#inbox"
+                    onClick={onClose}
+                    className="px-4 py-3 text-navy/80 hover:text-coral hover:bg-cream rounded-lg transition-colors flex items-center justify-between"
+                  >
+                    <span className="flex items-center gap-2"><BellIcon size={16} /> Notifications</span>
+                    {unreadCount > 0 && (
+                      <span className="bg-coral text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center">
+                        {unreadCount > 9 ? '9+' : unreadCount}
+                      </span>
+                    )}
+                  </Link>
                   <Link
                     href="/dashboard"
                     onClick={onClose}

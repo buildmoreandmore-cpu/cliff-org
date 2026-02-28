@@ -1,18 +1,30 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { NAV_LINKS } from '@/lib/constants'
-import { MenuIcon } from '@/components/ui/SVGIcons'
+import { MenuIcon, BellIcon } from '@/components/ui/SVGIcons'
 import { useUser } from '@/hooks/useUser'
 import { createClient } from '@/lib/supabase/client'
 import MobileMenu from './MobileMenu'
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [unreadCount, setUnreadCount] = useState(0)
   const { user, loading } = useUser()
   const router = useRouter()
+
+  useEffect(() => {
+    if (!user) return
+    const supabase = createClient()
+    supabase.from('profiles').select('id').eq('user_id', user.id).single().then(({ data: prof }) => {
+      if (!prof) return
+      supabase.from('notifications').select('id', { count: 'exact', head: true })
+        .eq('profile_id', prof.id).is('opened_at', null)
+        .then(({ count }) => setUnreadCount(count || 0))
+    })
+  }, [user])
 
   async function handleSignOut() {
     const supabase = createClient()
@@ -47,6 +59,14 @@ export default function Navbar() {
                 <div className="w-20 h-8" />
               ) : user ? (
                 <>
+                  <Link href="/dashboard#inbox" className="relative p-2 text-navy/70 hover:text-coral transition-colors">
+                    <BellIcon size={20} />
+                    {unreadCount > 0 && (
+                      <span className="absolute -top-0.5 -right-0.5 bg-coral text-white text-[10px] font-bold w-4.5 h-4.5 flex items-center justify-center rounded-full min-w-[18px] px-1">
+                        {unreadCount > 9 ? '9+' : unreadCount}
+                      </span>
+                    )}
+                  </Link>
                   <Link
                     href="/dashboard"
                     className="text-sm font-medium text-navy/70 hover:text-coral transition-colors"
@@ -89,7 +109,7 @@ export default function Navbar() {
         </div>
       </header>
 
-      <MobileMenu open={mobileOpen} onClose={() => setMobileOpen(false)} user={user} onSignOut={handleSignOut} />
+      <MobileMenu open={mobileOpen} onClose={() => setMobileOpen(false)} user={user} onSignOut={handleSignOut} unreadCount={unreadCount} />
     </>
   )
 }
