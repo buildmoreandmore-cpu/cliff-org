@@ -30,8 +30,8 @@ const features = [
 
 export default function FeaturesSection() {
   return (
-    <section className="py-20 lg:py-28 bg-cream">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-14 sm:py-20 lg:py-28 bg-cream">
+      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
         <AnimatedSection className="max-w-2xl mx-auto text-center">
           <p className="text-coral font-medium text-sm tracking-wide uppercase">How CLIFF Helps</p>
           <h2 className="mt-3 font-display text-3xl sm:text-4xl font-bold text-navy text-balance">
@@ -43,7 +43,7 @@ export default function FeaturesSection() {
         </AnimatedSection>
 
         <motion.div
-          className="mt-16 grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-4xl mx-auto"
+          className="mt-10 sm:mt-16 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 max-w-4xl mx-auto"
           initial="initial"
           whileInView="animate"
           viewport={{ once: true, amount: 0.2 }}
@@ -52,7 +52,7 @@ export default function FeaturesSection() {
           {features.map((feature) => (
             <motion.div
               key={feature.title}
-              className="bg-white rounded-xl p-8 shadow-sm border border-gray-100"
+              className="bg-white rounded-xl p-5 sm:p-8 shadow-sm border border-gray-100"
               variants={{
                 initial: { opacity: 0, y: 20, scale: 0.96 },
                 animate: { opacity: 1, y: 0, scale: 1 },

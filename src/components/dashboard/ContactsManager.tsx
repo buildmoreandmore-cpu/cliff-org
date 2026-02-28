@@ -89,36 +89,36 @@ export default function ContactsManager({ userId, contacts, onUpdate }: Contacts
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: EASING }}
           >
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <input
                 type="text"
                 placeholder="Contact name *"
                 value={form.name}
                 onChange={(e) => update('name', e.target.value)}
-                className="px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-coral/30 focus:border-coral text-navy placeholder:text-navy/30"
+                className="px-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-coral/30 focus:border-coral text-navy placeholder:text-navy/30"
               />
               <input
                 type="text"
                 placeholder="Role (e.g. Case Manager)"
                 value={form.role}
                 onChange={(e) => update('role', e.target.value)}
-                className="px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-coral/30 focus:border-coral text-navy placeholder:text-navy/30"
+                className="px-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-coral/30 focus:border-coral text-navy placeholder:text-navy/30"
               />
             </div>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <input
                 type="tel"
                 placeholder="Phone"
                 value={form.phone}
                 onChange={(e) => update('phone', e.target.value)}
-                className="px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-coral/30 focus:border-coral text-navy placeholder:text-navy/30"
+                className="px-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-coral/30 focus:border-coral text-navy placeholder:text-navy/30"
               />
               <input
                 type="email"
                 placeholder="Email"
                 value={form.email}
                 onChange={(e) => update('email', e.target.value)}
-                className="px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-coral/30 focus:border-coral text-navy placeholder:text-navy/30"
+                className="px-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-coral/30 focus:border-coral text-navy placeholder:text-navy/30"
               />
             </div>
             <input

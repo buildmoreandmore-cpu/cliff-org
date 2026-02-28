@@ -5,8 +5,8 @@ import Button from '@/components/ui/Button'
 
 export default function DonateStrip() {
   return (
-    <section className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-14 sm:py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
         <AnimatedSection className="max-w-2xl mx-auto text-center">
           <p className="text-coral font-medium text-sm tracking-wide uppercase">Support Our Mission</p>
           <h2 className="mt-3 font-display text-3xl sm:text-4xl font-bold text-navy text-balance">

@@ -7,7 +7,7 @@ import { ExternalLinkIcon } from '@/components/ui/SVGIcons'
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-white">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+      <div className="max-w-3xl mx-auto px-5 sm:px-6 lg:px-8 py-10 sm:py-16 lg:py-24">
         <AnimatedSection>
           <p className="text-coral font-medium text-sm tracking-wide uppercase">About</p>
           <h1 className="mt-3 font-display text-3xl sm:text-4xl font-bold text-navy">
@@ -75,7 +75,7 @@ export default function AboutPage() {
           </div>
         </AnimatedSection>
 
-        <AnimatedSection delay={0.5} className="mt-12 p-6 bg-cream rounded-xl">
+        <AnimatedSection delay={0.5} className="mt-12 p-4 sm:p-6 bg-cream rounded-xl">
           <h2 className="font-display text-lg font-semibold text-navy">Legal Disclaimer</h2>
           <p className="mt-2 text-sm text-navy/60 leading-relaxed">
             CLIFF provides general information about Georgia disability benefits and services. This

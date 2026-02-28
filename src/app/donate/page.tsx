@@ -16,7 +16,7 @@ export default function DonatePage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+      <div className="max-w-5xl mx-auto px-5 sm:px-6 lg:px-8 py-10 sm:py-16 lg:py-24">
         <AnimatedSection className="text-center max-w-2xl mx-auto mb-12">
           <p className="text-coral font-medium text-sm tracking-wide uppercase">Support CLIFF</p>
           <h1 className="mt-3 font-display text-3xl sm:text-4xl font-bold text-navy">
@@ -28,7 +28,7 @@ export default function DonatePage() {
           </p>
         </AnimatedSection>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 max-w-4xl mx-auto">
           <AnimatedSection delay={0.1}>
             <div className="space-y-6">
               <TypeToggle type={type} onChange={setType} />

@@ -44,8 +44,8 @@ export default function DashboardPage() {
 
   return (
     <div>
-      <div className="mb-8">
-        <h1 className="font-display text-2xl font-bold text-navy">
+      <div className="mb-5 sm:mb-8">
+        <h1 className="font-display text-xl sm:text-2xl font-bold text-navy">
           {profile?.full_name ? `Welcome, ${profile.full_name.split(' ')[0]}` : 'Dashboard'}
         </h1>
         <p className="mt-1 text-sm text-navy/50">

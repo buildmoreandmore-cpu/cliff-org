@@ -12,10 +12,10 @@ export default function ResourcesPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20">
-        <div className="max-w-2xl mb-12">
+      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-20">
+        <div className="max-w-2xl mb-8 sm:mb-12">
           <p className="text-coral font-medium text-sm tracking-wide uppercase">Resource Library</p>
-          <h1 className="mt-3 font-display text-3xl sm:text-4xl font-bold text-navy">
+          <h1 className="mt-3 font-display text-2xl sm:text-4xl font-bold text-navy">
             Georgia Disability Benefits Guide
           </h1>
           <p className="mt-4 text-navy/60 leading-relaxed">
@@ -24,7 +24,7 @@ export default function ResourcesPage() {
           </p>
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-8">
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
           <div className="lg:w-72 shrink-0">
             <div className="lg:sticky lg:top-24">
               <ResourceSidebar activeId={activeId} onSelect={setActiveId} />

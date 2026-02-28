@@ -30,8 +30,8 @@ export default function ChatArea({ messages, isLoading, onSend }: ChatAreaProps)
   }
 
   return (
-    <div className="flex flex-col h-[calc(100vh-12rem)]">
-      <div ref={scrollRef} className="flex-1 overflow-y-auto chat-scroll px-4 py-6 space-y-4">
+    <div className="flex flex-col h-[calc(100vh-10rem)] sm:h-[calc(100vh-12rem)]">
+      <div ref={scrollRef} className="flex-1 overflow-y-auto chat-scroll px-3 sm:px-4 py-4 sm:py-6 space-y-3 sm:space-y-4">
         {messages.length === 0 && (
           <div className="text-center py-12">
             <p className="text-navy/30 text-sm">
@@ -47,7 +47,7 @@ export default function ChatArea({ messages, isLoading, onSend }: ChatAreaProps)
 
       <form
         onSubmit={handleSubmit}
-        className="border-t border-gray-100 px-4 py-4 flex items-center gap-3"
+        className="border-t border-gray-100 px-3 sm:px-4 py-3 sm:py-4 flex items-center gap-2 sm:gap-3"
       >
         <input
           type="text"

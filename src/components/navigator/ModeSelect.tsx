@@ -33,8 +33,8 @@ const modes = [
 export default function ModeSelect({ onSelect }: ModeSelectProps) {
   return (
     <div className="max-w-2xl mx-auto">
-      <div className="text-center mb-8">
-        <h2 className="font-display text-2xl font-bold text-navy">How can I help today?</h2>
+      <div className="text-center mb-6 sm:mb-8">
+        <h2 className="font-display text-xl sm:text-2xl font-bold text-navy">How can I help today?</h2>
         <p className="mt-2 text-sm text-navy/50">Choose a mode to get started.</p>
       </div>
 
@@ -48,7 +48,7 @@ export default function ModeSelect({ onSelect }: ModeSelectProps) {
           <motion.button
             key={mode.id}
             onClick={() => onSelect(mode.id)}
-            className="flex items-start gap-4 p-6 bg-white rounded-xl border border-gray-100 text-left hover:border-coral/30 hover:shadow-sm transition-colors"
+            className="flex items-start gap-3 sm:gap-4 p-4 sm:p-6 bg-white rounded-xl border border-gray-100 text-left hover:border-coral/30 hover:shadow-sm transition-colors"
             variants={{
               initial: { opacity: 0, y: 16, scale: 0.98 },
               animate: { opacity: 1, y: 0, scale: 1 },

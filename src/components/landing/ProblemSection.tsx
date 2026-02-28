@@ -29,8 +29,8 @@ const timelineItems = [
 
 export default function ProblemSection() {
   return (
-    <section className="py-20 lg:py-28 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-14 sm:py-20 lg:py-28 bg-white">
+      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
         <AnimatedSection className="max-w-2xl mx-auto text-center">
           <p className="text-coral font-medium text-sm tracking-wide uppercase">The Problem</p>
           <h2 className="mt-3 font-display text-3xl sm:text-4xl font-bold text-navy text-balance">
@@ -42,7 +42,7 @@ export default function ProblemSection() {
           </p>
         </AnimatedSection>
 
-        <div className="mt-16 max-w-3xl mx-auto">
+        <div className="mt-10 sm:mt-16 max-w-3xl mx-auto">
           <div className="relative">
             <div className="absolute left-4 top-0 bottom-0 w-px bg-gray-200" />
 

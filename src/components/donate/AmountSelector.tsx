@@ -19,7 +19,7 @@ export default function AmountSelector({
 }: AmountSelectorProps) {
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-3 gap-2 sm:gap-3">
         {amounts.map((amount) => (
           <motion.button
             key={amount}
@@ -27,7 +27,7 @@ export default function AmountSelector({
               onSelect(amount)
               onCustomChange('')
             }}
-            className={`py-3 rounded-lg text-center font-medium transition-colors ${
+            className={`py-2.5 sm:py-3 rounded-lg text-center text-sm sm:text-base font-medium transition-colors ${
               selected === amount
                 ? 'bg-coral text-white'
                 : 'bg-cream text-navy hover:bg-coral/10'
