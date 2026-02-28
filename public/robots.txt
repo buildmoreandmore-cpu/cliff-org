@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /dashboard/
+Disallow: /navigator/
+
+Sitemap: https://cliff.org/sitemap.xml
