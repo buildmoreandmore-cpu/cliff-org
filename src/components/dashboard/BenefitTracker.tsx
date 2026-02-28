@@ -42,7 +42,7 @@ export default function BenefitTracker({ benefits }: BenefitTrackerProps) {
               className="flex items-center justify-between py-3 border-b border-gray-50 last:border-0"
             >
               <div>
-                <p className="text-sm font-medium text-navy">{benefit.program_name}</p>
+                <p className="text-sm font-medium text-navy">{benefit.benefit_name}</p>
                 {benefit.notes && (
                   <p className="text-xs text-navy/40 mt-0.5">{benefit.notes}</p>
                 )}

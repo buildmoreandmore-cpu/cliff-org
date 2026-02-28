@@ -23,19 +23,23 @@ export default function DashboardPage() {
     if (!user) return
     const supabase = createClient()
 
-    const [profileRes, benefitsRes, appsRes, remindersRes, docsRes] = await Promise.all([
-      supabase.from('profiles').select('*').eq('id', user.id).single(),
-      supabase.from('child_benefits').select('*').eq('user_id', user.id),
-      supabase.from('applications').select('*').eq('user_id', user.id),
-      supabase.from('reminders').select('*').eq('user_id', user.id).order('due_date'),
-      supabase.from('saved_documents').select('*').eq('user_id', user.id).order('id', { ascending: false }),
-    ])
+    const profileRes = await supabase.from('profiles').select('*').eq('user_id', user.id).single()
+    const prof = profileRes.data as Profile | null
+    setProfile(prof)
 
-    setProfile(profileRes.data as Profile | null)
-    setBenefits((benefitsRes.data || []) as ChildBenefit[])
-    setApplications((appsRes.data || []) as Application[])
-    setReminders((remindersRes.data || []) as Reminder[])
-    setDocuments((docsRes.data || []) as SavedDocument[])
+    if (prof) {
+      const [benefitsRes, appsRes, remindersRes, docsRes] = await Promise.all([
+        supabase.from('child_benefits').select('*').eq('profile_id', prof.id),
+        supabase.from('applications').select('*').eq('profile_id', prof.id),
+        supabase.from('reminders').select('*').eq('profile_id', prof.id).order('due_date'),
+        supabase.from('saved_documents').select('*').eq('profile_id', prof.id).order('id', { ascending: false }),
+      ])
+
+      setBenefits((benefitsRes.data || []) as ChildBenefit[])
+      setApplications((appsRes.data || []) as Application[])
+      setReminders((remindersRes.data || []) as Reminder[])
+      setDocuments((docsRes.data || []) as SavedDocument[])
+    }
   }, [user])
 
   useEffect(() => {
@@ -44,9 +48,9 @@ export default function DashboardPage() {
 
   return (
     <div>
-      <div className="mb-5 sm:mb-8">
-        <h1 className="font-display text-xl sm:text-2xl font-bold text-navy">
-          {profile?.full_name ? `Welcome, ${profile.full_name.split(' ')[0]}` : 'Dashboard'}
+      <div className="mb-8">
+        <h1 className="font-display text-2xl font-bold text-navy">
+          {profile?.parent_name ? `Welcome, ${profile.parent_name.split(' ')[0]}` : 'Dashboard'}
         </h1>
         <p className="mt-1 text-sm text-navy/50">
           Track your benefits, applications, and deadlines.
@@ -66,10 +70,9 @@ export default function DashboardPage() {
           <DocumentList documents={documents} />
         </div>
 
-        {user && (
+        {profile && (
           <ContactsManager
-            userId={user.id}
-            contacts={profile?.contacts || []}
+            profileId={profile.id}
             onUpdate={fetchData}
           />
         )}

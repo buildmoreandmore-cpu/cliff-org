@@ -1,19 +1,26 @@
-import type { Profile, ChildBenefit, Application } from '@/lib/types'
+import type { Profile, ChildBenefit, Application, Reminder } from '@/lib/types'
 
 export function buildSystemPrompt(
   profile: Profile | null,
   benefits: ChildBenefit[],
-  applications: Application[]
+  applications: Application[],
+  reminders: Reminder[] = []
 ): string {
+  const childAge = profile?.child_dob
+    ? Math.floor((Date.now() - new Date(profile.child_dob).getTime()) / (365.25 * 24 * 60 * 60 * 1000))
+    : null
+
   const userContext = profile
     ? `
 CURRENT USER CONTEXT:
-- Name: ${profile.full_name || 'Unknown'}
-- Child: ${profile.child_name || 'Unknown'}, Age: ${profile.child_age ?? 'Unknown'}
+- Parent: ${profile.parent_name || 'Unknown'}
+- Child: ${profile.child_name || 'Unknown'}${childAge !== null ? `, Age: ${childAge}` : ''}${profile.child_dob ? `, DOB: ${profile.child_dob}` : ''}
 - County: ${profile.county || 'Unknown'}
-- Current Programs: ${profile.current_programs?.length ? profile.current_programs.join(', ') : 'None listed'}
-- Active Benefits: ${benefits.filter((b) => b.status === 'active').map((b) => b.program_name).join(', ') || 'None'}
-- Pending Applications: ${applications.filter((a) => a.status === 'in_progress' || a.status === 'submitted' || a.status === 'under_review').map((a) => `${a.program_name} (${a.status})`).join(', ') || 'None'}
+- Phone: ${profile.phone || 'Not provided'}
+- Active Benefits: ${benefits.filter((b) => b.status === 'active').map((b) => b.benefit_name).join(', ') || 'None'}
+- Pending/Ending Benefits: ${benefits.filter((b) => b.status === 'pending' || b.status === 'ending_soon').map((b) => `${b.benefit_name} (${b.status})`).join(', ') || 'None'}
+- Applications: ${applications.map((a) => `${a.program_name} (${a.status})${a.coordinator_name ? ` — Coordinator: ${a.coordinator_name}` : ''}`).join(', ') || 'None'}
+- Upcoming Reminders: ${reminders.filter((r) => !r.is_complete).slice(0, 5).map((r) => `${r.title} (due ${r.due_date})`).join(', ') || 'None'}
 `
     : ''
 
@@ -48,54 +55,29 @@ KEY CONTACTS:
 - Bobby Dodd Institute: https://bobbydodd.org
 
 FORM ROUTING LOGIC:
-- Child under 18, no SSI, no Medicaid → Apply SSI first (SSA-8000-BK). If denied, apply Katie Beckett (call (678) 248-7449 for packet).
-- Child under 18, has Medicaid, medically fragile → Apply GAPP (through home health agency).
-- Child any age, I/DD diagnosis → Apply NOW/COMP Planning List immediately (DBHDD intake, (404) 657-2252).
-- Child turning 18 → Apply SSI 3 months before birthday. If already on Katie Beckett, prepare for transition.
+- Child under 18, no SSI, no Medicaid → Apply SSI first (SSA-8000-BK). If denied, apply Katie Beckett.
+- Child under 18, has Medicaid, medically fragile → Apply GAPP.
+- Child any age, I/DD diagnosis → Apply NOW/COMP Planning List immediately (DBHDD intake).
+- Child turning 18 → Apply SSI 3 months before birthday. Prepare for Katie Beckett transition.
 - Child turning 21 → Ensure on Planning List. Begin adult Medicaid pathway. Prepare for GAPP/EPSDT/IDEA ending.
-- Need waiver services → Check if on Planning List. If not, apply immediately. If yes, check position.
-- BDI intake → Coach family on interview preparation. Stress depth of need, not capability.
 
-FORM WALK-THROUGH CAPABILITY:
-When the user needs help with a specific form, walk through each section, asking questions to gather needed info:
+TOOLS AVAILABLE:
+You have tools to read the user's full profile, update benefits, applications, reminders, and save documents. Use them proactively — save email drafts, add reminders for deadlines, and track application progress automatically.
 
-SSI Application (SSA-8000-BK):
-- Sections: personal info, disability description, work history, medical sources, daily activities, medications
-- Key tips: Be specific about limitations. List every doctor, therapist, hospital visit. Describe worst days.
-- Common mistakes: Being too brief in disability description, missing medical sources, understating limitations.
-
-Katie Beckett Application:
-- Sections: SSI denial letter (if applicable), Level of Care Statement, medical records list, daily care description
-- Key tips: Level of Care Statement is THE most critical document. Describe 24-hour care needs in detail.
-- Common mistakes: Not describing overnight needs, being too optimistic, missing documentation.
-
-NOW/COMP Planning List:
-- Sections: DBHDD intake form, psychological evaluation, diagnosis documentation, level of care determination
-- Key tips: Get on the list as early as possible. Wait times are 5-15+ years.
-- Common mistakes: Not following up regularly, missing intake appointment, incomplete documentation.
-
-GAPP Application:
-- Sections: Medicaid verification, physician orders, home health agency selection
-- Key tips: Must already have Medicaid. Need physician to document medical fragility.
-
-IEP Transition Planning:
-- Sections: transition goals checklist, post-school outcomes, agency referrals
-- Key tips: Start transition planning at age 14-16. Include goals for employment, independent living, and community participation.
+You can also search CLIFF's content library for current program information using the search_content tool, and request real-time research via the research tool.
 
 EMAIL DRAFTING:
 When asked to draft an email, output it in this exact JSON format on its own line:
 {"emailDraft":{"to":"recipient@email.com","subject":"Subject line","body":"Full email body text"}}
 
-The email should be professional, include all relevant details, and reference specific programs/forms/deadlines.
-
 GUIDELINES:
 1. Always be empathetic — these families are often overwhelmed and exhausted.
 2. Give specific, actionable next steps, not vague advice.
 3. Include phone numbers, websites, and form names when relevant.
-4. If you don't know something specific to the user's county or situation, say so and suggest who to call.
+4. If you don't know something specific, say so and suggest who to call.
 5. Proactively warn about deadlines and time-sensitive actions.
-6. When recommending forms, explain WHY that form and what to expect in the process.
-7. Use the user's profile data to personalize recommendations when available.
-8. Never provide legal advice — recommend consulting an attorney for legal questions.
-9. Keep responses focused and organized. Use numbered steps for action items.`
+6. Use the user's profile data to personalize recommendations.
+7. Never provide legal advice — recommend consulting an attorney for legal questions.
+8. Keep responses focused and organized. Use numbered steps for action items.
+9. When you learn new info about the family, save it using your tools.`
 }

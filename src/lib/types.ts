@@ -1,31 +1,27 @@
+// ============================================================
+// Types matching Supabase schema exactly
+// ============================================================
+
 export interface Profile {
   id: string
-  email: string
-  full_name: string | null
+  user_id: string
   child_name: string | null
-  child_age: number | null
   child_dob: string | null
-  county: string | null
-  current_programs: string[]
+  parent_name: string | null
   phone: string | null
-  contacts: ProfileContact[] | null
-}
-
-export interface ProfileContact {
-  name: string
-  role: string
-  phone: string
-  email: string
-  agency: string
-  notes: string
+  county: string | null
+  notification_breaking_news: boolean
+  notification_milestones: boolean
+  notification_digest: boolean
+  is_admin: boolean
 }
 
 export type BenefitStatus = 'active' | 'pending' | 'denied' | 'expired' | 'ending_soon'
 
 export interface ChildBenefit {
   id: string
-  user_id: string
-  program_name: string
+  profile_id: string
+  benefit_name: string
   status: BenefitStatus
   start_date: string | null
   end_date: string | null
@@ -43,47 +39,134 @@ export type ApplicationStatus =
 
 export interface Application {
   id: string
-  user_id: string
+  profile_id: string
   program_name: string
+  planning_list_date: string | null
+  application_date: string | null
   status: ApplicationStatus
-  submitted_date: string | null
-  decision_date: string | null
+  denial_reason: string | null
+  appeal_deadline: string | null
   case_number: string | null
+  coordinator_name: string | null
+  coordinator_email: string | null
+  coordinator_phone: string | null
   notes: string | null
-  next_step: string | null
 }
 
 export type DocType = 'email_draft' | 'letter' | 'form_notes' | 'checklist' | 'other'
 
 export interface SavedDocument {
   id: string
-  user_id: string
+  profile_id: string
   doc_type: DocType
   title: string
+  recipient_name: string | null
+  recipient_email: string | null
+  recipient_role: string | null
+  subject: string | null
   content: string
-  metadata: Record<string, unknown> | null
+  is_sent: boolean
+  sent_at: string | null
+  sent_via: string | null
 }
 
 export interface Reminder {
   id: string
-  user_id: string
+  profile_id: string
   title: string
-  description: string | null
   due_date: string
-  is_completed: boolean
-  program_name: string | null
+  description: string | null
+  category: string | null
+  is_complete: boolean
+  completed_at: string | null
+  notify_30_days: boolean
+  notify_7_days: boolean
+  notify_1_day: boolean
+  notified_30: boolean
+  notified_7: boolean
+  notified_1: boolean
 }
 
 export type EmailProvider = 'gmail' | 'outlook' | 'smtp'
 
-export interface EmailConnection {
+export interface EmailIntegration {
   id: string
-  user_id: string
+  profile_id: string
   provider: EmailProvider
   email_address: string
-  encrypted_tokens: string
   is_active: boolean
+  access_token: string | null
+  refresh_token: string | null
+  token_expires_at: string | null
+  smtp_host: string | null
+  smtp_port: number | null
+  smtp_username: string | null
+  smtp_password: string | null
+  connected_at: string | null
+  last_used_at: string | null
 }
+
+export interface ContentBlock {
+  id: string
+  slug: string
+  title: string
+  body: string
+  source_url: string | null
+  source_name: string | null
+  last_verified: string | null
+  last_changed: string | null
+  is_published: boolean
+}
+
+export type ContentChangeSeverity = 'critical' | 'high' | 'medium' | 'low'
+export type ContentChangeStatus = 'pending' | 'approved' | 'dismissed' | 'snoozed'
+
+export interface ContentChange {
+  id: string
+  content_block_id: string
+  detected_at: string
+  topic: string | null
+  severity: ContentChangeSeverity
+  current_text: string | null
+  proposed_text: string | null
+  source_url: string | null
+  source_name: string | null
+  confidence: number | null
+  status: ContentChangeStatus
+  reviewed_at: string | null
+  reviewed_by: string | null
+  reviewer_notes: string | null
+  snooze_until: string | null
+}
+
+export interface Notification {
+  id: string
+  profile_id: string
+  trigger_type: string
+  trigger_id: string | null
+  subject: string
+  body: string
+  sent_at: string | null
+  opened_at: string | null
+  unsubscribed: boolean
+}
+
+// ============================================================
+// Backward-compat aliases (used by frontend components)
+// ============================================================
+
+export interface ProfileContact {
+  name: string
+  role: string
+  phone: string
+  email: string
+  agency: string
+  notes: string
+}
+
+// ============================================================
+// Frontend / Chat types (unchanged for frontend compatibility)
+// ============================================================
 
 export interface ChatMessage {
   role: 'user' | 'assistant'

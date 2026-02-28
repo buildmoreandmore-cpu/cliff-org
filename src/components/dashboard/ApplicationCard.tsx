@@ -48,8 +48,11 @@ export default function ApplicationCard({ applications }: ApplicationCardProps) 
                   {app.status.replace(/_/g, ' ')}
                 </span>
               </div>
-              {app.next_step && (
-                <p className="text-xs text-coral mt-1">Next: {app.next_step}</p>
+              {app.denial_reason && (
+                <p className="text-xs text-red-500 mt-1">Denial: {app.denial_reason}</p>
+              )}
+              {app.appeal_deadline && (
+                <p className="text-xs text-coral mt-1">Appeal by: {new Date(app.appeal_deadline).toLocaleDateString()}</p>
               )}
               {app.case_number && (
                 <p className="text-xs text-navy/40 mt-0.5">Case: {app.case_number}</p>

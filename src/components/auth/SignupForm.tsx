@@ -11,9 +11,9 @@ export default function SignupForm() {
   const [form, setForm] = useState({
     email: '',
     password: '',
-    fullName: '',
+    parentName: '',
     childName: '',
-    childAge: '',
+    childDob: '',
     county: '',
   })
   const [error, setError] = useState('')
@@ -34,9 +34,9 @@ export default function SignupForm() {
       password: form.password,
       options: {
         data: {
-          full_name: form.fullName,
+          parent_name: form.parentName,
           child_name: form.childName,
-          child_age: form.childAge ? parseInt(form.childAge) : null,
+          child_dob: form.childDob || null,
           county: form.county,
         },
       },
@@ -55,17 +55,17 @@ export default function SignupForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       <div>
-        <label htmlFor="fullName" className="block text-sm font-medium text-navy mb-1.5">
-          Your Full Name
+        <label htmlFor="parentName" className="block text-sm font-medium text-navy mb-1.5">
+          Your Name
         </label>
         <input
-          id="fullName"
+          id="parentName"
           type="text"
           required
-          value={form.fullName}
-          onChange={(e) => update('fullName', e.target.value)}
+          value={form.parentName}
+          onChange={(e) => update('parentName', e.target.value)}
           className="w-full px-4 py-3 rounded-lg border border-gray-200 text-navy placeholder:text-navy/30 focus:outline-none focus:ring-2 focus:ring-coral/30 focus:border-coral"
-          placeholder="Full name"
+          placeholder="Parent / guardian name"
         />
       </div>
 
@@ -115,18 +115,15 @@ export default function SignupForm() {
           />
         </div>
         <div>
-          <label htmlFor="childAge" className="block text-sm font-medium text-navy mb-1.5">
-            Child&apos;s Age
+          <label htmlFor="childDob" className="block text-sm font-medium text-navy mb-1.5">
+            Child&apos;s Date of Birth
           </label>
           <input
-            id="childAge"
-            type="number"
-            min="0"
-            max="40"
-            value={form.childAge}
-            onChange={(e) => update('childAge', e.target.value)}
+            id="childDob"
+            type="date"
+            value={form.childDob}
+            onChange={(e) => update('childDob', e.target.value)}
             className="w-full px-4 py-3 rounded-lg border border-gray-200 text-navy placeholder:text-navy/30 focus:outline-none focus:ring-2 focus:ring-coral/30 focus:border-coral"
-            placeholder="Age"
           />
         </div>
       </div>
