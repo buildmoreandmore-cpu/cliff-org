@@ -133,6 +133,34 @@ Bobby Dodd Institute
 - Employment services for adults with disabilities
 - Contact: bobbydodd.org
 
+Ticket to Work
+- FREE federal program for SSI/SSDI beneficiaries ages 18-64
+- Assigns "ticket" to Employment Network (EN) for job training/placement
+- While using ticket, SSA won't conduct medical continuing disability reviews
+- Contact: 1-866-968-7842 (1-866-YOUR-TICKET) or choosework.ssa.gov
+
+Trial Work Period (TWP) — SSDI only
+- 9 months (within 60 months) of working ANY amount while keeping FULL SSDI benefits
+- 2024 TWP trigger: $1,110/month
+- After TWP, 36-month Extended Period of Eligibility
+
+PASS (Plan to Achieve Self-Support)
+- SSI recipients can set aside income/resources for a specific work goal
+- Set-aside money does NOT count toward SSI's $2,000 limit
+- Save for education, training, equipment, business start-up
+- Submit plan to SSA (form SSA-545-BK)
+
+IRWE (Impairment-Related Work Expenses)
+- Disability-related work expenses deducted from earnings for SSI/SSDI
+- Examples: wheelchair, medication, attendant care, medical devices, modified vehicle, guide dog
+- Can mean keeping vs losing benefits while working
+
+Pre-Employment Transition Services (Pre-ETS)
+- Through GVRA for students with disabilities ages 14-21
+- 5 activities: job exploration, work-based learning, post-secondary counseling, workplace readiness, self-advocacy
+- Available while still in school — doesn't require formal VR case
+- Contact GVRA: 844-367-4872
+
 Tools for Life
 - Georgia's Assistive Technology Act program (at Georgia Tech)
 - Free device demonstrations, loans, and reuse programs
@@ -176,12 +204,28 @@ LEGAL & GUARDIANSHIP:
 - Start exploring at age 17, file 3-6 months before 18th birthday
 - Georgia Legal Services (free): 1-800-498-9469
 
+Medicaid Estate Recovery:
+- After Medicaid recipient age 55+ passes, Georgia may recover costs from their estate
+- Recovery from assets passing through probate
+- PROTECTED from recovery: third-party SNT funds, ABLE accounts (up to $100K), surviving spouse assets, surviving disabled/minor child assets, homestead (if qualifying family member lives there)
+- First-party SNT HAS payback provision. Third-party SNT does NOT.
+- 5-year look-back period for asset transfers
+- Hardship exemption available. Consult elder law attorney.
+
 HOUSING:
 - Section 8 / Housing Choice Vouchers: 2-10+ year waitlists — APPLY NOW
 - Section 811 Supportive Housing: specifically for adults with disabilities. DCA: 1-800-359-4663
+- Mainstream Vouchers: Section 8 vouchers SPECIFICALLY for non-elderly disabled (ages 18-61). Often SHORTER waitlists than general Section 8. Ask your PHA specifically about Mainstream Vouchers — many don't advertise them. HUD GA: 1-800-955-2232
 - Georgia Housing Voucher Program (GHVP): state-funded, connected to MFP
 - Waiver-funded: NOW/COMP (community living, host homes, group homes), ICWP (independent living), EDWP (alternative living)
 - Structured Family Caregiving: family member paid as caregiver under EDWP
+
+SUPPORT ORGANIZATIONS:
+- Georgia Advocacy Office: Protection & advocacy, individual legal advocacy. 1-800-537-2329
+- GCDD (Georgia Council on Developmental Disabilities): Policy advocacy, systemic change, legislative monitoring, self-advocacy training. (404) 657-2126 / gcdd.org
+- Parent to Parent of Georgia: Family-to-family support, trained parent mentors. p2pga.org
+- Cam & Madi's Promise: Advocacy and waiver navigation. camandmadispromise.org
+- Tools for Life: Assistive technology. 1-800-497-8665 / gatfl.gatech.edu
 
 DIAGNOSIS-TO-PROGRAM ROUTING MAP:
 
@@ -220,6 +264,52 @@ FOR EVERY INDIVIDUAL REGARDLESS OF CONDITION:
 - Save GCAL (800-715-4225) and Georgia Advocacy Office (1-800-537-2329)
 - Explore Medicaid for Workers with Disabilities when employment begins
 - Start transition planning: age 14 (IEP), age 17 (guardianship/SSI/waivers)
+
+Medicare for People with Disabilities:
+- Available after 24 months of receiving SSDI (no waiting for ESRD or ALS)
+- Parts: A (hospital, free), B (medical, ~$174.70/mo), C (Advantage), D (prescriptions)
+- Dual eligibility: Medicare + Medicaid = most comprehensive coverage. Medicaid pays Medicare premiums.
+- Contact: 1-800-633-4227 (1-800-MEDICARE)
+
+DAC Benefits (Disabled Adult Child / Childhood Disability Benefits):
+- Adults disabled BEFORE age 22 can receive Social Security based on a PARENT'S work record
+- Often HIGHER than SSI. Comes with Medicare after 24 months.
+- Apply when parent retires, becomes disabled, or dies. Can apply at any age.
+- Marriage generally ends DAC (exception: marrying another beneficiary).
+- MASSIVELY underutilized. Many families are never told this exists.
+- Contact: SSA 1-800-772-1213 — ask specifically about "Disabled Adult Child benefits"
+
+SSDI (Social Security Disability Insurance):
+- For individuals who WORKED and paid SS taxes but can't work due to disability
+- Based on work history, no income/resource limits, comes with Medicare (after 24 months)
+- Young adults may not have enough credits for own SSDI but may qualify for DAC
+- Trial Work Period: 9 months of unlimited earnings while keeping full SSDI
+- Contact: SSA 1-800-772-1213
+
+Title XX (Social Services Block Grant):
+- Federal block grant funding state social services: protective services, emergency shelter, home-based care, adult day care, transportation, disability services
+- Services accessed through DFCS offices and contracted agencies
+- Contact: Georgia DHS 1-877-423-4746
+
+TRICARE ECHO & Autism Care Demonstration (Military Families):
+- ECHO: Up to $36K/year in additional benefits for active duty family members with disabilities
+- Covers: assistive tech, DME, rehab, respite, family training, institutional care, transportation
+- Autism Care Demonstration (ACD): No annual cap for ABA therapy for TRICARE beneficiaries with autism
+- TRICARE + Medicaid can work together (TRICARE primary, Medicaid secondary)
+- Must register with Exceptional Family Member Program (EFMP)
+- Contact: TRICARE 1-800-444-5445 | ECHO 1-800-600-9332
+
+DBHDD Crisis Services & CORE:
+- GCAL (24/7 crisis): 800-715-4225. Mobile crisis teams, Crisis Stabilization Units.
+- CORE Services through Community Service Boards (CSBs): counseling, psychiatric meds, case management, peer support, employment support, substance abuse treatment
+- Georgia has 6 DBHDD regions with local CSBs
+
+PRTF (Psychiatric Residential Treatment Facilities):
+- 24-hour inpatient psychiatric care for children/adolescents under 21
+- Serious emotional disturbance that can't be safely treated in community
+- Medicaid covers if medically necessary (EPSDT). Prior auth required through CMO.
+- Should be short-term — advocate for discharge planning from day one
+- MFP may apply if stay exceeds 90 days
 
 EPSDT (Early and Periodic Screening, Diagnostic and Treatment):
 - Comprehensive Medicaid benefit for children under 21
@@ -273,39 +363,53 @@ CRITICAL CONTACTS DIRECTORY:
  * (e.g., content integrity just needs program names/slugs to verify)
  */
 export const PROGRAM_SLUGS = [
-  'katie-beckett', 'gapp', 'now-comp', 'ssi-at-18', 'bdi-family-support',
-  'school-transition', 'source-waiver', 'icwp', 'ccsp-edwp', 'peachcare',
-  'behavioral-health', 'medicaid-cmos', 'able-accounts', 'medicaid-workers',
-  'tools-for-life', 'gvra-employment', 'guardianship-legal', 'housing-options',
-  'crisis-planning', 'diagnosis-routing-guide', 'mfp-transition', 'georgia-pathways',
-  'epsdt', 'special-needs-trusts', 'fair-hearings',
+  // 7 Waivers
+  'now-comp', 'icwp', 'source-waiver', 'ccsp-edwp', 'gapp',
+  // Federal Benefits
+  'ssi-at-18', 'ssdi', 'dac-benefits', 'medicare-disability', 'epsdt', 'title-xx', 'tricare-echo',
+  // State Programs
+  'katie-beckett', 'peachcare', 'medicaid-workers', 'georgia-pathways', 'mfp-transition',
+  'dbhdd-crisis-core', 'prtf', 'medicaid-cmos',
+  // Employment & Financial
+  'gvra-employment', 'bdi-family-support', 'ticket-to-work', 'able-accounts', 'special-needs-trusts',
+  // Housing
+  'housing-options', 'mainstream-vouchers',
+  // Behavioral Health
+  'behavioral-health',
+  // Legal & Process
+  'guardianship-legal', 'fair-hearings', 'medicaid-estate-recovery',
+  // Guides
+  'diagnosis-routing-guide', 'school-transition', 'crisis-planning',
+  // Organizations
+  'gcdd', 'tools-for-life',
 ]
 
 export const ALL_PROGRAM_NAMES = [
   // 7 Medicaid Waivers
   'NOW Waiver', 'COMP Waiver', 'ICWP', 'SOURCE', 'CCSP', 'EDWP', 'GAPP',
-  // Core Benefits
-  'SSI', 'Katie Beckett / Deeming Waiver', 'EPSDT', 'IDEA',
-  // Insurance
-  'PeachCare for Kids', 'Medicaid for Workers with Disabilities', 'Georgia Pathways to Coverage',
-  'Medicaid CMOs (Amerigroup, CareSource, Peach State, WellCare)',
-  // Transitions
-  'Money Follows the Person (MFP)', 'School Transition / IEP',
-  // Financial
+  // Federal Benefits & Entitlements (8)
+  'SSI', 'Medicare', 'DAC Benefits (Disabled Adult Child)', 'SSDI',
+  'EPSDT', 'IDEA', 'Title XX (Social Services Block Grant)', 'TRICARE ECHO + Autism Care Demonstration',
+  // Georgia State Programs (9)
+  'Georgia Medicaid (multiple pathways)', 'Katie Beckett / Deeming Waiver',
+  'PeachCare for Kids', 'Medicaid Buy-In for Workers with Disabilities',
+  'Georgia Pathways to Coverage', 'Money Follows the Person (MFP)',
+  'DBHDD Crisis/CORE Services', 'PRTF', 'Georgia Apex Program',
+  // Medicaid CMOs (4)
+  'Amerigroup', 'CareSource', 'Peach State Health Plan', 'WellCare',
+  // Employment & Financial Tools (8)
+  'GVRA / Pre-ETS', 'Bobby Dodd Institute', 'Ticket to Work',
+  'Trial Work Period', 'PASS (Plan to Achieve Self-Support)',
+  'IRWE (Impairment-Related Work Expenses)',
   'Georgia STABLE / ABLE Account', 'Special Needs Trusts',
-  // Employment
-  'GVRA', 'Bobby Dodd Institute',
-  // Services
-  'Tools for Life (Assistive Technology)',
-  // Behavioral Health
-  'High Fidelity Wraparound', 'Georgia Apex Program', 'GCAL (Crisis Line)',
-  'DBHDD System of Care',
-  // Housing
-  'Section 8', 'Section 811', 'Georgia Housing Voucher Program',
-  // Waiver Features
-  'Structured Family Caregiving', 'Consumer Direction',
-  // Legal
-  'Guardianship / Supported Decision-Making', 'Fair Hearings / Right to Appeal',
-  // Support
-  'Parent to Parent of Georgia', 'Georgia Advocacy Office', 'Cam & Madi\'s Promise',
+  // Housing (3)
+  'Section 811', 'Housing Choice Vouchers (Section 8)', 'Mainstream Vouchers',
+  // Behavioral Health (3)
+  'DBHDD System of Care', 'High Fidelity Wraparound', 'GCAL / 988',
+  // Legal & Process (5)
+  'Guardianship & Alternatives', 'Medicaid Fair Hearings / Appeals',
+  'Medicaid Estate Recovery', 'HCBS Settings Rule', 'Olmstead Framework',
+  // Support Organizations (5)
+  'Georgia Advocacy Office', 'GCDD', 'Parent to Parent of Georgia',
+  'Cam & Madi\'s Promise', 'Tools for Life',
 ]

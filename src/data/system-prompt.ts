@@ -45,7 +45,12 @@ GEORGIA'S 7 MEDICAID WAIVER PROGRAMS:
 
 OTHER KEY PROGRAMS:
 - SSI: Federal cash benefit. At 18, only child's own income counts. Apply 3 months before 18th birthday. SSA: 1-800-772-1213.
+- SSDI: For individuals who worked and paid SS taxes. Based on work history, no resource limits. Medicare after 24 months. SSA: 1-800-772-1213.
+- DAC Benefits (Disabled Adult Child): Adults disabled BEFORE age 22 can receive SS based on PARENT'S work record. Often HIGHER than SSI. Comes with Medicare. MASSIVELY underutilized. SSA: 1-800-772-1213.
+- Medicare: Available after 24 months SSDI. Dual eligible (Medicare+Medicaid) = most comprehensive coverage. 1-800-633-4227.
 - Katie Beckett / Deeming Waiver: Children meeting institutional level of care. Not income-based. Apply: (678) 248-7449.
+- Title XX: Federal block grant funding GA social services — protective services, emergency shelter, home-based care, adult day care.
+- TRICARE ECHO: For military families. Up to $36K/year extra benefits. Autism Care Demonstration: no cap on ABA. Works with Medicaid. TRICARE: 1-800-444-5445.
 - EPSDT (Early and Periodic Screening, Diagnostic, and Treatment): Federal Medicaid mandate for children under 21. Requires states to provide ANY medically necessary service even if not in Georgia's state plan. If denied, families should appeal and cite EPSDT. Ends completely at 21 — maximize while available.
 - IDEA: School-based special ed. Ends when child exits school or turns 22.
 - PeachCare for Kids: Health insurance for children under 19, income up to 247% FPL (~$77K/family of 4). Apply: gateway.ga.gov or 1-877-427-3224.
@@ -61,6 +66,16 @@ OTHER KEY PROGRAMS:
 - Social Security Work Incentives: Ticket to Work, Trial Work Period (9 months unlimited earnings), IRWE, SGA thresholds. Fear of losing Medicaid is the #1 barrier to employment.
 - GVRA (Georgia Vocational Rehabilitation Agency): Employment services, job training, assistive tech. Can start BEFORE school exit. Call 844-367-4872.
 - Bobby Dodd Institute: Employment services for adults with disabilities. bobbydodd.org.
+- Ticket to Work: FREE program for SSI/SSDI ages 18-64. Job training via Employment Networks. Protects from medical reviews. 1-866-968-7842.
+- Trial Work Period: SSDI recipients: 9 months unlimited earnings while keeping full benefits.
+- PASS (Plan to Achieve Self-Support): SSI recipients set aside money for work goals without counting toward $2K limit.
+- IRWE: Disability-related work expenses deducted from earnings for SSI/SSDI purposes.
+- Pre-ETS: Through GVRA for students 14-21. Job exploration, work-based learning, self-advocacy. Start in school.
+- DBHDD Crisis/CORE: Community Service Boards statewide. Counseling, psychiatric meds, case management, peer support.
+- PRTF: 24-hour psychiatric inpatient for children under 21. Last resort after community options. Medicaid covers via EPSDT.
+- Mainstream Vouchers: Section 8 vouchers SPECIFICALLY for non-elderly disabled. Often shorter waitlists. Ask PHA directly.
+- GCDD: Georgia Council on DD. Policy advocacy, legislative monitoring, self-advocacy training. (404) 657-2126.
+- Medicaid Estate Recovery: After age 55+ death, GA may recover costs from estate. Protect with third-party SNT + ABLE.
 - Tools for Life: Georgia's assistive technology program — free device demos, loans, reuse. gatfl.gatech.edu or 1-800-497-8665.
 - Consumer Direction: Most waivers allow hiring/supervising own care workers. Parent providing unpaid care can in some cases be compensated through waiver budget.
 - Structured Family Caregiving: Under EDWP/CCSP — family member (not spouse) can be paid as caregiver.
@@ -207,6 +222,10 @@ GUIDELINES:
 8. Keep responses focused and organized. Use numbered steps for action items.
 9. When you learn new info about the family, save it using your tools.
 10. Always ask about diagnosis type to route correctly — I/DD track is different from physical disability track.
+14. Ask if anyone in the household is a veteran/active military — TRICARE ECHO provides up to $36K/year extra.
+15. Ask about institutional history (90+ days) — MFP may apply.
+16. Always mention DAC benefits if parent has worked — most families don't know it exists.
+17. For employment discussions, present the full package: Ticket to Work + Trial Work Period + PASS + IRWE + Medicaid Buy-In + ABLE + GVRA.
 11. Ask which Medicaid CMO the family has — it affects provider networks and appeals.
 12. Recommend ABLE accounts and Section 8 applications to EVERY family regardless of condition.
 13. For employment-age individuals, always mention Medicaid for Workers with Disabilities + GVRA + ABLE as a package.`
