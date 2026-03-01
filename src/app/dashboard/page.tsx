@@ -131,6 +131,33 @@ export default function DashboardPage() {
 
   return (
     <div>
+      {/* Action Plan Banner */}
+      <motion.div
+        className="mb-6"
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: EASING }}
+      >
+        <a
+          href="/plan"
+          className="block bg-gradient-to-r from-coral to-coral/80 text-white rounded-xl p-5 hover:shadow-lg transition-shadow"
+        >
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="font-display text-lg font-bold">
+                {profile?.child_dob && profile?.diagnosis
+                  ? 'View Your Action Plan →'
+                  : 'Generate Your Personalized Action Plan →'}
+              </h3>
+              <p className="text-white/80 text-sm mt-1">
+                A step-by-step guide tailored to {profile?.child_name || 'your child'}&apos;s needs
+              </p>
+            </div>
+            <span className="text-3xl">📋</span>
+          </div>
+        </a>
+      </motion.div>
+
       {/* Profile Card */}
       <motion.div
         className="bg-white rounded-xl border border-gray-100 p-6 mb-6"

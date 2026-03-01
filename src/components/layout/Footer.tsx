@@ -22,6 +22,7 @@ export default function Footer() {
                 { label: 'Resources', href: '/resources' },
                 { label: 'Navigator', href: '/navigator' },
                 { label: 'Dashboard', href: '/dashboard' },
+                { label: 'My Plan', href: '/plan' },
                 { label: 'Community', href: '/community' },
                 { label: 'Donate', href: '/donate' },
                 { label: 'About', href: '/about' },

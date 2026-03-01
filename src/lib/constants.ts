@@ -43,6 +43,7 @@ export const NAV_LINKS = [
   { label: 'Resources', href: '/resources' },
   { label: 'Navigator', href: '/navigator' },
   { label: 'Dashboard', href: '/dashboard' },
+  { label: 'My Plan', href: '/plan' },
   { label: 'Advocacy', href: '/advocacy' },
   { label: 'Community', href: '/community' },
   { label: 'Donate', href: '/donate' },
