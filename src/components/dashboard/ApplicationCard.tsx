@@ -18,20 +18,39 @@ interface ApplicationCardProps {
 interface ProgramDef {
   name: string
   key: string
+  category: string
 }
 
 const GA_PROGRAMS: ProgramDef[] = [
-  { name: 'SSI (Supplemental Security Income)', key: 'ssi' },
-  { name: 'Georgia Medicaid', key: 'medicaid' },
-  { name: 'Katie Beckett / Deeming Waiver', key: 'katie_beckett' },
-  { name: 'NOW Waiver (Planning List)', key: 'now_waiver' },
-  { name: 'COMP Waiver (Planning List)', key: 'comp_waiver' },
-  { name: 'EPSDT', key: 'epsdt' },
-  { name: 'GAPP', key: 'gapp' },
-  { name: 'Vocational Rehabilitation', key: 'vr' },
-  { name: 'ABLE Account', key: 'able' },
-  { name: 'Guardianship / POA', key: 'guardianship' },
+  // Income & Insurance
+  { name: 'SSI (Supplemental Security Income)', key: 'ssi', category: 'Income & Insurance' },
+  { name: 'SSDI / DAC Benefits', key: 'ssdi_dac', category: 'Income & Insurance' },
+  { name: 'Georgia Medicaid', key: 'medicaid', category: 'Income & Insurance' },
+  { name: 'PeachCare for Kids', key: 'peachcare', category: 'Income & Insurance' },
+  { name: 'Medicaid for Workers with Disabilities', key: 'medicaid_buy_in', category: 'Income & Insurance' },
+  // Waivers & Services
+  { name: 'Katie Beckett / Deeming Waiver', key: 'katie_beckett', category: 'Waivers & Services' },
+  { name: 'NOW Waiver (Planning List)', key: 'now_waiver', category: 'Waivers & Services' },
+  { name: 'COMP Waiver (Planning List)', key: 'comp_waiver', category: 'Waivers & Services' },
+  { name: 'ICWP (Physical/TBI Waiver)', key: 'icwp', category: 'Waivers & Services' },
+  { name: 'SOURCE / CCSP (EDWP)', key: 'source_ccsp', category: 'Waivers & Services' },
+  { name: 'EPSDT (Under 21)', key: 'epsdt', category: 'Waivers & Services' },
+  { name: 'GAPP (Pediatric Nursing)', key: 'gapp', category: 'Waivers & Services' },
+  // Financial Planning
+  { name: 'ABLE Account (GA STABLE)', key: 'able', category: 'Financial Planning' },
+  { name: 'Special Needs Trust', key: 'snt', category: 'Financial Planning' },
+  { name: 'SNAP (Food Benefits)', key: 'snap', category: 'Financial Planning' },
+  // Housing
+  { name: 'Section 8 / Housing Vouchers', key: 'section8', category: 'Housing' },
+  // Employment & Transition
+  { name: 'Vocational Rehabilitation (GVRA)', key: 'vr', category: 'Employment & Transition' },
+  { name: 'Pre-ETS (Students 14-22)', key: 'pre_ets', category: 'Employment & Transition' },
+  { name: 'Ticket to Work', key: 'ticket_to_work', category: 'Employment & Transition' },
+  // Legal & Planning
+  { name: 'Guardianship / POA', key: 'guardianship', category: 'Legal & Planning' },
 ]
+
+const CATEGORIES = [...new Set(GA_PROGRAMS.map((p) => p.category))]
 
 const STATUS_OPTIONS: ApplicationStatus[] = [
   'not_started', 'in_progress', 'submitted', 'under_review', 'approved', 'denied', 'appealing',
@@ -70,26 +89,49 @@ function getRecommended(key: string, childDob: string | null): boolean {
   const mo18 = getMonthsUntilAge(childDob, 18) ?? 999
   const mo21 = getMonthsUntilAge(childDob, 21) ?? 999
 
+  // Always recommended regardless of age
+  if (['able', 'snt', 'section8', 'snap'].includes(key)) return true
+
+  // Child under 18
   if (age < 18) {
-    if (['ssi', 'medicaid', 'katie_beckett', 'now_waiver', 'comp_waiver', 'epsdt'].includes(key)) return true
+    if (['ssi', 'medicaid', 'katie_beckett', 'now_waiver', 'comp_waiver', 'epsdt', 'gapp'].includes(key)) return true
+    if (age < 19 && key === 'peachcare') return true
+  }
+  // Student 14-22
+  if (age >= 14 && age <= 22) {
+    if (['pre_ets', 'vr'].includes(key)) return true
   }
   // Turning 18 (within 24 months)
   if (mo18 > 0 && mo18 <= 24) {
-    if (['ssi', 'guardianship'].includes(key)) return true
+    if (['ssi', 'guardianship', 'ssdi_dac'].includes(key)) return true
   }
+  // 18+
   if (age >= 18) {
-    if (['vr', 'able', 'medicaid'].includes(key)) return true
+    if (['vr', 'medicaid', 'medicaid_buy_in', 'ticket_to_work', 'ssdi_dac'].includes(key)) return true
   }
-  // Turning 21 (within 24 months)
+  // 21+ physical/TBI
+  if (age >= 21) {
+    if (['icwp', 'source_ccsp'].includes(key)) return true
+  }
+  // Turning 21 (within 24 months) — EPSDT/GAPP ending
   if (mo21 > 0 && mo21 <= 24) {
-    if (['now_waiver', 'comp_waiver'].includes(key)) return true
+    if (['now_waiver', 'comp_waiver', 'icwp', 'source_ccsp'].includes(key)) return true
   }
   return false
 }
 
 export default function ApplicationCard({ applications, profile, onUpdate, onStartApplication }: ApplicationCardProps) {
   const [expandedKey, setExpandedKey] = useState<string | null>(null)
+  const [collapsedCategories, setCollapsedCategories] = useState<Set<string>>(new Set())
   const [updatingId, setUpdatingId] = useState<string | null>(null)
+
+  function toggleCategory(cat: string) {
+    setCollapsedCategories((prev) => {
+      const next = new Set(prev)
+      next.has(cat) ? next.delete(cat) : next.add(cat)
+      return next
+    })
+  }
 
   function findApp(programName: string): Application | undefined {
     return applications.find((a) => a.program_name.toLowerCase().includes(programName.toLowerCase()) ||
@@ -128,47 +170,36 @@ export default function ApplicationCard({ applications, profile, onUpdate, onSta
         <h2 className="font-display text-lg font-semibold text-navy">Georgia Programs Checklist</h2>
       </div>
 
-      <div className="space-y-1">
-        {GA_PROGRAMS.map((prog) => {
-          const app = matchApp(prog)
-          const recommended = isRecommended(prog)
-          const expanded = expandedKey === prog.key
+      <div className="space-y-4">
+        {CATEGORIES.map((category) => {
+          const programs = GA_PROGRAMS.filter((p) => p.category === category)
+          const isCollapsed = collapsedCategories.has(category)
+          const activeCount = programs.filter((p) => {
+            const a = matchApp(p)
+            return a && a.status !== 'not_started'
+          }).length
+          const recommendedCount = programs.filter((p) => isRecommended(p)).length
 
           return (
-            <div key={prog.key} className="border border-gray-50 rounded-lg">
+            <div key={category}>
               <button
-                className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-cream/40 transition-colors"
-                onClick={() => setExpandedKey(expanded ? null : prog.key)}
+                className="w-full flex items-center gap-2 px-1 py-1.5 text-left group"
+                onClick={() => toggleCategory(category)}
               >
-                {/* Checkbox */}
-                <span className={`w-5 h-5 rounded border-2 flex items-center justify-center shrink-0 ${
-                  app && app.status !== 'not_started'
-                    ? 'bg-green-500 border-green-500 text-white'
-                    : 'border-gray-300'
-                }`}>
-                  {app && app.status !== 'not_started' && <CheckIcon size={12} />}
+                <ArrowRightIcon
+                  size={12}
+                  className={`text-navy/30 transition-transform ${isCollapsed ? '' : 'rotate-90'}`}
+                />
+                <span className="text-xs font-semibold text-navy/50 uppercase tracking-wider">{category}</span>
+                <span className="text-[10px] text-navy/30">
+                  {activeCount > 0 && `${activeCount} active`}
+                  {activeCount > 0 && recommendedCount > 0 && ' · '}
+                  {recommendedCount > 0 && `${recommendedCount} recommended`}
                 </span>
-
-                <span className="flex-1 min-w-0">
-                  <span className="text-sm font-medium text-navy">{prog.name}</span>
-                </span>
-
-                <div className="flex items-center gap-2 shrink-0">
-                  {recommended && (
-                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-coral/10 text-coral">
-                      Recommended
-                    </span>
-                  )}
-                  {app && (
-                    <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full ${statusColors[app.status]}`}>
-                      {app.status.replace(/_/g, ' ')}
-                    </span>
-                  )}
-                </div>
               </button>
 
-              <AnimatePresence>
-                {expanded && (
+              <AnimatePresence initial={false}>
+                {!isCollapsed && (
                   <motion.div
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: 'auto', opacity: 1 }}
@@ -176,58 +207,112 @@ export default function ApplicationCard({ applications, profile, onUpdate, onSta
                     transition={{ duration: 0.2 }}
                     className="overflow-hidden"
                   >
-                    <div className="px-4 pb-4 pt-1 border-t border-gray-50">
-                      {app ? (
-                        <div className="space-y-2">
-                          <div className="grid grid-cols-2 gap-2 text-xs text-navy/60">
-                            {app.application_date && <p>Applied: {new Date(app.application_date).toLocaleDateString()}</p>}
-                            {app.case_number && <p>Case #: {app.case_number}</p>}
-                            {app.coordinator_name && <p>Coordinator: {app.coordinator_name}</p>}
-                            {app.coordinator_phone && (
-                              <p>Phone: <a href={`tel:${app.coordinator_phone}`} className="text-coral hover:underline">{app.coordinator_phone}</a></p>
-                            )}
-                            {app.coordinator_email && (
-                              <p>Email: <a href={`mailto:${app.coordinator_email}`} className="text-coral hover:underline">{app.coordinator_email}</a></p>
-                            )}
-                          </div>
-                          {app.denial_reason && (
-                            <div className="flex items-start gap-1.5 text-xs text-red-600">
-                              <AlertIcon size={12} className="mt-0.5 shrink-0" />
-                              <span>Denied: {app.denial_reason}</span>
-                            </div>
-                          )}
-                          {app.appeal_deadline && (
-                            <p className="text-xs text-coral font-medium">
-                              Appeal deadline: {new Date(app.appeal_deadline).toLocaleDateString()}
-                            </p>
-                          )}
-                          {app.notes && <p className="text-xs text-navy/50">{app.notes}</p>}
+                    <div className="space-y-1">
+                      {programs.map((prog) => {
+                        const app = matchApp(prog)
+                        const recommended = isRecommended(prog)
+                        const expanded = expandedKey === prog.key
 
-                          <div className="flex items-center gap-3 pt-1">
-                            <label className="text-xs text-navy/50">Status:</label>
-                            <select
-                              value={app.status}
-                              onChange={(e) => updateStatus(app.id, e.target.value as ApplicationStatus)}
-                              disabled={updatingId === app.id}
-                              className="text-xs border border-gray-200 rounded-md px-2 py-1 text-navy bg-white"
+                        return (
+                          <div key={prog.key} className="border border-gray-50 rounded-lg">
+                            <button
+                              className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-cream/40 transition-colors"
+                              onClick={() => setExpandedKey(expanded ? null : prog.key)}
                             >
-                              {STATUS_OPTIONS.map((s) => (
-                                <option key={s} value={s}>{s.replace(/_/g, ' ')}</option>
-                              ))}
-                            </select>
+                              <span className={`w-5 h-5 rounded border-2 flex items-center justify-center shrink-0 ${
+                                app && app.status !== 'not_started'
+                                  ? 'bg-green-500 border-green-500 text-white'
+                                  : 'border-gray-300'
+                              }`}>
+                                {app && app.status !== 'not_started' && <CheckIcon size={12} />}
+                              </span>
+
+                              <span className="flex-1 min-w-0">
+                                <span className="text-sm font-medium text-navy">{prog.name}</span>
+                              </span>
+
+                              <div className="flex items-center gap-2 shrink-0">
+                                {recommended && (
+                                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-coral/10 text-coral">
+                                    Recommended
+                                  </span>
+                                )}
+                                {app && (
+                                  <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full ${statusColors[app.status]}`}>
+                                    {app.status.replace(/_/g, ' ')}
+                                  </span>
+                                )}
+                              </div>
+                            </button>
+
+                            <AnimatePresence>
+                              {expanded && (
+                                <motion.div
+                                  initial={{ height: 0, opacity: 0 }}
+                                  animate={{ height: 'auto', opacity: 1 }}
+                                  exit={{ height: 0, opacity: 0 }}
+                                  transition={{ duration: 0.2 }}
+                                  className="overflow-hidden"
+                                >
+                                  <div className="px-4 pb-4 pt-1 border-t border-gray-50">
+                                    {app ? (
+                                      <div className="space-y-2">
+                                        <div className="grid grid-cols-2 gap-2 text-xs text-navy/60">
+                                          {app.application_date && <p>Applied: {new Date(app.application_date).toLocaleDateString()}</p>}
+                                          {app.case_number && <p>Case #: {app.case_number}</p>}
+                                          {app.coordinator_name && <p>Coordinator: {app.coordinator_name}</p>}
+                                          {app.coordinator_phone && (
+                                            <p>Phone: <a href={`tel:${app.coordinator_phone}`} className="text-coral hover:underline">{app.coordinator_phone}</a></p>
+                                          )}
+                                          {app.coordinator_email && (
+                                            <p>Email: <a href={`mailto:${app.coordinator_email}`} className="text-coral hover:underline">{app.coordinator_email}</a></p>
+                                          )}
+                                        </div>
+                                        {app.denial_reason && (
+                                          <div className="flex items-start gap-1.5 text-xs text-red-600">
+                                            <AlertIcon size={12} className="mt-0.5 shrink-0" />
+                                            <span>Denied: {app.denial_reason}</span>
+                                          </div>
+                                        )}
+                                        {app.appeal_deadline && (
+                                          <p className="text-xs text-coral font-medium">
+                                            Appeal deadline: {new Date(app.appeal_deadline).toLocaleDateString()}
+                                          </p>
+                                        )}
+                                        {app.notes && <p className="text-xs text-navy/50">{app.notes}</p>}
+
+                                        <div className="flex items-center gap-3 pt-1">
+                                          <label className="text-xs text-navy/50">Status:</label>
+                                          <select
+                                            value={app.status}
+                                            onChange={(e) => updateStatus(app.id, e.target.value as ApplicationStatus)}
+                                            disabled={updatingId === app.id}
+                                            className="text-xs border border-gray-200 rounded-md px-2 py-1 text-navy bg-white"
+                                          >
+                                            {STATUS_OPTIONS.map((s) => (
+                                              <option key={s} value={s}>{s.replace(/_/g, ' ')}</option>
+                                            ))}
+                                          </select>
+                                        </div>
+                                      </div>
+                                    ) : (
+                                      <div className="flex items-center justify-between">
+                                        <p className="text-xs text-navy/40">No application started yet.</p>
+                                        <button
+                                          onClick={() => onStartApplication(prog.name)}
+                                          className="inline-flex items-center gap-1 text-xs font-medium text-coral hover:text-coral-dark transition-colors"
+                                        >
+                                          Start Application <ArrowRightIcon size={12} />
+                                        </button>
+                                      </div>
+                                    )}
+                                  </div>
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
                           </div>
-                        </div>
-                      ) : (
-                        <div className="flex items-center justify-between">
-                          <p className="text-xs text-navy/40">No application started yet.</p>
-                          <button
-                            onClick={() => onStartApplication(prog.name)}
-                            className="inline-flex items-center gap-1 text-xs font-medium text-coral hover:text-coral-dark transition-colors"
-                          >
-                            Start Application <ArrowRightIcon size={12} />
-                          </button>
-                        </div>
-                      )}
+                        )
+                      })}
                     </div>
                   </motion.div>
                 )}
