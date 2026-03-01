@@ -61,18 +61,61 @@ CLIFF uses 7 specialized AI agents:
 - DD Act organizations — Georgia Advocacy Office, GCDD, UGA Institute on Human Development
 - TRICARE ECHO — supplemental coverage for military family dependents with disabilities
 
+### Crisis Services & Psychiatric Care
+- DBHDD Crisis Services — 24/7 I/DD crisis homes, mobile crisis teams, GCAL (1-800-715-4225)
+- CORE Behavioral Health — services for uninsured/underinsured Georgians
+- PRTF (Psychiatric Residential Treatment) — Medicaid-covered youth psychiatric care, transition planning, MFP eligibility after 90 days
+
+### Federal Benefit Overlays
+- Disabled Adult Child (DAC) Benefits — Social Security on parent's record for adults disabled before 22
+- DAC→Medicare pathway — dual eligibility after 24 months of DAC benefits
+- EPSDT enforcement — federal mandate for medically necessary services for children under 21
+- TRICARE Autism Care Demonstration — ABA therapy coverage for military dependents
+
+### Housing
+- Section 811 Supportive Housing — affordable integrated housing for adults with disabilities through DCA
+- Housing Choice Vouchers (Section 8) — rent subsidies, long waitlists, apply to multiple authorities
+- Mainstream Vouchers — set aside for non-elderly disabled adults
+
+### Guardianship & Legal Decision-Making
+- Full guardianship — Probate Court process, removes legal rights, last resort
+- Supported decision-making — preserves autonomy, Georgia-recognized agreements
+- Power of Attorney, advance directives, representative payee, conservatorship
+
+### Appeals & Due Process
+- Medicaid fair hearing process — 30-day window, continuation of benefits during appeal
+- CMO grievance process — managed care appeal escalation
+- EPSDT appeal leverage — federal mandate overrides state plan for children under 21
+
+### Estate Recovery & Asset Protection
+- Medicaid estate recovery — Georgia recovers long-term care costs after age 55
+- Asset protection strategies — SNTs, ABLE accounts, home ownership planning
+- Elder law attorney consultation guidance
+
+### Education Transition & Pre-Employment
+- IEP vs 504 Plan differences at age 18
+- Pre-Employment Transition Services (Pre-ETS) under WIOA — available ages 14–22 even without IEP
+- Georgia Vocational Rehabilitation coordination
+
+### Waitlist Mechanics
+- NOW/COMP Planning List vs Urgent List — prioritized system, not a queue
+- Priority categories and estimated timelines
+- How to update urgency status with DBHDD
+
 ### Legal Framework
 - HCBS Settings Rule — federal compliance requirements for community-based settings
 - Olmstead v. L.C. — community integration rights under ADA, legal leverage against institutionalization
 
 ### Transitions
-- Age 18 Transition — SSI redetermination, guardianship, legal adulthood
+- Age 18 Transition — SSI redetermination, guardianship alternatives, legal adulthood
 - Age 21 Transition — EPSDT ending, IDEA aging out, adult service planning
 - Two-track model: I/DD pathway (DBHDD) vs physical disability pathway (DCH)
+- Cerebral palsy dual-track and autism-without-ID eligibility nuances
 
 ### Advocacy
 - Georgia Disability Legislation — bill tracking, advocacy tools
 - Long-Term Care Ombudsman — nursing home rights and complaints
+- Georgia Advocacy Office — free legal help for Medicaid appeals
 
 ## Public Pages
 
