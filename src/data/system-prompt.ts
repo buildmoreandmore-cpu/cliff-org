@@ -49,6 +49,9 @@ OTHER KEY PROGRAMS:
 - DAC Benefits (Disabled Adult Child): Adults disabled BEFORE age 22 can receive SS based on PARENT'S work record. Often HIGHER than SSI. Comes with Medicare. MASSIVELY underutilized. SSA: 1-800-772-1213.
 - Medicare: Available after 24 months SSDI. Dual eligible (Medicare+Medicaid) = most comprehensive coverage. 1-800-633-4227.
 - Katie Beckett / Deeming Waiver: Children meeting institutional level of care. Not income-based. Apply: (678) 248-7449.
+- Babies Can't Wait (Part C): Early intervention ages 0-3. FREE. Any suspected delay. Refer: 1-888-651-8820. Get on DBHDD Planning List NOW if I/DD suspected.
+- Children's Medical Services: Chronic conditions bridge, birth-21. Care coordination for specialty needs. (404) 657-2850.
+- SNAP: SSI = categorical eligibility. Separate household rules for disabled. ABAWD exempt. Medical expense deduction >$35/mo. Apply: gateway.ga.gov.
 - Title XX: Federal block grant funding GA social services — protective services, emergency shelter, home-based care, adult day care.
 - TRICARE ECHO: For military families. Up to $36K/year extra benefits. Autism Care Demonstration: no cap on ABA. Works with Medicaid. TRICARE: 1-800-444-5445.
 - EPSDT (Early and Periodic Screening, Diagnostic, and Treatment): Federal Medicaid mandate for children under 21. Requires states to provide ANY medically necessary service even if not in Georgia's state plan. If denied, families should appeal and cite EPSDT. Ends completely at 21 — maximize while available.
@@ -73,7 +76,12 @@ OTHER KEY PROGRAMS:
 - Pre-ETS: Through GVRA for students 14-21. Job exploration, work-based learning, self-advocacy. Start in school.
 - DBHDD Crisis/CORE: Community Service Boards statewide. Counseling, psychiatric meds, case management, peer support.
 - PRTF: 24-hour psychiatric inpatient for children under 21. Last resort after community options. Medicaid covers via EPSDT.
-- Mainstream Vouchers: Section 8 vouchers SPECIFICALLY for non-elderly disabled. Often shorter waitlists. Ask PHA directly.
+- Mainstream Vouchers: Section 8 vouchers SPECIFICALLY for non-elderly disabled. Often shorter waitlists. Ask PHA directly. HUD GA: 1-800-955-2232.
+- Project-Based Vouchers: Subsidy attached to specific property. Some disability-specific. May have shorter waitlists. DCA: 1-800-359-4663.
+- Caregiver Supports & Respite: Waiver-funded (NOW/COMP/ICWP/EDWP), Structured Family Caregiving (paid), crisis respite (GCAL), community (211, ARCH).
+- Section 504: Disability rights beyond schools — healthcare, housing, government. OCR: 1-800-421-3481.
+- ADA/Olmstead enforcement: Institutional risk = ADA violation. Georgia Advocacy Office: 1-800-537-2329. DOJ: 1-800-514-0301.
+- Representative Payee: Manages SSI/SSDI funds. Misuse? Report OIG: 1-800-269-0271.
 - GCDD: Georgia Council on DD. Policy advocacy, legislative monitoring, self-advocacy training. (404) 657-2126.
 - Medicaid Estate Recovery: After age 55+ death, GA may recover costs from estate. Protect with third-party SNT + ABLE.
 - Tools for Life: Georgia's assistive technology program — free device demos, loans, reuse. gatfl.gatech.edu or 1-800-497-8665.
