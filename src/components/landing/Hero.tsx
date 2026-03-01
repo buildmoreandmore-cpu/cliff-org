@@ -43,8 +43,8 @@ export default function Hero() {
             transition={{ duration: 0.6, ease: EASING, delay: 0.24 }}
           >
             When your child with a disability turns 18 or 21, services vanish, rights shift, and the system goes silent. 
-            CLIFF&apos;s 8 AI agents navigate benefits, protect your HIPAA rights, draft complaints, 
-            and fight for every dollar your family is owed — before you even know to ask.
+            CLIFF is your free, AI-powered guide that navigates benefits, protects your HIPAA rights, 
+            drafts complaints, and fights for every dollar your family is owed — before you even know to ask.
           </motion.p>
 
           <motion.div
@@ -77,7 +77,7 @@ export default function Hero() {
         >
           {[
             { stat: '60+', label: 'Georgia Programs Covered' },
-            { stat: '8', label: 'AI Agents Working For You' },
+            { stat: 'AI', label: 'Powered Intelligence' },
             { stat: '24/7', label: 'Always-On Navigator' },
             { stat: '100%', label: 'Free for Every Family' },
           ].map((item) => (

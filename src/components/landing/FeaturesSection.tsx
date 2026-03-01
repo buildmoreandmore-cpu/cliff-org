@@ -96,11 +96,11 @@ export default function FeaturesSection() {
         <AnimatedSection className="max-w-2xl mx-auto text-center">
           <p className="text-coral font-medium text-sm tracking-wide uppercase">How CLIFF Works</p>
           <h2 className="mt-3 font-display text-3xl sm:text-4xl font-bold text-navy text-balance">
-            8 AI Agents. One Mission. Your Family.
+            Everything Your Family Needs. Powered by AI.
           </h2>
           <p className="mt-4 text-navy/60 leading-relaxed">
-            CLIFF deploys 8 specialized AI agents that work together around the clock — navigating benefits, 
-            protecting your rights, tracking deadlines, and surfacing programs you didn&apos;t know existed.
+            CLIFF works around the clock — navigating benefits, protecting your rights, 
+            tracking deadlines, and surfacing programs you didn&apos;t know existed.
           </p>
         </AnimatedSection>
 

@@ -13,8 +13,8 @@ export default function DonateStrip() {
             Every Family Deserves a Guide Through the Cliff
           </h2>
           <p className="mt-4 text-navy/60 leading-relaxed">
-            Your donation powers 8 AI agents that protect families&apos; rights, navigate 60+ programs, 
-            draft HIPAA complaints, and catch deadlines before they pass. 
+            Your donation powers the AI behind CLIFF — protecting families&apos; rights, navigating 60+ programs, 
+            drafting HIPAA complaints, and catching deadlines before they pass. 
             No family should lose benefits because the system didn&apos;t warn them.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
