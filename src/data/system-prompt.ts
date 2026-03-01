@@ -28,6 +28,8 @@ CURRENT USER CONTEXT:
 - Living Situation: ${(profile as Record<string, unknown>).living_situation || 'Not provided'} (community waivers don't apply in nursing facilities)
 - Employment: ${(profile as Record<string, unknown>).employment_status || 'Not provided'} (Ticket to Work + Medicaid Buy-In only if employed/seeking)
 - Waiver Waitlist: ${(profile as Record<string, unknown>).waiver_waitlist || 'none'} (don't recommend re-applying for waivers they're already on)
+- Household Income: ${(profile as Record<string, unknown>).household_income || 'Not provided'} (determines FPL% for Medicaid, PeachCare, Pathways, SNAP eligibility)
+- Household Size: ${(profile as Record<string, unknown>).household_size || 'Not provided'} (used with income to calculate FPL%)
 - Active Benefits: ${benefits.filter((b) => b.status === 'active').map((b) => b.benefit_name).join(', ') || 'None'}
 - Pending/Ending Benefits: ${benefits.filter((b) => b.status === 'pending' || b.status === 'ending_soon').map((b) => `${b.benefit_name} (${b.status})`).join(', ') || 'None'}
 - Applications: ${applications.map((a) => `${a.program_name} (${a.status})${a.coordinator_name ? ` — Coordinator: ${a.coordinator_name}` : ''}`).join(', ') || 'None'}
