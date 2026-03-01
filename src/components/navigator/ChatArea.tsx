@@ -129,6 +129,15 @@ export default function ChatArea({ messages, isLoading, onSend, className }: Cha
 
   return (
     <div className={className ?? "flex flex-col h-[calc(100vh-10rem)] sm:h-[calc(100vh-12rem)]"}>
+      {/* Disclaimer banner */}
+      <div className="mx-3 sm:mx-4 mt-3 px-3 py-2 bg-amber-50 border border-amber-200 rounded-lg">
+        <p className="text-[11px] text-amber-800 leading-relaxed">
+          <strong>Important:</strong> CLIFF provides general guidance, not legal or medical advice.
+          Always verify phone numbers, deadlines, and eligibility with the agency directly before acting.
+          {' '}<a href="/help" className="text-coral underline underline-offset-1 hover:text-coral-dark">Report an issue</a>
+        </p>
+      </div>
+
       <div ref={scrollRef} className="flex-1 overflow-y-auto chat-scroll px-3 sm:px-4 py-4 sm:py-6 space-y-3 sm:space-y-4">
         {messages.length === 0 && (
           <div className="text-center py-12">
