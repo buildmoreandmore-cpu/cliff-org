@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import AnimatedSection from '@/components/ui/AnimatedSection'
 import Button from '@/components/ui/Button'
 import AmountSelector from '@/components/donate/AmountSelector'
@@ -11,8 +12,39 @@ export default function DonatePage() {
   const [amount, setAmount] = useState<number | null>(50)
   const [custom, setCustom] = useState('')
   const [type, setType] = useState<'one-time' | 'monthly'>('one-time')
+  const [loading, setLoading] = useState(false)
+  const [showSuccess, setShowSuccess] = useState(false)
+  const searchParams = useSearchParams()
+
+  useEffect(() => {
+    if (searchParams.get('success') === 'true') setShowSuccess(true)
+  }, [searchParams])
 
   const displayAmount = custom ? `$${custom}` : amount ? `$${amount}` : null
+
+  const handleDonate = async () => {
+    const finalAmount = custom ? parseInt(custom) : amount
+    if (!finalAmount || finalAmount < 1) return
+
+    setLoading(true)
+    try {
+      const res = await fetch('/api/donate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount: finalAmount, type }),
+      })
+      const data = await res.json()
+      if (data.url) {
+        window.location.href = data.url
+      } else {
+        alert(data.error || 'Something went wrong')
+      }
+    } catch {
+      alert('Failed to start checkout. Please try again.')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -39,23 +71,27 @@ export default function DonatePage() {
                 onCustomChange={setCustom}
               />
 
+              {showSuccess && (
+                <div className="p-4 bg-green-50 border border-green-200 rounded-lg text-green-800 text-sm mb-4">
+                  <strong>Thank you!</strong> Your donation has been received. You&apos;re helping Georgia families navigate the benefits cliff.
+                </div>
+              )}
+
               <div className="pt-4">
                 <Button
                   className="w-full"
                   size="lg"
-                  onClick={() => {
-                    // Stripe integration placeholder
-                    alert(
-                      `Thank you! Stripe checkout for ${displayAmount} ${type} donation will open here.`
-                    )
-                  }}
+                  disabled={loading || (!amount && !custom)}
+                  onClick={handleDonate}
                 >
-                  {displayAmount
-                    ? `Donate ${displayAmount} ${type === 'monthly' ? '/ month' : ''}`
-                    : 'Select an Amount'}
+                  {loading
+                    ? 'Redirecting to checkout...'
+                    : displayAmount
+                      ? `Donate ${displayAmount} ${type === 'monthly' ? '/ month' : ''}`
+                      : 'Select an Amount'}
                 </Button>
                 <p className="mt-3 text-xs text-navy/40 text-center">
-                  Secure payment processed by Stripe. CLIFF is a 501(c)(3) nonprofit.
+                  Secure payment processed by Stripe. CLIFF is a 501(c)(3) nonprofit (pending).
                 </p>
               </div>
             </div>
