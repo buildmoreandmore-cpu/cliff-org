@@ -44,6 +44,7 @@ export const NAV_LINKS = [
   { label: 'Navigator', href: '/navigator' },
   { label: 'Dashboard', href: '/dashboard' },
   { label: 'Advocacy', href: '/advocacy' },
+  { label: 'Community', href: '/community' },
   { label: 'Donate', href: '/donate' },
   { label: 'About', href: '/about' },
 ] as const
