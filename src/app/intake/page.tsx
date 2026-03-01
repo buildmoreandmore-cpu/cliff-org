@@ -47,36 +47,16 @@ export default function IntakePage() {
     checkProfile()
   }, [router])
 
-  // Auto-start the conversation
-  const startConversation = useCallback(async () => {
-    if (!profileId || hasStarted.current) return
-    hasStarted.current = true
-    setIsLoading(true)
-
-    const assistantMessage: ChatMessageType = { role: 'assistant', content: '' }
-    setMessages([assistantMessage])
-
-    try {
-      const response = await fetch('/api/agents/intake', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: [], profileId }),
-      })
-
-      if (!response.ok) throw new Error('Failed to start intake')
-      await processSSE(response, [])
-    } catch {
-      setMessages([{ role: 'assistant', content: 'Welcome! I\'m having trouble connecting. Please refresh and try again.' }])
-    } finally {
-      setIsLoading(false)
-    }
-  }, [profileId])
-
+  // Show a static welcome message instead of calling the API
   useEffect(() => {
-    if (!checkingProfile && profileId) {
-      startConversation()
+    if (!checkingProfile && profileId && !hasStarted.current) {
+      hasStarted.current = true
+      setMessages([{
+        role: 'assistant',
+        content: 'Welcome to CLIFF! 👋\n\nI\'m here to help you navigate Georgia\'s disability benefits system. I\'ll ask a few quick questions to personalize your experience — it only takes a couple minutes.\n\nWhen you\'re ready, just say **hi** to get started!'
+      }])
     }
-  }, [checkingProfile, profileId, startConversation])
+  }, [checkingProfile, profileId])
 
   async function processSSE(response: Response, allMessages: ChatMessageType[]) {
     const reader = response.body?.getReader()
