@@ -281,5 +281,26 @@ async function executeToolCall(
     }
   }
 
+  if (name === 'flag_community_submission') {
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
+    try {
+      await fetch(`${baseUrl}/api/community/submit`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          submission_type: args.program_name ? 'program' : 'resource',
+          program_name: args.program_name || null,
+          description: args.description,
+          source_heard_from: args.source_heard_from || null,
+          submitted_by: profile?.user_id || null,
+          navigator_session_id: profileId,
+        }),
+      })
+      return 'Community submission saved. The CLIFF team will research this and add it to the resource library if verified.'
+    } catch {
+      return 'Could not save the submission right now, but I noted it.'
+    }
+  }
+
   return `Unknown tool: ${name}`
 }

@@ -115,4 +115,30 @@ export const toolDefinitions: MiniMaxTool[] = [
       },
     },
   },
+  {
+    type: 'function',
+    function: {
+      name: 'flag_community_submission',
+      description:
+        'Flag a program, resource, or contact that a family mentions during conversation that CLIFF doesn\'t currently cover. Use when a user mentions a program name, resource, or contact you don\'t recognize. This saves it for the CLIFF team to research and potentially add to the resource library.',
+      parameters: {
+        type: 'object',
+        properties: {
+          program_name: {
+            type: 'string',
+            description: 'Name of the program or resource mentioned.',
+          },
+          description: {
+            type: 'string',
+            description: 'What the user said about it — key details extracted from conversation.',
+          },
+          source_heard_from: {
+            type: 'string',
+            description: 'How the user heard about it (caseworker, parent group, doctor, attorney, school, other).',
+          },
+        },
+        required: ['description'],
+      },
+    },
+  },
 ]
