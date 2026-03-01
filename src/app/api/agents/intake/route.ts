@@ -65,6 +65,7 @@ export async function POST(request: NextRequest) {
       }
 
       try {
+        console.log('Intake: starting MiniMax call, profileId:', profileId, 'messages:', messages.length)
         const miniMaxMessages: MiniMaxMessage[] = [
           { role: 'system', content: INTAKE_SYSTEM_PROMPT },
           ...messages.map((m) => ({
@@ -127,8 +128,9 @@ export async function POST(request: NextRequest) {
         send('[DONE]')
         controller.close()
       } catch (err) {
-        console.error('Intake agent error:', err)
-        send({ type: 'text', content: 'I\'m sorry, something went wrong. Please try again.' })
+        const errMsg = err instanceof Error ? `${err.message}\n${err.stack}` : String(err)
+        console.error('Intake agent error:', errMsg)
+        send({ type: 'text', content: `I'm sorry, something went wrong: ${err instanceof Error ? err.message : 'Unknown error'}. Please try again.` })
         send('[DONE]')
         controller.close()
       }
