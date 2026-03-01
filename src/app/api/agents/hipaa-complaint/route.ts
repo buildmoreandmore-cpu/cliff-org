@@ -89,7 +89,7 @@ Generate:
     let content = response.choices[0]?.message?.content || ''
     content = content.replace(/<think>[\s\S]*?<\/think>/g, '').trim()
 
-    // Save the complaint draft as a document
+    // Save the complaint draft as a document with submission tracking
     await supabase.from('saved_documents').insert({
       profile_id: profileId,
       doc_type: 'other',
@@ -103,6 +103,17 @@ Generate:
         complaint_draft: content,
         generated_at: new Date().toISOString(),
       }),
+      submission_status: 'draft',
+      filing_url: 'https://ocrportal.hhs.gov/ocr/smartscreen/main.jsf',
+      recipient_agency: 'HHS Office for Civil Rights',
+      submission_deadline: approximate_date ? (() => {
+        const d = new Date(approximate_date)
+        if (!isNaN(d.getTime())) {
+          d.setDate(d.getDate() + 180)
+          return d.toISOString().split('T')[0]
+        }
+        return null
+      })() : null,
     })
 
     // Create a reminder for the 180-day filing deadline if we have a date

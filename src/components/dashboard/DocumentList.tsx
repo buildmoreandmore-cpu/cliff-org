@@ -6,6 +6,7 @@ import { EASING } from '@/lib/constants'
 import type { SavedDocument, DocType } from '@/lib/types'
 import { FileIcon, MailIcon, CheckIcon, BellIcon, XIcon } from '@/components/ui/SVGIcons'
 import { createClient } from '@/lib/supabase/client'
+import DocumentActions from '@/components/documents/DocumentActions'
 
 interface DocumentListProps {
   documents: SavedDocument[]
@@ -177,6 +178,9 @@ export default function DocumentList({ documents, profileId, onUpdate }: Documen
                     <p className="text-xs text-navy/40">
                       {typeLabels[doc.doc_type] || doc.doc_type}
                       {doc.is_sent && <span className="ml-2 text-green-600">✓ Sent</span>}
+                      {doc.submission_status === 'draft' && <span className="ml-2 text-orange-600 font-medium">⏳ Needs Signature</span>}
+                      {doc.submission_status === 'ready' && <span className="ml-2 text-coral font-medium">📤 Ready to Submit</span>}
+                      {doc.submission_status === 'expired' && <span className="ml-2 text-red-600 font-medium">⚠️ Expired</span>}
                     </p>
                   </div>
                 </button>
@@ -230,6 +234,29 @@ export default function DocumentList({ documents, profileId, onUpdate }: Documen
                             Delete
                           </button>
                         </div>
+
+                        {/* Submission tracking actions */}
+                        {doc.submission_status && doc.submission_status !== 'submitted' && (
+                          <DocumentActions
+                            documentId={doc.id}
+                            title={doc.title}
+                            submissionStatus={doc.submission_status}
+                            filingUrl={doc.filing_url}
+                            recipientEmail={doc.recipient_email}
+                            recipientAgency={doc.recipient_agency}
+                            signedAt={doc.signed_at}
+                            submissionDeadline={doc.submission_deadline}
+                            snoozedUntil={doc.snoozed_until}
+                            onStatusChange={() => onUpdate()}
+                          />
+                        )}
+                        {doc.submission_status === 'submitted' && (
+                          <div className="mt-2">
+                            <span className="inline-flex items-center gap-1.5 text-xs bg-green-50 text-green-700 px-3 py-1.5 rounded-lg font-medium">
+                              ✅ Submitted{doc.signed_at ? ` · Signed ${new Date(doc.signed_at).toLocaleDateString()}` : ''}{doc.sent_at ? ` · Sent ${new Date(doc.sent_at).toLocaleDateString()}` : ''}
+                            </span>
+                          </div>
+                        )}
 
                         {/* Inline reminder form */}
                         <AnimatePresence>

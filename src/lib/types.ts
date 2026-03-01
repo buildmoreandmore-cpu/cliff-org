@@ -69,6 +69,8 @@ export interface Application {
 
 export type DocType = 'email_draft' | 'letter' | 'form_notes' | 'checklist' | 'other'
 
+export type SubmissionStatus = 'draft' | 'ready' | 'submitted' | 'expired'
+
 export interface SavedDocument {
   id: string
   profile_id: string
@@ -82,6 +84,15 @@ export interface SavedDocument {
   is_sent: boolean
   sent_at: string | null
   sent_via: string | null
+  submission_status: SubmissionStatus | null
+  submission_deadline: string | null
+  last_nudge_at: string | null
+  nudge_count: number
+  snoozed_until: string | null
+  signed_at: string | null
+  signature_data: string | null
+  recipient_agency: string | null
+  filing_url: string | null
 }
 
 export interface Reminder {

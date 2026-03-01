@@ -134,12 +134,16 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to parse extracted data' }, { status: 500 })
     }
 
-    // Save document to saved_documents
+    // Save document to saved_documents with submission tracking
+    const isAppealable = documentType === 'denial_letter' && extracted.appeal_viable
     await supabase.from('saved_documents').insert({
       profile_id: profileId,
       doc_type: 'other',
       title: `${documentType.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}: ${filename}`,
       content: JSON.stringify({ extracted, original_text: documentText.substring(0, 5000) }),
+      submission_status: isAppealable ? 'draft' : 'submitted',
+      submission_deadline: isAppealable && extracted.appeal_deadline ? extracted.appeal_deadline : null,
+      recipient_agency: isAppealable ? (extracted.program_denied || 'Georgia Agency') : null,
     })
 
     // Document-type-specific Supabase updates
