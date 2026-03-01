@@ -221,6 +221,31 @@ FOR EVERY INDIVIDUAL REGARDLESS OF CONDITION:
 - Explore Medicaid for Workers with Disabilities when employment begins
 - Start transition planning: age 14 (IEP), age 17 (guardianship/SSI/waivers)
 
+EPSDT (Early and Periodic Screening, Diagnostic and Treatment):
+- Comprehensive Medicaid benefit for children under 21
+- BROADEST coverage available — covers anything medically necessary, even if adult Medicaid doesn't
+- "Medical necessity" standard: if a service corrects or ameliorates a condition, Medicaid MUST cover it
+- Ends at 21 — critical transition. Ensure all necessary DME and services are in place before 21.
+- If a service is denied, appeal citing EPSDT's medical necessity standard
+
+Special Needs Trusts (SNT):
+- First-Party SNT: funded with individual's own money (inheritance, settlement). Medicaid payback at death. Must be under 65.
+- Third-Party SNT: funded by family/others. NO Medicaid payback. Most common for estate planning.
+- Pooled Trusts: managed by nonprofit, individual accounts within larger pool.
+- No contribution limits (unlike ABLE's $18K/year). Can hold unlimited amounts without affecting SSI/Medicaid.
+- Pays for supplemental needs: education, entertainment, vehicle mods, assistive tech, home modifications.
+- CANNOT pay for food/shelter (would reduce SSI). ABLE accounts CAN pay for food/shelter.
+- Use BOTH: ABLE for day-to-day, SNT for larger amounts.
+- Consult disability attorney. Georgia Legal Services (free): 1-800-498-9469.
+
+Fair Hearings — Right to Appeal:
+- ANY time a benefit is reduced, denied, or terminated, you have the right to a fair hearing.
+- REQUEST WITHIN 30 DAYS to maintain benefits during appeal ("aid paid pending").
+- After 30 days you can still appeal but benefits may stop.
+- Hearing before Administrative Law Judge (ALJ). Can bring attorney/advocate.
+- Most families accept denials without fighting — don't. A significant percentage of hearings restore benefits.
+- Free legal help: Georgia Legal Services (1-800-498-9469), Georgia Advocacy Office (1-800-537-2329).
+
 CRITICAL CONTACTS DIRECTORY:
 - DBHDD Intake: (404) 657-2252
 - Katie Beckett Application: (678) 248-7449
@@ -253,15 +278,34 @@ export const PROGRAM_SLUGS = [
   'behavioral-health', 'medicaid-cmos', 'able-accounts', 'medicaid-workers',
   'tools-for-life', 'gvra-employment', 'guardianship-legal', 'housing-options',
   'crisis-planning', 'diagnosis-routing-guide', 'mfp-transition', 'georgia-pathways',
+  'epsdt', 'special-needs-trusts', 'fair-hearings',
 ]
 
 export const ALL_PROGRAM_NAMES = [
+  // 7 Medicaid Waivers
   'NOW Waiver', 'COMP Waiver', 'ICWP', 'SOURCE', 'CCSP', 'EDWP', 'GAPP',
-  'SSI', 'Katie Beckett', 'EPSDT', 'IDEA', 'PeachCare for Kids',
-  'Medicaid for Workers with Disabilities', 'Georgia Pathways to Coverage',
-  'Money Follows the Person (MFP)', 'Georgia STABLE / ABLE',
-  'GVRA', 'Bobby Dodd Institute', 'Tools for Life',
-  'High Fidelity Wraparound', 'Georgia Apex Program', 'GCAL',
+  // Core Benefits
+  'SSI', 'Katie Beckett / Deeming Waiver', 'EPSDT', 'IDEA',
+  // Insurance
+  'PeachCare for Kids', 'Medicaid for Workers with Disabilities', 'Georgia Pathways to Coverage',
+  'Medicaid CMOs (Amerigroup, CareSource, Peach State, WellCare)',
+  // Transitions
+  'Money Follows the Person (MFP)', 'School Transition / IEP',
+  // Financial
+  'Georgia STABLE / ABLE Account', 'Special Needs Trusts',
+  // Employment
+  'GVRA', 'Bobby Dodd Institute',
+  // Services
+  'Tools for Life (Assistive Technology)',
+  // Behavioral Health
+  'High Fidelity Wraparound', 'Georgia Apex Program', 'GCAL (Crisis Line)',
+  'DBHDD System of Care',
+  // Housing
   'Section 8', 'Section 811', 'Georgia Housing Voucher Program',
+  // Waiver Features
   'Structured Family Caregiving', 'Consumer Direction',
+  // Legal
+  'Guardianship / Supported Decision-Making', 'Fair Hearings / Right to Appeal',
+  // Support
+  'Parent to Parent of Georgia', 'Georgia Advocacy Office', 'Cam & Madi\'s Promise',
 ]

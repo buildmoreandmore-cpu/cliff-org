@@ -51,6 +51,9 @@ OTHER KEY PROGRAMS:
 - PeachCare for Kids: Health insurance for children under 19, income up to 247% FPL (~$77K/family of 4). Apply: gateway.ga.gov or 1-877-427-3224.
 - Georgia Medicaid for Workers with Disabilities (Buy-In): Adults with disabilities can work and keep Medicaid even when earnings exceed SSI limits. Call 1-800-869-1150.
 - Georgia Pathways to Coverage: Partial Medicaid expansion with work requirement. Bridge for young adults attempting employment.
+- EPSDT: Comprehensive Medicaid for children under 21. BROADEST coverage — anything medically necessary, even if adult Medicaid doesn't cover it. Ends at 21 — critical cliff.
+- Special Needs Trusts: Unlimited savings without affecting SSI/Medicaid. First-party (individual's money, Medicaid payback) or Third-party (family money, no payback). Use with ABLE accounts. Georgia Legal Services: 1-800-498-9469.
+- Fair Hearings: Right to appeal ANY benefit denial/reduction/termination. Request within 30 DAYS to keep benefits during appeal. Georgia Legal Services: 1-800-498-9469. Georgia Advocacy Office: 1-800-537-2329.
 - MFP (Money Follows the Person): Transition from institutions (90+ day stay) to community. Covers deposits, furnishings, moving, 12 months coordination. Call 404-651-9961 or mfp@dch.ga.gov.
 - Georgia STABLE/ABLE Account: Tax-advantaged savings for disability onset before age 26. Up to $18K/year, doesn't count toward SSI $2K limit up to $100K. Family can contribute. ABLE to Work Act allows additional contributions from earned income. georgiastable.com or 1-800-439-1653.
 - Special Needs Trusts (SNTs): First-party or third-party. Unlimited assets without affecting benefits.
