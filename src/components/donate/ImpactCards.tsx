@@ -4,9 +4,9 @@ import { motion } from 'framer-motion'
 import { EASING } from '@/lib/constants'
 
 const impacts = [
-  { amount: '$10', impact: 'Supports one AI Navigator conversation for a family in crisis.' },
-  { amount: '$50', impact: 'Funds a complete benefits assessment for one Georgia family.' },
-  { amount: '$250', impact: 'Sponsors resource updates for an entire county for one month.' },
+  { amount: '$10', impact: 'Powers ~50 AI agent conversations — helping a family explore benefits, draft emails, or walk through forms.' },
+  { amount: '$50', impact: 'Funds a full benefits assessment and form walk-through for one Georgia family.' },
+  { amount: '$250', impact: 'Keeps all 7 AI agents running for families across a county for a month.' },
 ]
 
 export default function ImpactCards() {

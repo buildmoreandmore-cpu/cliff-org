@@ -23,8 +23,8 @@ export default function DonatePage() {
             Help Families Navigate the Cliff
           </h1>
           <p className="mt-4 text-navy/60 leading-relaxed">
-            CLIFF is 100% free for families. Your donation keeps our AI Navigator running and our
-            Georgia-specific resources current.
+            CLIFF is 100% free for families. Your donation directly funds the 7 AI agents — Benefits Explorer,
+            Form Walk-Through, Email Drafter, Research, Content Integrity, Proactive Alerts, and Benefit Tracker — that serve Georgia families every day.
           </p>
         </AnimatedSection>
 

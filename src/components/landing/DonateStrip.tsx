@@ -13,7 +13,7 @@ export default function DonateStrip() {
             Help Every Georgia Family Navigate the Cliff
           </h2>
           <p className="mt-4 text-navy/60 leading-relaxed">
-            CLIFF is free for families because of donors like you. Your support keeps our AI Navigator running and our resources up to date.
+            Every donation goes directly toward powering the 7 AI agents that help Georgia families — from real-time research to personalized milestone alerts.
           </p>
           <div className="mt-8">
             <Button href="/donate" size="lg">

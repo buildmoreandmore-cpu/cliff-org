@@ -3,28 +3,43 @@
 import { motion } from 'framer-motion'
 import { EASING } from '@/lib/constants'
 import AnimatedSection from '@/components/ui/AnimatedSection'
-import { ChatIcon, ClipboardIcon, ShieldIcon, CalendarIcon } from '@/components/ui/SVGIcons'
+import { SearchIcon, ClipboardIcon, MailIcon, GlobeIcon, ShieldIcon, BellIcon, FileIcon } from '@/components/ui/SVGIcons'
 
-const features = [
+const agents = [
   {
-    icon: ChatIcon,
-    title: 'AI Navigator',
-    description: 'Ask questions in plain English. Get specific Georgia forms, phone numbers, and step-by-step guidance personalized to your child.',
+    icon: SearchIcon,
+    title: 'Benefits Explorer',
+    description: 'Answers questions about SSI, Medicaid, waivers, and eligibility in plain English — personalized to your child.',
   },
   {
     icon: ClipboardIcon,
     title: 'Form Walk-Through',
-    description: 'The Navigator walks you through SSI, Katie Beckett, NOW/COMP, and more — section by section, catching common mistakes.',
+    description: 'Guides you through SSI, Katie Beckett, NOW/COMP, and more — section by section, catching common mistakes.',
+  },
+  {
+    icon: MailIcon,
+    title: 'Email Drafter',
+    description: 'Drafts professional emails to caseworkers, agencies, and service providers so you get faster responses.',
+  },
+  {
+    icon: GlobeIcon,
+    title: 'Research Agent',
+    description: 'Searches CLIFF\'s content library and the web for real-time Georgia policy info, contacts, and resources.',
   },
   {
     icon: ShieldIcon,
-    title: 'Benefit Tracker',
-    description: 'Track active benefits, pending applications, and upcoming deadlines in one dashboard. Never miss a renewal.',
+    title: 'Content Integrity Agent',
+    description: 'Automatically verifies resources against official sources and flags outdated information.',
   },
   {
-    icon: CalendarIcon,
-    title: 'Transition Timeline',
-    description: 'Automated reminders for the 18 and 21 transitions. Know exactly what to do, months before each deadline.',
+    icon: BellIcon,
+    title: 'Proactive Alerts Agent',
+    description: 'Sends personalized reminders for 18th and 21st birthday milestones, renewals, and policy changes.',
+  },
+  {
+    icon: FileIcon,
+    title: 'Benefit Tracker',
+    description: 'Tracks active benefits, pending applications, deadlines, and documents in one dashboard.',
   },
 ]
 
@@ -35,23 +50,23 @@ export default function FeaturesSection() {
         <AnimatedSection className="max-w-2xl mx-auto text-center">
           <p className="text-coral font-medium text-sm tracking-wide uppercase">How CLIFF Helps</p>
           <h2 className="mt-3 font-display text-3xl sm:text-4xl font-bold text-navy text-balance">
-            Everything You Need in One Place
+            7 AI Agents Working for Your Family
           </h2>
           <p className="mt-4 text-navy/60 leading-relaxed">
-            CLIFF combines AI intelligence with deep Georgia-specific knowledge to guide your family through every step.
+            CLIFF deploys 7 specialized AI agents that work together to guide your family through benefits, applications, and transitions.
           </p>
         </AnimatedSection>
 
         <motion.div
-          className="mt-10 sm:mt-16 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 max-w-4xl mx-auto"
+          className="mt-10 sm:mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto"
           initial="initial"
           whileInView="animate"
           viewport={{ once: true, amount: 0.2 }}
-          variants={{ animate: { transition: { staggerChildren: 0.15 } } }}
+          variants={{ animate: { transition: { staggerChildren: 0.1 } } }}
         >
-          {features.map((feature) => (
+          {agents.map((agent) => (
             <motion.div
-              key={feature.title}
+              key={agent.title}
               className="bg-white rounded-xl p-5 sm:p-8 shadow-sm border border-gray-100"
               variants={{
                 initial: { opacity: 0, y: 20, scale: 0.96 },
@@ -60,10 +75,10 @@ export default function FeaturesSection() {
               transition={{ duration: 0.6, ease: EASING }}
             >
               <div className="w-12 h-12 rounded-lg bg-coral/10 flex items-center justify-center text-coral">
-                <feature.icon size={24} />
+                <agent.icon size={24} />
               </div>
-              <h3 className="mt-4 font-display text-xl font-semibold text-navy">{feature.title}</h3>
-              <p className="mt-2 text-sm text-navy/60 leading-relaxed">{feature.description}</p>
+              <h3 className="mt-4 font-display text-xl font-semibold text-navy">{agent.title}</h3>
+              <p className="mt-2 text-sm text-navy/60 leading-relaxed">{agent.description}</p>
             </motion.div>
           ))}
         </motion.div>
