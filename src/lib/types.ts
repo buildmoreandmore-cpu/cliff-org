@@ -13,6 +13,10 @@ export interface Profile {
   notification_breaking_news: boolean
   notification_milestones: boolean
   notification_digest: boolean
+  notification_email: boolean
+  disability_track: string | null
+  medically_fragile: boolean
+  medicaid_cmo: string | null
   is_admin: boolean
 }
 

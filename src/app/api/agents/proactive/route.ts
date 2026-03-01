@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { chatCompletion } from '@/lib/minimax'
 import { GEORGIA_PROGRAM_KNOWLEDGE } from '@/data/program-knowledge'
+import { notify } from '@/lib/notify'
 
 type TriggerType = 'content_change' | 'breaking_news' | 'milestone_check'
 
@@ -72,10 +73,10 @@ Be specific about what changed and what action (if any) they should take. Be emp
 
           const body = stripThink(response.choices[0]?.message?.content || '')
 
-          await supabase.from('notifications').insert({
-            profile_id: pid,
-            trigger_type: 'content_change',
-            trigger_id: content_change_id,
+          await notify({
+            profileId: pid,
+            triggerType: 'content_change',
+            triggerId: content_change_id,
             subject: `Policy Update: ${topic}`,
             body,
           })
@@ -134,9 +135,9 @@ Respond in JSON only (no other text):
           .eq('notification_breaking_news', true)
 
         for (const profile of profiles || []) {
-          await supabase.from('notifications').insert({
-            profile_id: profile.id,
-            trigger_type: 'breaking_news',
+          await notify({
+            profileId: profile.id,
+            triggerType: 'breaking_news',
             subject: analysis.subject,
             body: analysis.summary,
           })
@@ -207,9 +208,9 @@ Keep under 250 words. Be warm and actionable.`,
 
               const body = stripThink(response.choices[0]?.message?.content || '')
 
-              await supabase.from('notifications').insert({
-                profile_id: profile.id,
-                trigger_type: 'milestone_check',
+              await notify({
+                profileId: profile.id,
+                triggerType: 'milestone_check',
                 subject: `${profile.child_name || 'Your child'}'s ${milestone}th birthday is ${monthsAway} months away`,
                 body,
               })

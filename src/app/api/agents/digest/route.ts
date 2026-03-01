@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { chatCompletion } from '@/lib/minimax'
 import { GEORGIA_PROGRAM_KNOWLEDGE } from '@/data/program-knowledge'
+import { notify } from '@/lib/notify'
 
 function stripThink(text: string): string {
   return text.replace(/<think>[\s\S]*?<\/think>/g, '').trim()
@@ -116,9 +117,9 @@ Don't be generic. Be specific to their situation.`,
 
         const body = stripThink(tipResponse.choices[0]?.message?.content || '')
 
-        await supabase.from('notifications').insert({
-          profile_id: profile.id,
-          trigger_type: 'weekly_digest',
+        await notify({
+          profileId: profile.id,
+          triggerType: 'weekly_digest',
           subject: `Your CLIFF Weekly Summary`,
           body,
         })
@@ -163,9 +164,9 @@ Be specific. Use real program names and phone numbers. Don't be generic.`,
 
       const body = stripThink(response.choices[0]?.message?.content || '')
 
-      await supabase.from('notifications').insert({
-        profile_id: profile.id,
-        trigger_type: 'weekly_digest',
+      await notify({
+        profileId: profile.id,
+        triggerType: 'weekly_digest',
         subject: `Your CLIFF Weekly Summary — ${now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`,
         body,
       })

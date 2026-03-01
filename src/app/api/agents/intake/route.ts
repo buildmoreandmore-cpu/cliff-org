@@ -97,11 +97,16 @@ export async function POST(request: NextRequest) {
           try {
             const intakeData: IntakeData = JSON.parse(jsonMatch[1])
 
-            // Update profile
+            // Update profile with all intake fields
             await supabase.from('profiles').update({
               child_name: intakeData.child_name,
               child_dob: intakeData.child_dob,
               county: intakeData.county,
+              diagnosis: intakeData.diagnosis,
+              disability_track: intakeData.disability_track,
+              medically_fragile: intakeData.medically_fragile,
+              medicaid_cmo: intakeData.medicaid_cmo,
+              primary_concern: intakeData.primary_concern,
             }).eq('id', profileId)
 
             // Create child_benefits entries
