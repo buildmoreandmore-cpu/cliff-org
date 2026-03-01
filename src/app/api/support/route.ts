@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import nodemailer from 'nodemailer'
 
 const SUPPORT_EMAIL = 'support@newhyer.com'
+const COMPOSIO_API_KEY = process.env.COMPOSIO_API_KEY
+const GMAIL_CONNECTION_ID = '18437286-5cc1-41c1-b414-2463391436eb'
 
 export async function POST(request: NextRequest) {
   const { name, email, subject, message } = (await request.json()) as {
@@ -15,36 +16,43 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Name, email, and message are required.' }, { status: 400 })
   }
 
-  const smtpHost = process.env.SMTP_HOST
-  const smtpPort = Number(process.env.SMTP_PORT || '587')
-  const smtpUser = process.env.SMTP_USER
-  const smtpPass = process.env.SMTP_PASS
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return NextResponse.json({ error: 'Invalid email address.' }, { status: 400 })
+  }
 
-  if (!smtpHost || !smtpUser || !smtpPass) {
+  if (!COMPOSIO_API_KEY) {
     return NextResponse.json({ error: 'Email service is not configured.' }, { status: 503 })
   }
 
   try {
-    const transporter = nodemailer.createTransport({
-      host: smtpHost,
-      port: smtpPort,
-      secure: smtpPort === 465,
-      auth: { user: smtpUser, pass: smtpPass },
+    const emailSubject = subject?.trim()
+      ? `[CLIFF Support] ${subject.trim()}`
+      : `[CLIFF Support] New message from ${name}`
+
+    const emailBody = `New support request from CLIFF (meetcliff.org):\n\nName: ${name}\nEmail: ${email}\nSubject: ${subject || '(none)'}\n\n---\n\n${message}\n\n---\nReply directly to this email to respond to ${name} at ${email}.`
+
+    const res = await fetch('https://backend.composio.dev/api/v2/actions/GMAIL_SEND_EMAIL/execute', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': COMPOSIO_API_KEY,
+      },
+      body: JSON.stringify({
+        connectedAccountId: GMAIL_CONNECTION_ID,
+        input: {
+          recipient_email: SUPPORT_EMAIL,
+          subject: emailSubject,
+          body: emailBody,
+          reply_to: email,
+        },
+      }),
     })
 
-    await transporter.sendMail({
-      from: `"CLIFF Support Form" <${smtpUser}>`,
-      replyTo: `"${name}" <${email}>`,
-      to: SUPPORT_EMAIL,
-      subject: subject?.trim() ? `[CLIFF Support] ${subject.trim()}` : `[CLIFF Support] New message from ${name}`,
-      text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
-      html: `
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <hr/>
-        <p>${message.replace(/\n/g, '<br/>')}</p>
-      `,
-    })
+    if (!res.ok) {
+      const errData = await res.text()
+      console.error('Composio send error:', errData)
+      throw new Error('Email send failed')
+    }
 
     return NextResponse.json({ success: true })
   } catch (err) {
