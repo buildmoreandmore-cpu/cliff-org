@@ -154,6 +154,18 @@ export async function POST(request: NextRequest) {
             // Create age-based reminders
             await createAgeBasedReminders(supabase, profileId, intakeData.child_dob)
 
+            // Auto-generate action plan in the background
+            try {
+              const baseUrl = process.env.NEXT_PUBLIC_APP_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
+              fetch(`${baseUrl}/api/plan/generate`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  Cookie: request.headers.get('cookie') || '',
+                },
+              }).catch(() => { /* background fire-and-forget */ })
+            } catch { /* ignore plan generation failures */ }
+
             // Remove the JSON block from the response text
             const cleanText = textContent.replace(/```json\s*\{[\s\S]*?\}\s*```/, '').replace(/\{[\s\S]*?"intake_complete"\s*:\s*true[\s\S]*?\}/, '').trim()
 

@@ -27,6 +27,19 @@ interface ActionPlan {
   expires_at: string | null
 }
 
+interface ProfileData {
+  child_name?: string
+  child_dob?: string
+  diagnosis?: string
+  disability_track?: string
+  primary_concern?: string
+  county?: string
+  has_medicaid?: boolean
+  relationship?: string
+  medically_fragile?: boolean
+  parent_name?: string
+}
+
 const URGENCY_CONFIG: Record<string, { label: string; emoji: string; bg: string; border: string; text: string }> = {
   this_week: { label: 'THIS WEEK', emoji: '⚡', bg: 'bg-red-50', border: 'border-red-200', text: 'text-red-700' },
   two_weeks: { label: 'NEXT 2 WEEKS', emoji: '📅', bg: 'bg-orange-50', border: 'border-orange-200', text: 'text-orange-700' },
@@ -37,6 +50,75 @@ const URGENCY_CONFIG: Record<string, { label: string; emoji: string; bg: string;
 
 const URGENCY_ORDER = ['this_week', 'two_weeks', 'one_month', 'three_months', 'ongoing']
 
+function getChildAge(dob: string): number {
+  return Math.floor((Date.now() - new Date(dob).getTime()) / (365.25 * 24 * 60 * 60 * 1000))
+}
+
+function daysUntilAge(dob: string, age: number): number | null {
+  const born = new Date(dob)
+  const target = new Date(born)
+  target.setFullYear(born.getFullYear() + age)
+  const diff = Math.ceil((target.getTime() - Date.now()) / (1000 * 60 * 60 * 24))
+  return diff > 0 ? diff : null
+}
+
+function isProfileComplete(p: ProfileData): boolean {
+  return !!(p.child_name && p.child_dob && p.diagnosis && p.county)
+}
+
+function buildSubtitle(p: ProfileData): string {
+  const parts: string[] = []
+
+  if (p.child_name) {
+    const isSelf = p.relationship === 'self'
+    parts.push(isSelf ? `For ${p.child_name}` : `For ${p.child_name}'s family`)
+  }
+
+  if (p.diagnosis) {
+    parts.push(p.diagnosis)
+  }
+
+  if (p.child_dob) {
+    const age = getChildAge(p.child_dob)
+    const d18 = daysUntilAge(p.child_dob, 18)
+    const d21 = daysUntilAge(p.child_dob, 21)
+    if (d18 && d18 <= 730) {
+      parts.push(`age ${age} · turns 18 in ${d18} days`)
+    } else if (d21 && d21 <= 730) {
+      parts.push(`age ${age} · turns 21 in ${d21} days`)
+    } else {
+      parts.push(`age ${age}`)
+    }
+  }
+
+  if (p.county) {
+    parts.push(`${p.county} County, GA`)
+  }
+
+  return parts.join(' · ')
+}
+
+function buildHeadline(p: ProfileData): string {
+  if (!p.child_name) return 'Your Action Plan'
+
+  const isSelf = p.relationship === 'self'
+  const name = p.child_name.split(' ')[0] // first name only
+
+  if (p.primary_concern) {
+    const concern = p.primary_concern.toLowerCase()
+    if (concern.includes('18') || concern.includes('turning 18')) return `${name}'s Path Through 18`
+    if (concern.includes('21') || concern.includes('turning 21')) return `${name}'s Path Through 21`
+    if (concern.includes('denied')) return `${name}'s Appeal & Recovery Plan`
+    if (concern.includes('lost')) return `${name}'s Benefits Recovery Plan`
+    if (concern.includes('housing')) return `${name}'s Housing & Benefits Plan`
+    if (concern.includes('employ')) return `${name}'s Employment & Benefits Plan`
+    if (concern.includes('start') || concern.includes('where')) return `${name}'s Getting Started Plan`
+  }
+
+  if (isSelf) return `${name}'s Benefits Roadmap`
+  return `${name}'s Action Plan`
+}
+
 export default function PlanPage() {
   const router = useRouter()
   const { user, loading: userLoading } = useUser()
@@ -44,7 +126,7 @@ export default function PlanPage() {
   const [steps, setSteps] = useState<PlanStep[]>([])
   const [loading, setLoading] = useState(true)
   const [generating, setGenerating] = useState(false)
-  const [profile, setProfile] = useState<{ child_name?: string; child_dob?: string; diagnosis?: string } | null>(null)
+  const [profile, setProfile] = useState<ProfileData | null>(null)
 
   const fetchPlan = useCallback(async () => {
     try {
@@ -58,8 +140,8 @@ export default function PlanPage() {
       setPlan(planData.plan)
       setSteps(planData.steps || [])
 
-      // Auto-generate if no plan and profile is complete
-      if (!planData.plan && profileData.child_dob && profileData.diagnosis) {
+      // Auto-generate if no plan and profile is complete enough
+      if (!planData.plan && isProfileComplete(profileData)) {
         generatePlan()
       }
     } catch {
@@ -109,14 +191,6 @@ export default function PlanPage() {
     })
   }
 
-  function daysUntilAge(dob: string, age: number): number | null {
-    const born = new Date(dob)
-    const target = new Date(born)
-    target.setFullYear(born.getFullYear() + age)
-    const diff = Math.ceil((target.getTime() - Date.now()) / (1000 * 60 * 60 * 24))
-    return diff > 0 ? diff : null
-  }
-
   const completedCount = steps.filter((s) => s.is_completed).length
   const totalCount = steps.length
   const progressPercent = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0
@@ -135,6 +209,8 @@ export default function PlanPage() {
     )
   }
 
+  const profileComplete = profile && isProfileComplete(profile)
+
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
@@ -143,36 +219,61 @@ export default function PlanPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: EASING }}
         >
-          {/* Header */}
+          {/* Dynamic header */}
           <div className="mb-8">
             <h1 className="font-display text-3xl sm:text-4xl font-bold text-navy">
-              Your Action Plan
+              {profile ? buildHeadline(profile) : 'Your Action Plan'}
             </h1>
-            {profile?.child_name && (
-              <p className="mt-2 text-navy/60 text-lg">
-                Personalized for {profile.child_name}
-                {profile.child_dob && (() => {
-                  const d18 = daysUntilAge(profile.child_dob, 18)
-                  const d21 = daysUntilAge(profile.child_dob, 21)
-                  if (d18 && d18 <= 730) return ` · Turns 18 in ${d18} days`
-                  if (d21 && d21 <= 730) return ` · Turns 21 in ${d21} days`
-                  return ''
-                })()}
+            {profile && isProfileComplete(profile) && (
+              <p className="mt-2 text-navy/50 text-sm sm:text-base">
+                {buildSubtitle(profile)}
               </p>
+            )}
+            {profile?.medically_fragile && (
+              <span className="inline-block mt-2 px-2.5 py-1 bg-red-50 text-red-700 text-xs font-medium rounded-lg">
+                Medically Fragile — Priority Programs Included
+              </span>
             )}
           </div>
 
-          {/* No plan state */}
-          {!plan && !generating && (
+          {/* Profile incomplete — guide to intake */}
+          {!profileComplete && !generating && (
+            <div className="text-center py-16 border-2 border-dashed border-coral/30 rounded-2xl bg-coral/[0.02]">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-coral/10 flex items-center justify-center">
+                <svg className="w-8 h-8 text-coral" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                </svg>
+              </div>
+              <h3 className="font-display text-xl font-semibold text-navy mb-2">
+                Let&apos;s Build Your Plan
+              </h3>
+              <p className="text-navy/60 max-w-md mx-auto mb-6">
+                Answer a few quick questions about your family&apos;s situation, and CLIFF will create a personalized, 
+                step-by-step action plan with the exact programs, phone numbers, and deadlines for your case.
+              </p>
+              <Link
+                href="/intake"
+                className="inline-flex items-center gap-2 bg-coral hover:bg-coral/90 text-white font-semibold px-6 py-3 rounded-xl transition-colors"
+              >
+                Start Quick Intake (3 min)
+              </Link>
+              <p className="mt-3 text-xs text-navy/40">
+                We&apos;ll ask about diagnosis, age, county, benefits, and concerns — then build your plan automatically.
+              </p>
+            </div>
+          )}
+
+          {/* No plan but profile complete */}
+          {profileComplete && !plan && !generating && (
             <div className="text-center py-16 border-2 border-dashed border-gray-200 rounded-2xl">
               <p className="text-navy/60 text-lg mb-4">
-                No action plan yet. Let CLIFF create one based on your profile.
+                Your profile is ready. Let CLIFF build your personalized action plan.
               </p>
               <button
                 onClick={generatePlan}
                 className="inline-flex items-center gap-2 bg-coral hover:bg-coral/90 text-white font-semibold px-6 py-3 rounded-xl transition-colors"
               >
-                Generate Your Personalized Plan
+                Generate My Plan
               </button>
             </div>
           )}
@@ -181,8 +282,12 @@ export default function PlanPage() {
           {generating && (
             <div className="text-center py-16">
               <div className="animate-spin h-10 w-10 border-3 border-coral border-t-transparent rounded-full mx-auto mb-4" />
-              <p className="text-navy/60 text-lg">Analyzing your profile and building your plan...</p>
-              <p className="text-navy/40 text-sm mt-2">This may take 15-30 seconds</p>
+              <p className="text-navy/60 text-lg">
+                Building {profile?.child_name ? `${profile.child_name.split(' ')[0]}'s` : 'your'} personalized plan...
+              </p>
+              <p className="text-navy/40 text-sm mt-2">
+                Analyzing {profile?.diagnosis || 'your situation'} against 60+ Georgia programs
+              </p>
             </div>
           )}
 
@@ -201,6 +306,32 @@ export default function PlanPage() {
                     style={{ width: `${progressPercent}%` }}
                   />
                 </div>
+                {progressPercent === 100 && (
+                  <p className="mt-2 text-sm text-coral font-medium text-center">
+                    🎉 All steps complete! You can regenerate for updated recommendations.
+                  </p>
+                )}
+              </div>
+
+              {/* Context badge row */}
+              <div className="flex flex-wrap gap-2 mb-6">
+                {profile?.diagnosis && (
+                  <span className="px-3 py-1 bg-navy/5 text-navy/70 text-xs rounded-lg font-medium">
+                    {profile.diagnosis}
+                  </span>
+                )}
+                {profile?.has_medicaid !== undefined && (
+                  <span className={`px-3 py-1 text-xs rounded-lg font-medium ${
+                    profile.has_medicaid ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'
+                  }`}>
+                    Medicaid: {profile.has_medicaid ? 'Yes' : 'No'}
+                  </span>
+                )}
+                {profile?.disability_track && (
+                  <span className="px-3 py-1 bg-navy/5 text-navy/70 text-xs rounded-lg font-medium">
+                    Track: {profile.disability_track.toUpperCase()}
+                  </span>
+                )}
               </div>
 
               {/* Grouped steps */}
@@ -282,17 +413,28 @@ export default function PlanPage() {
                 </div>
               ))}
 
-              {/* Regenerate button */}
-              <div className="text-center pt-4 pb-8">
-                <p className="text-navy/40 text-sm mb-3">
-                  Plan generated {new Date(plan.generated_at).toLocaleDateString()}
+              {/* Footer: regenerate + profile change notice */}
+              <div className="text-center pt-4 pb-8 space-y-3">
+                <p className="text-navy/40 text-sm">
+                  Plan generated {new Date(plan.generated_at).toLocaleDateString()} based on your profile
                 </p>
-                <button
-                  onClick={generatePlan}
-                  className="text-coral hover:text-coral/80 font-medium text-sm transition-colors"
-                >
-                  🔄 Regenerate Plan
-                </button>
+                <div className="flex flex-wrap gap-3 justify-center">
+                  <button
+                    onClick={generatePlan}
+                    className="text-coral hover:text-coral/80 font-medium text-sm transition-colors"
+                  >
+                    🔄 Regenerate Plan
+                  </button>
+                  <Link
+                    href="/intake"
+                    className="text-navy/50 hover:text-navy/70 font-medium text-sm transition-colors"
+                  >
+                    ✏️ Update My Info
+                  </Link>
+                </div>
+                <p className="text-navy/30 text-xs max-w-md mx-auto">
+                  Update your profile info anytime — your plan will regenerate with new recommendations based on what changed.
+                </p>
               </div>
             </>
           )}
