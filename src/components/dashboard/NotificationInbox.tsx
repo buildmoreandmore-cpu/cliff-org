@@ -17,6 +17,7 @@ const triggerColors: Record<string, string> = {
   milestone_check: 'bg-orange-100 text-orange-700',
   content_change: 'bg-blue-100 text-blue-700',
   content_integrity: 'bg-purple-100 text-purple-700',
+  weekly_digest: 'bg-green-100 text-green-700',
 }
 
 const triggerLabels: Record<string, string> = {
@@ -24,6 +25,7 @@ const triggerLabels: Record<string, string> = {
   milestone_check: 'Milestone',
   content_change: 'Policy Update',
   content_integrity: 'Integrity Check',
+  weekly_digest: 'Weekly Digest',
 }
 
 function relativeTime(dateStr: string): string {
