@@ -161,6 +161,33 @@ Respond in JSON only (no other text):
           if (!profile.child_dob) continue
           const dob = new Date(profile.child_dob)
 
+          // HIPAA transition alert at age 17 (1 year before 18)
+          const age17Date = new Date(dob)
+          age17Date.setFullYear(age17Date.getFullYear() + 17)
+          const monthsTo17 = Math.round((age17Date.getTime() - now.getTime()) / (30.44 * 24 * 60 * 60 * 1000))
+          
+          if (age17Date > now && monthsTo17 <= 12 && monthsTo17 >= 0) {
+            // Check for existing HIPAA notification in last 60 days
+            const { data: existingHipaa } = await supabase
+              .from('notifications')
+              .select('id')
+              .eq('profile_id', profile.id)
+              .ilike('subject', '%HIPAA%')
+              .gte('created_at', new Date(now.getTime() - 60 * 24 * 60 * 60 * 1000).toISOString())
+              .limit(1)
+
+            if (!existingHipaa?.length) {
+              const monthsTo18 = monthsTo17 + 12
+              await notify({
+                profileId: profile.id,
+                triggerType: 'milestone_check',
+                subject: `⚠️ HIPAA Alert: ${profile.child_name || 'Your child'} turns 18 in ~${monthsTo18} months`,
+                body: `Important: When ${profile.child_name || 'your child'} turns 18, YOU WILL LOSE automatic access to their medical records under HIPAA — even if they have a disability.\n\n**Action needed NOW:**\n1. **Healthcare Power of Attorney** — Have your child sign one while they're still a minor or discuss at 18 if they have capacity\n2. **HIPAA Authorization Form** — Your child can sign this at 18 to give you access to specific providers\n3. **Guardianship** (last resort) — Requires Probate Court, start the process now if needed\n\nWithout one of these documents, providers are LEGALLY REQUIRED to refuse sharing medical information with you after the 18th birthday.\n\n📞 Georgia Legal Services: 1-800-498-9469 (free help with guardianship and POA)\n📞 Georgia Advocacy Office: 1-800-537-2329\n\nDon't wait — this catches families off guard every time.`,
+              })
+              notificationsCreated++
+            }
+          }
+
           for (const milestone of [18, 21]) {
             const milestoneDate = new Date(dob)
             milestoneDate.setFullYear(milestoneDate.getFullYear() + milestone)

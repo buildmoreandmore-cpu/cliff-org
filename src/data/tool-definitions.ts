@@ -118,6 +118,53 @@ export const toolDefinitions: MiniMaxTool[] = [
   {
     type: 'function',
     function: {
+      name: 'generate_hipaa_complaint',
+      description:
+        'Generate a pre-filled HIPAA complaint draft for the family. Use when a family describes a situation that may be a HIPAA violation — provider refusing records, unauthorized disclosure of medical info, CMO sharing data improperly, or records access denied. Collects the details and produces a ready-to-file complaint with HHS OCR.',
+      parameters: {
+        type: 'object',
+        properties: {
+          violation_type: {
+            type: 'string',
+            enum: [
+              'records_access_denied',
+              'unauthorized_disclosure',
+              'minimum_necessary_violation',
+              'retaliation',
+              'security_breach',
+              'other',
+            ],
+            description: 'The type of HIPAA violation.',
+          },
+          entity_name: {
+            type: 'string',
+            description: 'Name of the provider, hospital, CMO, or entity that violated HIPAA.',
+          },
+          entity_type: {
+            type: 'string',
+            enum: ['provider', 'hospital', 'cmo', 'pharmacy', 'school_contractor', 'telehealth', 'other'],
+            description: 'Type of entity.',
+          },
+          description: {
+            type: 'string',
+            description: 'Detailed description of what happened — extracted from the conversation.',
+          },
+          approximate_date: {
+            type: 'string',
+            description: 'Approximate date the violation occurred (YYYY-MM-DD or description like "last month").',
+          },
+          records_requested: {
+            type: 'boolean',
+            description: 'Whether the family has already formally requested records in writing.',
+          },
+        },
+        required: ['violation_type', 'entity_name', 'description'],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
       name: 'flag_community_submission',
       description:
         'Flag a program, resource, or contact that a family mentions during conversation that CLIFF doesn\'t currently cover. Use when a user mentions a program name, resource, or contact you don\'t recognize. This saves it for the CLIFF team to research and potentially add to the resource library.',

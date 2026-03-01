@@ -282,6 +282,64 @@ async function executeToolCall(
     }
   }
 
+  if (name === 'generate_hipaa_complaint') {
+    if (!profileId) return 'Error: No profile found. Please complete intake first.'
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
+    try {
+      const res = await fetch(`${baseUrl}/api/agents/hipaa-complaint`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Cookie: '' },
+        body: JSON.stringify({ profileId, ...args }),
+      })
+      if (!res.ok) {
+        // Fallback: generate inline if the API route fails (auth issue in server-to-server)
+        const complaintData = {
+          violation_type: args.violation_type,
+          entity_name: args.entity_name,
+          entity_type: args.entity_type,
+          description: args.description,
+          approximate_date: args.approximate_date,
+          records_requested: args.records_requested,
+        }
+
+        // Save as document directly
+        await supabase.from('saved_documents').insert({
+          profile_id: profileId,
+          doc_type: 'other',
+          title: `HIPAA Complaint Draft: ${args.entity_name}`,
+          content: JSON.stringify(complaintData),
+        })
+
+        // Create reminder if date provided
+        if (args.approximate_date) {
+          const vDate = new Date(args.approximate_date as string)
+          if (!isNaN(vDate.getTime())) {
+            const deadline = new Date(vDate)
+            deadline.setDate(deadline.getDate() + 180)
+            if (deadline > new Date()) {
+              await supabase.from('reminders').insert({
+                profile_id: profileId,
+                title: `HIPAA Complaint Deadline: ${args.entity_name}`,
+                due_date: deadline.toISOString().split('T')[0],
+                description: `File HIPAA complaint with HHS OCR. Online: https://ocrportal.hhs.gov or call 1-800-368-1019.`,
+                category: 'hipaa',
+                notify_30_days: true,
+                notify_7_days: true,
+                notify_1_day: true,
+              })
+            }
+          }
+        }
+
+        return `HIPAA complaint information saved to your documents. Details captured: violation by ${args.entity_name} (${(args.violation_type as string || '').replace(/_/g, ' ')}). File your complaint at https://ocrportal.hhs.gov or call HHS OCR at 1-800-368-1019. The 180-day filing deadline has been added to your reminders. We strongly recommend consulting Georgia Legal Services (1-800-498-9469) for guidance.`
+      }
+      const result = await res.json()
+      return `HIPAA complaint draft generated and saved to your documents.\n\n${result.complaint_draft}\n\n📋 File online: ${result.filing_url}\n📞 HHS OCR: ${result.ocr_phone}\n⚖️ For legal guidance: Georgia Legal Services 1-800-498-9469`
+    } catch {
+      return 'Error generating HIPAA complaint draft. You can file directly at https://ocrportal.hhs.gov or call 1-800-368-1019.'
+    }
+  }
+
   if (name === 'flag_community_submission') {
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
     try {

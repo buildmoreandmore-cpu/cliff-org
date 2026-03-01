@@ -437,6 +437,66 @@ TRICARE ECHO & Autism Care Demonstration (Military Families):
 - Must register with Exceptional Family Member Program (EFMP)
 - Contact: TRICARE 1-800-444-5445 | ECHO 1-800-600-9332
 
+HIPAA (Health Insurance Portability and Accountability Act) — RIGHTS & VIOLATIONS:
+
+HIPAA gives families specific rights over medical records and health information. Disability families are disproportionately affected by HIPAA violations because they interact with MORE providers, schools, CMOs, and agencies than typical families.
+
+KEY HIPAA RIGHTS FOR DISABILITY FAMILIES:
+1. Right to Access Records: Providers MUST give you copies of your/your child's medical records within 30 days (one 30-day extension allowed). They can charge reasonable copy fees but CANNOT deny access because of unpaid bills.
+2. Right to Amend Records: You can request corrections to inaccurate medical records. Provider must respond within 60 days.
+3. Right to Accounting of Disclosures: You can request a list of everyone who received your health info in the past 6 years.
+4. Right to Restrict Disclosures: You can request limits on who sees your health info.
+5. Minimum Necessary Rule: Providers should only share the MINIMUM info needed for treatment/payment/operations.
+
+AGE 18 HIPAA TRANSITION (CRITICAL CLIFF):
+- Before 18: Parents have full HIPAA access to child's medical records as personal representatives.
+- At 18: ALL HIPAA rights transfer to the individual — even if they have a disability. Parents LOSE automatic access.
+- Exceptions: Legal guardian, healthcare POA, or state law allowing parental access for dependent adults.
+- ACTION REQUIRED: Before 18th birthday, establish one of: (1) Healthcare Power of Attorney, (2) HIPAA Authorization Form signed by the individual (if they have capacity), (3) Guardianship (last resort).
+- Without documentation, providers MUST refuse to share medical info with parents — this is NOT the provider being difficult, it's federal law.
+
+COMMON HIPAA VIOLATIONS FAMILIES EXPERIENCE:
+1. Provider refuses to release records within 30 days → File OCR complaint
+2. Provider shares diagnosis with school staff who don't need it → Minimum necessary violation
+3. Insurance/CMO shares medical info with employer → Unauthorized disclosure
+4. Provider won't give records because of unpaid balance → Illegal under HIPAA
+5. School shares IEP medical info with non-educational staff → May be FERPA + HIPAA violation
+6. Pharmacy shares medication info with family member without consent → Unauthorized disclosure
+7. Provider discusses diagnosis in public/shared space where others overhear → Privacy violation
+8. CMO (Amerigroup/CareSource/Peach State/WellCare) shares info between departments without need → Minimum necessary violation
+9. Telehealth provider uses unsecured platform → Security Rule violation
+10. Provider refuses to give records to new provider during transition → Access violation
+
+HOW TO FILE A HIPAA COMPLAINT:
+1. File with HHS Office for Civil Rights (OCR): https://ocrportal.hhs.gov/ocr/smartscreen/main.jsf
+2. Must file within 180 days of when you knew (or should have known) about the violation
+3. OCR can extend the 180-day deadline if "good cause" shown
+4. Required info: Your name/contact, name of entity that violated HIPAA, description of what happened, approximate dates
+5. Can file online, by mail (HHS OCR, 200 Independence Avenue SW, Room 509F, Washington, DC 20201), or by email
+6. OCR investigates — entity can face corrective action plans, fines ($100-$50,000 per violation, up to $1.5M/year)
+7. You can also file a complaint with the Georgia Attorney General: (404) 651-8600
+8. HHS OCR Hotline: 1-800-368-1019 (voice), 1-800-537-7697 (TDD)
+
+HIPAA vs FERPA (SCHOOL RECORDS):
+- FERPA (not HIPAA) covers education records including health records maintained by schools
+- IEPs, 504 plans, and school nurse records are FERPA-protected
+- If a school contracts with an outside healthcare provider, HIPAA may apply to THAT provider
+- File FERPA complaints with: U.S. Department of Education, Student Privacy Policy Office, 400 Maryland Avenue SW, Washington, DC 20202
+- FERPA complaint line: (202) 260-3887
+
+HIPAA AND MEDICAID/CMOs:
+- Your Medicaid CMO (Amerigroup, CareSource, Peach State, WellCare) is a HIPAA covered entity
+- They must protect your health info and give you access to records
+- If your CMO improperly shares info or denies record access, file with OCR AND contact Georgia Insurance Commissioner: (404) 656-2070
+- Georgia Medicaid Member Services: 1-800-869-1150
+
+CONTACTS FOR HIPAA ISSUES:
+- HHS OCR (HIPAA complaints): 1-800-368-1019 / https://ocrportal.hhs.gov
+- Georgia Attorney General: (404) 651-8600
+- Georgia Insurance Commissioner: (404) 656-2070
+- Georgia Legal Services (if rights violated): 1-800-498-9469
+- Georgia Advocacy Office (systemic issues): 1-800-537-2329
+
 CRITICAL CONTACTS DIRECTORY:
 - DBHDD Intake: (404) 657-2252
 - Katie Beckett Application: (678) 248-7449
@@ -489,7 +549,7 @@ export const PROGRAM_SLUGS = [
   'caregiver-respite',
   // Legal & Process
   'guardianship-legal', 'fair-hearings', 'medicaid-estate-recovery',
-  'section-504', 'ada-olmstead',
+  'section-504', 'ada-olmstead', 'hipaa-rights', 'hipaa-age18-transition',
   // Guides
   'diagnosis-routing-guide', 'school-transition', 'crisis-planning',
   // Organizations
@@ -526,7 +586,7 @@ export const ALL_PROGRAM_NAMES = [
   // Legal & Process (7)
   'Guardianship & Alternatives', 'Medicaid Fair Hearings / Appeals',
   'Medicaid Estate Recovery', 'HCBS Settings Rule', 'Olmstead Framework',
-  'Section 504', 'ADA',
+  'Section 504', 'ADA', 'HIPAA Rights & Complaints', 'HIPAA Age 18 Transition',
   // Support Organizations (5)
   'Georgia Advocacy Office', 'GCDD', 'Parent to Parent of Georgia',
   'Cam & Madi\'s Promise', 'Tools for Life',
