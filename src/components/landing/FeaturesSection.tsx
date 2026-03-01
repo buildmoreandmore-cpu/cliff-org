@@ -152,7 +152,7 @@ export default function FeaturesSection() {
           {hipaaFeatures.map((feature) => (
             <motion.div
               key={feature.title}
-              className="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-gray-100"
+              className="bg-white rounded-xl p-4 sm:p-8 shadow-sm border border-gray-100"
               variants={{
                 initial: { opacity: 0, y: 20, scale: 0.96 },
                 animate: { opacity: 1, y: 0, scale: 1 },

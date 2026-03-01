@@ -160,7 +160,7 @@ export default function DashboardPage() {
 
       {/* Profile Card */}
       <motion.div
-        className="bg-white rounded-xl border border-gray-100 p-6 mb-6"
+        className="bg-white rounded-xl border border-gray-100 p-4 sm:p-6 mb-4 sm:mb-6"
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: EASING }}
@@ -310,9 +310,10 @@ export default function DashboardPage() {
           ) : (
             <motion.div key="view" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
               <div className="flex items-start justify-between">
-                <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-full bg-coral/10 flex items-center justify-center shrink-0">
-                    <HeartIcon size={24} className="text-coral" />
+                <div className="flex items-center gap-3 sm:gap-4">
+                  <div className="w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-coral/10 flex items-center justify-center shrink-0">
+                    <HeartIcon size={20} className="text-coral sm:hidden" />
+                    <HeartIcon size={24} className="text-coral hidden sm:block" />
                   </div>
                   <div>
                     <h1 className="font-display text-xl sm:text-2xl font-bold text-navy">
@@ -353,19 +354,19 @@ export default function DashboardPage() {
         </AnimatePresence>
       </motion.div>
 
-      <div className="space-y-6">
+      <div className="space-y-4 sm:space-y-6">
         <QuickActions />
 
         {/* Notification Inbox */}
         <NotificationInbox notifications={notifications} onUpdate={fetchData} />
 
         {/* Benefits + Applications */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
           <BenefitTracker benefits={benefits} profileId={profile?.id || ''} onUpdate={fetchData} />
           <ApplicationCard applications={applications} profile={profile} onUpdate={fetchData} onStartApplication={(prog) => setDrawerProgram(prog)} />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
           <ReminderList reminders={reminders} profileId={profile?.id || ''} onUpdate={fetchData} />
           <DocumentList documents={documents} profileId={profile?.id || ''} onUpdate={fetchData} />
         </div>

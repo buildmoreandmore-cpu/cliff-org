@@ -163,7 +163,7 @@ export default function IntakePage() {
         </div>
 
         <div className="bg-off-white rounded-2xl border border-gray-100 overflow-hidden">
-          <div className="flex flex-col h-[calc(100vh-14rem)]">
+          <div className="flex flex-col h-[calc(100dvh-11rem)] sm:h-[calc(100dvh-14rem)]">
             <div ref={scrollRef} className="flex-1 overflow-y-auto px-3 sm:px-4 py-4 sm:py-6 space-y-3 sm:space-y-4">
               {messages.map((msg, i) => (
                 <ChatMessageComponent key={i} message={msg} />

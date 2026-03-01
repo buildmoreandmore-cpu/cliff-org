@@ -53,7 +53,7 @@ export default function ReminderList({ reminders, profileId, onUpdate }: Reminde
 
   return (
     <motion.div
-      className="bg-white rounded-xl border border-gray-100 p-6"
+      className="bg-white rounded-xl border border-gray-100 p-4 sm:p-6"
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: EASING, delay: 0.2 }}

@@ -35,7 +35,7 @@ const actions = [
 export default function QuickActions() {
   return (
     <motion.div
-      className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3"
+      className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3"
       initial="initial"
       animate="animate"
       variants={{ animate: { transition: { staggerChildren: 0.08 } } }}

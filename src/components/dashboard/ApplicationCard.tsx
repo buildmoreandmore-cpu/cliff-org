@@ -251,7 +251,7 @@ export default function ApplicationCard({ applications, profile, onUpdate, onSta
 
   return (
     <motion.div
-      className="bg-white rounded-xl border border-gray-100 p-6 lg:col-span-2"
+      className="bg-white rounded-xl border border-gray-100 p-4 sm:p-6 lg:col-span-2"
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: EASING, delay: 0.1 }}
@@ -308,10 +308,10 @@ export default function ApplicationCard({ applications, profile, onUpdate, onSta
                         return (
                           <div key={prog.key} className="border border-gray-50 rounded-lg">
                             <button
-                              className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-cream/40 transition-colors"
+                              className="w-full flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3 text-left hover:bg-cream/40 transition-colors"
                               onClick={() => setExpandedKey(expanded ? null : prog.key)}
                             >
-                              <span className={`w-5 h-5 rounded border-2 flex items-center justify-center shrink-0 ${
+                              <span className={`w-4 h-4 sm:w-5 sm:h-5 rounded border-2 flex items-center justify-center shrink-0 ${
                                 app && app.status !== 'not_started'
                                   ? 'bg-green-500 border-green-500 text-white'
                                   : 'border-gray-300'
@@ -320,10 +320,10 @@ export default function ApplicationCard({ applications, profile, onUpdate, onSta
                               </span>
 
                               <span className="flex-1 min-w-0">
-                                <span className="text-sm font-medium text-navy">{prog.name}</span>
+                                <span className="text-xs sm:text-sm font-medium text-navy line-clamp-1">{prog.name}</span>
                               </span>
 
-                              <div className="flex items-center gap-2 shrink-0">
+                              <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 flex-wrap justify-end">
                                 {recommended && (
                                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-coral/10 text-coral">
                                     Recommended
@@ -366,7 +366,7 @@ export default function ApplicationCard({ applications, profile, onUpdate, onSta
                                   transition={{ duration: 0.2 }}
                                   className="overflow-hidden"
                                 >
-                                  <div className="px-4 pb-4 pt-1 border-t border-gray-50">
+                                  <div className="px-3 sm:px-4 pb-3 sm:pb-4 pt-1 border-t border-gray-50">
                                     {app ? (
                                       <div className="space-y-2">
                                         <div className="grid grid-cols-2 gap-2 text-xs text-navy/60">

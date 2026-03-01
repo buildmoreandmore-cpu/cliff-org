@@ -70,7 +70,7 @@ export default function Hero() {
         </div>
 
         <motion.div
-          className="mt-14 sm:mt-20 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-5 max-w-4xl mx-auto"
+          className="mt-10 sm:mt-20 grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-5 max-w-4xl mx-auto"
           initial="initial"
           animate="animate"
           variants={{ animate: { transition: { staggerChildren: 0.1 } } }}
@@ -83,7 +83,7 @@ export default function Hero() {
           ].map((item) => (
             <motion.div
               key={item.label}
-              className="bg-white rounded-xl p-4 sm:p-5 text-center shadow-sm border border-gray-100"
+              className="bg-white rounded-xl p-3 sm:p-5 text-center shadow-sm border border-gray-100"
               variants={{
                 initial: { opacity: 0, y: 20, scale: 0.98 },
                 animate: { opacity: 1, y: 0, scale: 1 },
