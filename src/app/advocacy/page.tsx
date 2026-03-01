@@ -38,24 +38,20 @@ export default function AdvocacyPage() {
   useEffect(() => {
     async function load() {
       try {
-        // Get profile
-        const profileRes = await fetch('/api/profile')
+        const [profileRes, billsRes] = await Promise.all([
+          fetch('/api/profile'),
+          fetch('/api/advocacy/bills'),
+        ])
+
         if (profileRes.ok) {
           const profileData = await profileRes.json()
-          setProfileId(profileData.profile?.id || null)
+          setProfileId(profileData.id || null)
         }
 
-        // Fetch bills from content_blocks (via a simple search)
-        const res = await fetch('/api/chat', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            messages: [{ role: 'user', content: '__fetch_bills__' }],
-            mode: null,
-          }),
-        })
-        // We can't use the chat API for this — let's use a direct fetch instead
-        // For now, we'll use a simpler approach
+        if (billsRes.ok) {
+          const data = await billsRes.json()
+          setBills(data.bills || [])
+        }
       } catch {
         // ignore
       } finally {
@@ -63,24 +59,6 @@ export default function AdvocacyPage() {
       }
     }
     load()
-  }, [])
-
-  // Fetch bills directly
-  useEffect(() => {
-    async function fetchBills() {
-      try {
-        const res = await fetch('/api/advocacy/bills')
-        if (res.ok) {
-          const data = await res.json()
-          setBills(data.bills || [])
-        }
-      } catch {
-        // Bills endpoint may not exist yet, that's okay
-      } finally {
-        setLoading(false)
-      }
-    }
-    fetchBills()
   }, [])
 
   const generateEmail = useCallback(async (billSlug: string) => {
