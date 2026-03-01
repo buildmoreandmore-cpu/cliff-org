@@ -83,11 +83,83 @@ function getMonthsUntilAge(dob: string | null, targetAge: number): number | null
   return Math.round((target.getTime() - now.getTime()) / (1000 * 60 * 60 * 24 * 30))
 }
 
-function getRecommended(key: string, childDob: string | null): boolean {
+// 2025/2026 Federal Poverty Level thresholds
+const FPL_100: Record<number, number> = {
+  1: 15060, 2: 20440, 3: 25820, 4: 31200, 5: 36580, 6: 41960,
+}
+function getFPL(householdSize: number, percent: number): number {
+  const size = Math.min(householdSize, 6)
+  const extra = Math.max(0, householdSize - 6) * 5380
+  return ((FPL_100[size] || FPL_100[4]) + extra) * (percent / 100)
+}
+
+// Map income range string to a midpoint dollar amount for comparison
+function incomeToMidpoint(income: string): number {
+  switch (income) {
+    case 'under_25k': return 12500
+    case '25k_50k': return 37500
+    case '50k_75k': return 62500
+    case '75k_100k': return 87500
+    case 'over_100k': return 125000
+    default: return 50000
+  }
+}
+
+type EligibilityTag = 'likely_eligible' | 'may_not_qualify' | null
+
+function getIncomeEligibility(
+  key: string,
+  householdIncome: string | null,
+  householdSize: number | null,
+): EligibilityTag {
+  if (!householdIncome) return null
+  const size = householdSize || 4
+  const income = incomeToMidpoint(householdIncome)
+
+  switch (key) {
+    case 'peachcare':
+      // 247% FPL
+      return income <= getFPL(size, 247) ? 'likely_eligible' : 'may_not_qualify'
+    case 'snap':
+      // ~130% FPL gross income
+      return income <= getFPL(size, 130) ? 'likely_eligible' : 'may_not_qualify'
+    case 'section8':
+      // ~50% AMI — simplified: likely eligible for under_25k and 25k_50k
+      return ['under_25k', '25k_50k'].includes(householdIncome) ? 'likely_eligible' : 'may_not_qualify'
+    case 'ssi':
+      // ~$943/mo individual — simplified: eligible if under_25k
+      return householdIncome === 'under_25k' ? 'likely_eligible' : 'may_not_qualify'
+    case 'medicaid':
+      // ~138% FPL
+      return income <= getFPL(size, 138) ? 'likely_eligible' : 'may_not_qualify'
+    case 'medicaid_buy_in':
+      // Higher limits for workers with disabilities — generally eligible if under 250% FPL
+      return income <= getFPL(size, 250) ? 'likely_eligible' : 'may_not_qualify'
+    default:
+      return null
+  }
+}
+
+function getRecommended(key: string, profile: Profile | null): boolean {
+  const childDob = profile?.child_dob ?? null
   const age = getChildAge(childDob)
   if (age === null) return false
   const mo18 = getMonthsUntilAge(childDob, 18) ?? 999
   const mo21 = getMonthsUntilAge(childDob, 21) ?? 999
+
+  // Citizenship gate — SSI, Medicaid, SNAP, Section 8 require citizen/permanent_resident
+  const citizenshipGated = ['ssi', 'medicaid', 'snap', 'section8', 'peachcare']
+  if (citizenshipGated.includes(key) && profile?.citizenship_status === 'other') return false
+
+  // Living situation gate — community waivers don't apply in nursing facilities
+  const communityOnly = ['now_waiver', 'comp_waiver', 'icwp', 'source_ccsp']
+  if (communityOnly.includes(key) && profile?.living_situation === 'nursing_facility') return false
+
+  // Already on waitlist — don't recommend re-applying, they're already in queue
+  if (profile?.waiver_waitlist) {
+    if (key === 'now_waiver' && ['now', 'both'].includes(profile.waiver_waitlist)) return false
+    if (key === 'comp_waiver' && ['comp', 'both'].includes(profile.waiver_waitlist)) return false
+  }
 
   // Always recommended regardless of age
   if (['able', 'snt', 'section8', 'snap'].includes(key)) return true
@@ -117,6 +189,11 @@ function getRecommended(key: string, childDob: string | null): boolean {
   if (mo21 > 0 && mo21 <= 24) {
     if (['now_waiver', 'comp_waiver', 'icwp', 'source_ccsp'].includes(key)) return true
   }
+
+  // Employment-specific programs — only recommend if employed or seeking work
+  if (key === 'ticket_to_work' && profile?.employment_status === 'not_working') return false
+  if (key === 'medicaid_buy_in' && profile?.employment_status === 'not_working') return false
+
   return false
 }
 
@@ -156,7 +233,21 @@ export default function ApplicationCard({ applications, profile, onUpdate, onSta
   }
 
   const hasApp = (prog: ProgramDef) => !!matchApp(prog)
-  const isRecommended = (prog: ProgramDef) => getRecommended(prog.key, profile?.child_dob ?? null)
+  const isRecommended = (prog: ProgramDef) => getRecommended(prog.key, profile)
+  const getEligibility = (prog: ProgramDef) => getIncomeEligibility(prog.key, profile?.household_income ?? null, profile?.household_size ?? null)
+
+  // Programs that require active Medicaid as a prerequisite
+  const MEDICAID_REQUIRED_PROGRAMS = ['now_waiver', 'comp_waiver', 'icwp', 'source_ccsp', 'epsdt', 'gapp']
+  const needsMedicaid = (prog: ProgramDef) =>
+    profile?.has_medicaid === false && MEDICAID_REQUIRED_PROGRAMS.includes(prog.key)
+
+  // Check if already on waitlist for this program
+  const onWaitlist = (prog: ProgramDef) => {
+    if (!profile?.waiver_waitlist || profile.waiver_waitlist === 'none') return false
+    if (prog.key === 'now_waiver' && ['now', 'both'].includes(profile.waiver_waitlist)) return true
+    if (prog.key === 'comp_waiver' && ['comp', 'both'].includes(profile.waiver_waitlist)) return true
+    return false
+  }
 
   return (
     <motion.div
@@ -211,6 +302,7 @@ export default function ApplicationCard({ applications, profile, onUpdate, onSta
                       {programs.map((prog) => {
                         const app = matchApp(prog)
                         const recommended = isRecommended(prog)
+                        const eligibility = getEligibility(prog)
                         const expanded = expandedKey === prog.key
 
                         return (
@@ -235,6 +327,26 @@ export default function ApplicationCard({ applications, profile, onUpdate, onSta
                                 {recommended && (
                                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-coral/10 text-coral">
                                     Recommended
+                                  </span>
+                                )}
+                                {eligibility === 'likely_eligible' && (
+                                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-700">
+                                    Likely Eligible
+                                  </span>
+                                )}
+                                {eligibility === 'may_not_qualify' && (
+                                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-gray-100 text-gray-500">
+                                    May Not Qualify
+                                  </span>
+                                )}
+                                {needsMedicaid(prog) && (
+                                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">
+                                    Needs Medicaid
+                                  </span>
+                                )}
+                                {onWaitlist(prog) && (
+                                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-100 text-blue-700">
+                                    On Waitlist
                                   </span>
                                 )}
                                 {app && (

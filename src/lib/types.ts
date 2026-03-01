@@ -19,6 +19,14 @@ export interface Profile {
   medicaid_cmo: string | null
   diagnosis: string | null
   primary_concern: string | null
+  household_income: string | null   // 'under_25k' | '25k_50k' | '50k_75k' | '75k_100k' | 'over_100k'
+  household_size: number | null
+  relationship: string | null       // 'parent' | 'self' | 'guardian' | 'other'
+  has_medicaid: boolean | null
+  citizenship_status: string | null // 'citizen' | 'permanent_resident' | 'other'
+  living_situation: string | null   // 'home' | 'group_home' | 'nursing_facility' | 'independent'
+  employment_status: string | null  // 'employed' | 'seeking' | 'not_working'
+  waiver_waitlist: string | null    // 'now' | 'comp' | 'both' | 'none'
   is_admin: boolean
 }
 

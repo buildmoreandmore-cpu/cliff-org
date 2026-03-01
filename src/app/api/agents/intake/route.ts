@@ -11,18 +11,25 @@ ${GEORGIA_PROGRAM_KNOWLEDGE}
 Your job is to collect key information by asking ONE question at a time. Be warm, empathetic, and encouraging. Keep responses brief (2-3 sentences max before your question).
 
 Flow (ask these in order, one at a time):
-1. Greet warmly. Explain: "CLIFF Navigator helps Georgia families of individuals with disabilities find and keep the benefits they deserve. I'll ask a few quick questions to personalize your experience." Then ask: "What's your child's (or family member's) name and date of birth?"
-2. "What Georgia county do you live in?"
-3. "What is their primary diagnosis or condition?" (This determines the right program track — I/DD like autism/Down syndrome routes differently than physical disability, TBI, or mental health conditions.)
-4. "Does their condition primarily involve an intellectual or developmental disability, or is it primarily physical without cognitive impairment?" (This is the single most important routing question — it determines which of Georgia's 7 waiver programs apply.)
-5. "Are they medically fragile — meaning do they depend on medical equipment, tube feeding, ventilator, oxygen, or skilled nursing at home?"
-6. "Are they currently receiving any benefits or services? (SSI, Medicaid, Katie Beckett, NOW/COMP waiver, GAPP, IEP services, PeachCare, other, or none)"
-7. "Which Medicaid CMO are they assigned to, if you know? (Amerigroup, CareSource, Peach State, WellCare, or unsure)"
-8. "What's your biggest concern right now? (Turning 18 soon, turning 21 soon, denied benefits, lost services, don't know where to start, employment, housing, or something else)"
+1. Greet warmly. Explain: "CLIFF Navigator helps Georgia families of individuals with disabilities find and keep the benefits they deserve. I'll ask a few quick questions to personalize your experience." Then ask: "Are you a parent, guardian, or the individual with a disability navigating for yourself?"
+2. "What's your child's (or family member's) name and date of birth?" (If they said 'self' in Q1, ask for their own name and DOB.)
+3. "What Georgia county do you live in?"
+4. "How many people live in your household, and what's your approximate annual household income? This helps us show which programs you're likely eligible for. You can give a range — under $25k, $25k–$50k, $50k–$75k, $75k–$100k, or over $100k."
+5. "Is the individual a U.S. citizen or lawful permanent resident?" (This affects eligibility for SSI, Medicaid, SNAP, and Section 8.)
+6. "What is their primary diagnosis or condition?" (This determines the right program track — I/DD like autism/Down syndrome routes differently than physical disability, TBI, or mental health conditions.)
+7. "Does their condition primarily involve an intellectual or developmental disability, or is it primarily physical without cognitive impairment?" (This is the single most important routing question — it determines which of Georgia's 7 waiver programs apply.)
+8. "Are they medically fragile — meaning do they depend on medical equipment, tube feeding, ventilator, oxygen, or skilled nursing at home?"
+9. "What's their current living situation? Do they live at home with family, in a group home, in a nursing facility, or independently?"
+10. "Are they currently employed, looking for work, or not working?" (This helps us recommend employment programs like VR, Ticket to Work, and Medicaid Buy-In.)
+11. "Do they currently have Medicaid? (Yes, no, or not sure)" (Many waiver programs require active Medicaid.)
+12. "Are they currently receiving any OTHER benefits or services? (SSI, Katie Beckett, NOW/COMP waiver, GAPP, IEP services, PeachCare, other, or none)"
+13. "Are they currently on a waiver waiting list? (NOW, COMP, both, or no)"
+14. "Which Medicaid CMO are they assigned to, if you know? (Amerigroup, CareSource, Peach State, WellCare, or unsure)" (Skip if they said no Medicaid.)
+15. "What's your biggest concern right now? (Turning 18 soon, turning 21 soon, denied benefits, lost services, don't know where to start, employment, housing, or something else)"
 
 After you have ALL the answers, output a JSON block on its own line with this exact format:
 \`\`\`json
-{"intake_complete": true, "child_name": "...", "child_dob": "YYYY-MM-DD", "county": "...", "diagnosis": "...", "disability_track": "idd|physical|tbi|medical|mental_health|sensory|multiple", "medically_fragile": true/false, "current_benefits": ["benefit1", "benefit2"], "medicaid_cmo": "...", "primary_concern": "..."}
+{"intake_complete": true, "relationship": "parent|self|guardian|other", "child_name": "...", "child_dob": "YYYY-MM-DD", "county": "...", "household_size": 4, "household_income": "under_25k|25k_50k|50k_75k|75k_100k|over_100k", "citizenship_status": "citizen|permanent_resident|other", "diagnosis": "...", "disability_track": "idd|physical|tbi|medical|mental_health|sensory|multiple", "medically_fragile": true/false, "living_situation": "home|group_home|nursing_facility|independent", "employment_status": "employed|seeking|not_working", "has_medicaid": true/false, "current_benefits": ["benefit1", "benefit2"], "waiver_waitlist": "now|comp|both|none", "medicaid_cmo": "...", "primary_concern": "..."}
 \`\`\`
 
 Then follow the JSON with a brief, encouraging summary and an initial recommendation based on their diagnosis track.
@@ -31,21 +38,39 @@ Rules:
 - Ask ONE question at a time. Do not skip ahead.
 - If the user gives partial info, gently ask for what's missing.
 - For date of birth, accept any reasonable format and convert to YYYY-MM-DD in the JSON.
-- For benefits, normalize to: "SSI", "Medicaid", "Katie Beckett", "NOW Waiver", "COMP Waiver", "GAPP", "IEP Services", "PeachCare", or the user's own description.
+- For benefits, normalize to: "SSI", "Katie Beckett", "NOW Waiver", "COMP Waiver", "GAPP", "IEP Services", "PeachCare", or the user's own description. Do NOT include "Medicaid" in current_benefits — it's captured separately via has_medicaid.
 - If the user says "none" for benefits, use an empty array.
 - Be patient and supportive. These families are often overwhelmed.
-- The disability_track field is critical for routing. Map their answer to the closest: idd (intellectual/developmental), physical (physical without cognitive impairment), tbi (traumatic brain injury), medical (medically fragile/complex), mental_health (SED/psychiatric), sensory (blind/deaf), multiple (combination).`
+- The disability_track field is critical for routing. Map their answer to the closest: idd (intellectual/developmental), physical (physical without cognitive impairment), tbi (traumatic brain injury), medical (medically fragile/complex), mental_health (SED/psychiatric), sensory (blind/deaf), multiple (combination).
+- For household_income, map their answer to the closest bucket: "under_25k" (under $25,000), "25k_50k" ($25,000–$49,999), "50k_75k" ($50,000–$74,999), "75k_100k" ($75,000–$99,999), "over_100k" ($100,000+). If they give a specific number, bucket it.
+- For household_size, extract the number of people living in the household. If they say "me and my son," that's 2. Default to 1 if unclear.
+- If the user prefers not to share income, set household_income to null and household_size to null. Respect their privacy.
+- For relationship: "parent" if they're a parent, "self" if they're the individual with a disability, "guardian" if a legal guardian, "other" for anyone else.
+- For citizenship_status: "citizen" for U.S. citizen, "permanent_resident" for green card holder / lawful permanent resident, "other" for anything else. If they decline, set null.
+- For living_situation: "home" (lives with family), "group_home", "nursing_facility", or "independent" (lives alone or with roommates, not family care).
+- For employment_status: "employed" (working any amount), "seeking" (looking for work), "not_working" (not working and not looking, e.g., child, retired, unable).
+- For has_medicaid: true/false. If "not sure", set false.
+- For waiver_waitlist: "now", "comp", "both", or "none". If they're not on any waitlist, set "none".
+- If they say no Medicaid in Q11, skip the Medicaid CMO question and set medicaid_cmo to null.`
 
 interface IntakeData {
   intake_complete: boolean
+  relationship: string
   child_name: string
   child_dob: string
   county: string
+  household_size: number | null
+  household_income: string | null
+  citizenship_status: string | null
   diagnosis: string
   disability_track: string
   medically_fragile: boolean
+  living_situation: string | null
+  employment_status: string | null
+  has_medicaid: boolean
   current_benefits: string[]
-  medicaid_cmo: string
+  waiver_waitlist: string | null
+  medicaid_cmo: string | null
   primary_concern: string
 }
 
@@ -99,12 +124,20 @@ export async function POST(request: NextRequest) {
 
             // Update profile with all intake fields
             await supabase.from('profiles').update({
+              relationship: intakeData.relationship,
               child_name: intakeData.child_name,
               child_dob: intakeData.child_dob,
               county: intakeData.county,
+              household_income: intakeData.household_income,
+              household_size: intakeData.household_size,
+              citizenship_status: intakeData.citizenship_status,
               diagnosis: intakeData.diagnosis,
               disability_track: intakeData.disability_track,
               medically_fragile: intakeData.medically_fragile,
+              living_situation: intakeData.living_situation,
+              employment_status: intakeData.employment_status,
+              has_medicaid: intakeData.has_medicaid,
+              waiver_waitlist: intakeData.waiver_waitlist,
               medicaid_cmo: intakeData.medicaid_cmo,
               primary_concern: intakeData.primary_concern,
             }).eq('id', profileId)

@@ -85,6 +85,14 @@ export default function DashboardPage() {
       child_dob: profile.child_dob || '',
       phone: profile.phone || '',
       county: profile.county || '',
+      household_income: profile.household_income || '',
+      household_size: profile.household_size || undefined,
+      relationship: profile.relationship || '',
+      has_medicaid: profile.has_medicaid ?? undefined,
+      citizenship_status: profile.citizenship_status || '',
+      living_situation: profile.living_situation || '',
+      employment_status: profile.employment_status || '',
+      waiver_waitlist: profile.waiver_waitlist || '',
       notification_breaking_news: profile.notification_breaking_news,
       notification_milestones: profile.notification_milestones,
       notification_digest: profile.notification_digest,
@@ -168,6 +176,86 @@ export default function DashboardPage() {
                   <label className="text-xs text-navy/50 mb-1 block">County</label>
                   <input value={profileForm.county || ''} onChange={(e) => setProfileForm((f) => ({ ...f, county: e.target.value }))}
                     className="w-full text-sm border border-gray-200 rounded-md px-3 py-2 text-navy" />
+                </div>
+                <div>
+                  <label className="text-xs text-navy/50 mb-1 block">Household Size</label>
+                  <input type="number" min={1} max={15} value={profileForm.household_size || ''} onChange={(e) => setProfileForm((f) => ({ ...f, household_size: e.target.value ? parseInt(e.target.value) : undefined }))}
+                    placeholder="e.g. 4"
+                    className="w-full text-sm border border-gray-200 rounded-md px-3 py-2 text-navy" />
+                </div>
+                <div>
+                  <label className="text-xs text-navy/50 mb-1 block">Household Income</label>
+                  <select value={profileForm.household_income || ''} onChange={(e) => setProfileForm((f) => ({ ...f, household_income: e.target.value || undefined }))}
+                    className="w-full text-sm border border-gray-200 rounded-md px-3 py-2 text-navy bg-white">
+                    <option value="">Select range...</option>
+                    <option value="under_25k">Under $25,000</option>
+                    <option value="25k_50k">$25,000 – $50,000</option>
+                    <option value="50k_75k">$50,000 – $75,000</option>
+                    <option value="75k_100k">$75,000 – $100,000</option>
+                    <option value="over_100k">Over $100,000</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="text-xs text-navy/50 mb-1 block">Relationship</label>
+                  <select value={profileForm.relationship || ''} onChange={(e) => setProfileForm((f) => ({ ...f, relationship: e.target.value || undefined }))}
+                    className="w-full text-sm border border-gray-200 rounded-md px-3 py-2 text-navy bg-white">
+                    <option value="">Select...</option>
+                    <option value="parent">Parent</option>
+                    <option value="self">Self (individual with disability)</option>
+                    <option value="guardian">Guardian</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="text-xs text-navy/50 mb-1 block">Citizenship Status</label>
+                  <select value={profileForm.citizenship_status || ''} onChange={(e) => setProfileForm((f) => ({ ...f, citizenship_status: e.target.value || undefined }))}
+                    className="w-full text-sm border border-gray-200 rounded-md px-3 py-2 text-navy bg-white">
+                    <option value="">Select...</option>
+                    <option value="citizen">U.S. Citizen</option>
+                    <option value="permanent_resident">Lawful Permanent Resident</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="text-xs text-navy/50 mb-1 block">Living Situation</label>
+                  <select value={profileForm.living_situation || ''} onChange={(e) => setProfileForm((f) => ({ ...f, living_situation: e.target.value || undefined }))}
+                    className="w-full text-sm border border-gray-200 rounded-md px-3 py-2 text-navy bg-white">
+                    <option value="">Select...</option>
+                    <option value="home">At home with family</option>
+                    <option value="group_home">Group home</option>
+                    <option value="nursing_facility">Nursing facility</option>
+                    <option value="independent">Independent</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="text-xs text-navy/50 mb-1 block">Employment Status</label>
+                  <select value={profileForm.employment_status || ''} onChange={(e) => setProfileForm((f) => ({ ...f, employment_status: e.target.value || undefined }))}
+                    className="w-full text-sm border border-gray-200 rounded-md px-3 py-2 text-navy bg-white">
+                    <option value="">Select...</option>
+                    <option value="employed">Employed</option>
+                    <option value="seeking">Looking for work</option>
+                    <option value="not_working">Not working</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="text-xs text-navy/50 mb-1 block">Has Medicaid?</label>
+                  <select value={profileForm.has_medicaid === true ? 'yes' : profileForm.has_medicaid === false ? 'no' : ''} onChange={(e) => setProfileForm((f) => ({ ...f, has_medicaid: e.target.value === 'yes' ? true : e.target.value === 'no' ? false : undefined }))}
+                    className="w-full text-sm border border-gray-200 rounded-md px-3 py-2 text-navy bg-white">
+                    <option value="">Select...</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="text-xs text-navy/50 mb-1 block">Waiver Waitlist</label>
+                  <select value={profileForm.waiver_waitlist || ''} onChange={(e) => setProfileForm((f) => ({ ...f, waiver_waitlist: e.target.value || undefined }))}
+                    className="w-full text-sm border border-gray-200 rounded-md px-3 py-2 text-navy bg-white">
+                    <option value="">Select...</option>
+                    <option value="now">NOW Waiver</option>
+                    <option value="comp">COMP Waiver</option>
+                    <option value="both">Both NOW & COMP</option>
+                    <option value="none">Not on a waitlist</option>
+                  </select>
                 </div>
               </div>
               <div className="space-y-2">
