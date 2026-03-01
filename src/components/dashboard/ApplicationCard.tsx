@@ -6,12 +6,13 @@ import { EASING } from '@/lib/constants'
 import type { Application, ApplicationStatus, Profile } from '@/lib/types'
 import { ClipboardIcon, CheckIcon, ArrowRightIcon, AlertIcon } from '@/components/ui/SVGIcons'
 import { createClient } from '@/lib/supabase/client'
-import Link from 'next/link'
+
 
 interface ApplicationCardProps {
   applications: Application[]
   profile: Profile | null
   onUpdate: () => void
+  onStartApplication: (programName: string) => void
 }
 
 interface ProgramDef {
@@ -86,7 +87,7 @@ function getRecommended(key: string, childDob: string | null): boolean {
   return false
 }
 
-export default function ApplicationCard({ applications, profile, onUpdate }: ApplicationCardProps) {
+export default function ApplicationCard({ applications, profile, onUpdate, onStartApplication }: ApplicationCardProps) {
   const [expandedKey, setExpandedKey] = useState<string | null>(null)
   const [updatingId, setUpdatingId] = useState<string | null>(null)
 
@@ -219,12 +220,12 @@ export default function ApplicationCard({ applications, profile, onUpdate }: App
                       ) : (
                         <div className="flex items-center justify-between">
                           <p className="text-xs text-navy/40">No application started yet.</p>
-                          <Link
-                            href={`/navigator?mode=apply&program=${encodeURIComponent(prog.name)}`}
+                          <button
+                            onClick={() => onStartApplication(prog.name)}
                             className="inline-flex items-center gap-1 text-xs font-medium text-coral hover:text-coral-dark transition-colors"
                           >
                             Start Application <ArrowRightIcon size={12} />
-                          </Link>
+                          </button>
                         </div>
                       )}
                     </div>

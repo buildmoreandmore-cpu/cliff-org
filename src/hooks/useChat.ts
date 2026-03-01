@@ -1,12 +1,24 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import type { ChatMessage, NavigatorMode } from '@/lib/types'
 
-export function useChat() {
+function buildAutoMessage(mode: NavigatorMode, program: string): string {
+  switch (mode) {
+    case 'apply':
+      return `I need help applying for ${program}. What forms do I need and how do I get started?`
+    case 'explore':
+      return `I'd like to learn about ${program}. What should my family know?`
+    case 'email':
+      return `I need to draft a communication about ${program}.`
+  }
+}
+
+export function useChat(initialMode?: NavigatorMode, initialProgram?: string) {
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [isLoading, setIsLoading] = useState(false)
-  const [mode, setMode] = useState<NavigatorMode | null>(null)
+  const [mode, setMode] = useState<NavigatorMode | null>(initialMode ?? null)
+  const autoSentRef = useRef(false)
 
   const sendMessage = useCallback(
     async (content: string) => {
@@ -133,6 +145,13 @@ export function useChat() {
     },
     [messages, mode, isLoading]
   )
+
+  useEffect(() => {
+    if (initialMode && initialProgram && !autoSentRef.current) {
+      autoSentRef.current = true
+      sendMessage(buildAutoMessage(initialMode, initialProgram))
+    }
+  }, [initialMode, initialProgram, sendMessage])
 
   const reset = useCallback(() => {
     setMessages([])

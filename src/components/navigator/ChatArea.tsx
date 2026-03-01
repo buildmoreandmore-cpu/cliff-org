@@ -10,9 +10,10 @@ interface ChatAreaProps {
   messages: ChatMessageType[]
   isLoading: boolean
   onSend: (content: string) => void
+  className?: string
 }
 
-export default function ChatArea({ messages, isLoading, onSend }: ChatAreaProps) {
+export default function ChatArea({ messages, isLoading, onSend, className }: ChatAreaProps) {
   const [input, setInput] = useState('')
   const [uploading, setUploading] = useState(false)
   const [uploadedFile, setUploadedFile] = useState<{ name: string; text: string } | null>(null)
@@ -127,7 +128,7 @@ export default function ChatArea({ messages, isLoading, onSend }: ChatAreaProps)
   }
 
   return (
-    <div className="flex flex-col h-[calc(100vh-10rem)] sm:h-[calc(100vh-12rem)]">
+    <div className={className ?? "flex flex-col h-[calc(100vh-10rem)] sm:h-[calc(100vh-12rem)]"}>
       <div ref={scrollRef} className="flex-1 overflow-y-auto chat-scroll px-3 sm:px-4 py-4 sm:py-6 space-y-3 sm:space-y-4">
         {messages.length === 0 && (
           <div className="text-center py-12">

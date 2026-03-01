@@ -13,6 +13,7 @@ import ReminderList from '@/components/dashboard/ReminderList'
 import DocumentList from '@/components/dashboard/DocumentList'
 import ContactsManager from '@/components/dashboard/ContactsManager'
 import NotificationInbox from '@/components/dashboard/NotificationInbox'
+import NavigatorDrawer from '@/components/dashboard/NavigatorDrawer'
 import { HeartIcon, XIcon } from '@/components/ui/SVGIcons'
 import type { ChildBenefit, Application, Reminder, SavedDocument, Profile, Notification } from '@/lib/types'
 
@@ -37,6 +38,7 @@ export default function DashboardPage() {
   const [editingProfile, setEditingProfile] = useState(false)
   const [profileForm, setProfileForm] = useState<Partial<Profile>>({})
   const [savingProfile, setSavingProfile] = useState(false)
+  const [drawerProgram, setDrawerProgram] = useState<string | null>(null)
 
   const fetchData = useCallback(async () => {
     if (!user) return
@@ -245,7 +247,7 @@ export default function DashboardPage() {
         {/* Benefits + Applications */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <BenefitTracker benefits={benefits} profileId={profile?.id || ''} onUpdate={fetchData} />
-          <ApplicationCard applications={applications} profile={profile} onUpdate={fetchData} />
+          <ApplicationCard applications={applications} profile={profile} onUpdate={fetchData} onStartApplication={(prog) => setDrawerProgram(prog)} />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -257,6 +259,13 @@ export default function DashboardPage() {
           <ContactsManager profileId={profile.id} onUpdate={fetchData} />
         )}
       </div>
+
+      <NavigatorDrawer
+        open={!!drawerProgram}
+        onClose={() => setDrawerProgram(null)}
+        mode="apply"
+        program={drawerProgram ?? ''}
+      />
     </div>
   )
 }

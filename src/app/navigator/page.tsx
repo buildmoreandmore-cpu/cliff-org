@@ -1,13 +1,23 @@
 'use client'
 
+import { Suspense } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { useChat } from '@/hooks/useChat'
 import ModeSelect from '@/components/navigator/ModeSelect'
 import ChatArea from '@/components/navigator/ChatArea'
 import Button from '@/components/ui/Button'
 import { ArrowRightIcon } from '@/components/ui/SVGIcons'
+import type { NavigatorMode } from '@/lib/types'
 
-export default function NavigatorPage() {
-  const { messages, isLoading, mode, setMode, sendMessage, reset } = useChat()
+const VALID_MODES: NavigatorMode[] = ['explore', 'apply', 'email']
+
+function NavigatorContent() {
+  const searchParams = useSearchParams()
+  const rawMode = searchParams.get('mode')
+  const urlMode = VALID_MODES.includes(rawMode as NavigatorMode) ? (rawMode as NavigatorMode) : undefined
+  const urlProgram = searchParams.get('program') ?? undefined
+
+  const { messages, isLoading, mode, setMode, sendMessage, reset } = useChat(urlMode, urlProgram)
 
   return (
     <div className="min-h-screen bg-white">
@@ -38,5 +48,13 @@ export default function NavigatorPage() {
         )}
       </div>
     </div>
+  )
+}
+
+export default function NavigatorPage() {
+  return (
+    <Suspense>
+      <NavigatorContent />
+    </Suspense>
   )
 }
