@@ -6,6 +6,7 @@ import { motion } from 'framer-motion'
 import { useUser } from '@/hooks/useUser'
 import { EASING } from '@/lib/constants'
 import Link from 'next/link'
+import { ZapIcon, CalendarIcon, RefreshIcon, PhoneIcon, GlobeIcon, ChatIcon, EditIcon, SparkleIcon, CheckIcon } from '@/components/ui/SVGIcons'
 
 interface PlanStep {
   id: string
@@ -40,12 +41,12 @@ interface ProfileData {
   parent_name?: string
 }
 
-const URGENCY_CONFIG: Record<string, { label: string; emoji: string; bg: string; border: string; text: string }> = {
-  this_week: { label: 'THIS WEEK', emoji: '⚡', bg: 'bg-red-50', border: 'border-red-200', text: 'text-red-700' },
-  two_weeks: { label: 'NEXT 2 WEEKS', emoji: '📅', bg: 'bg-orange-50', border: 'border-orange-200', text: 'text-orange-700' },
-  one_month: { label: 'THIS MONTH', emoji: '📅', bg: 'bg-yellow-50', border: 'border-yellow-200', text: 'text-yellow-700' },
-  three_months: { label: 'NEXT 3 MONTHS', emoji: '📅', bg: 'bg-blue-50', border: 'border-blue-200', text: 'text-blue-700' },
-  ongoing: { label: 'ONGOING', emoji: '🔄', bg: 'bg-gray-50', border: 'border-gray-200', text: 'text-gray-600' },
+const URGENCY_CONFIG: Record<string, { label: string; Icon: React.ComponentType<{ size?: number; className?: string }>; bg: string; border: string; text: string }> = {
+  this_week: { label: 'THIS WEEK', Icon: ZapIcon, bg: 'bg-red-50', border: 'border-red-200', text: 'text-red-700' },
+  two_weeks: { label: 'NEXT 2 WEEKS', Icon: CalendarIcon, bg: 'bg-orange-50', border: 'border-orange-200', text: 'text-orange-700' },
+  one_month: { label: 'THIS MONTH', Icon: CalendarIcon, bg: 'bg-yellow-50', border: 'border-yellow-200', text: 'text-yellow-700' },
+  three_months: { label: 'NEXT 3 MONTHS', Icon: CalendarIcon, bg: 'bg-blue-50', border: 'border-blue-200', text: 'text-blue-700' },
+  ongoing: { label: 'ONGOING', Icon: RefreshIcon, bg: 'bg-gray-50', border: 'border-gray-200', text: 'text-gray-600' },
 }
 
 const URGENCY_ORDER = ['this_week', 'two_weeks', 'one_month', 'three_months', 'ongoing']
@@ -307,8 +308,8 @@ export default function PlanPage() {
                   />
                 </div>
                 {progressPercent === 100 && (
-                  <p className="mt-2 text-sm text-coral font-medium text-center">
-                    🎉 All steps complete! You can regenerate for updated recommendations.
+                  <p className="mt-2 text-sm text-coral font-medium text-center flex items-center justify-center gap-1.5">
+                    <SparkleIcon size={14} /> All steps complete! You can regenerate for updated recommendations.
                   </p>
                 )}
               </div>
@@ -337,8 +338,9 @@ export default function PlanPage() {
               {/* Grouped steps */}
               {grouped.map(({ urgency, config, steps: groupSteps }) => (
                 <div key={urgency} className="mb-8">
-                  <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg ${config.bg} ${config.text} text-sm font-bold mb-4`}>
-                    {config.emoji} {config.label}
+                  <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg ${config.bg} ${config.text} text-sm font-bold mb-4`}>
+                    <config.Icon size={14} />
+                    {config.label}
                   </div>
                   <div className="space-y-3">
                     {groupSteps.map((step) => (
@@ -376,9 +378,9 @@ export default function PlanPage() {
                               {step.phone_number && (
                                 <a
                                   href={`tel:${step.phone_number.replace(/\D/g, '')}`}
-                                  className="inline-flex items-center gap-1 text-xs bg-navy/5 hover:bg-navy/10 text-navy/70 px-3 py-1.5 rounded-lg transition-colors"
+                                  className="inline-flex items-center gap-1.5 text-xs bg-navy/5 hover:bg-navy/10 text-navy/70 px-3 py-1.5 rounded-lg transition-colors"
                                 >
-                                  📞 {step.phone_number}
+                                  <PhoneIcon size={12} /> {step.phone_number}
                                 </a>
                               )}
                               {step.website && (
@@ -386,22 +388,22 @@ export default function PlanPage() {
                                   href={step.website}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="inline-flex items-center gap-1 text-xs bg-navy/5 hover:bg-navy/10 text-navy/70 px-3 py-1.5 rounded-lg transition-colors"
+                                  className="inline-flex items-center gap-1.5 text-xs bg-navy/5 hover:bg-navy/10 text-navy/70 px-3 py-1.5 rounded-lg transition-colors"
                                 >
-                                  🌐 Website
+                                  <GlobeIcon size={12} /> Website
                                 </a>
                               )}
                               {step.program_slug && (
                                 <Link
                                   href={`/navigator?q=Help me with ${encodeURIComponent(step.title)}`}
-                                  className="inline-flex items-center gap-1 text-xs bg-coral/10 hover:bg-coral/20 text-coral px-3 py-1.5 rounded-lg transition-colors"
+                                  className="inline-flex items-center gap-1.5 text-xs bg-coral/10 hover:bg-coral/20 text-coral px-3 py-1.5 rounded-lg transition-colors"
                                 >
-                                  💬 Get Help
+                                  <ChatIcon size={12} /> Get Help
                                 </Link>
                               )}
                               {step.due_date && (
-                                <span className="inline-flex items-center gap-1 text-xs text-navy/50 px-3 py-1.5">
-                                  📆 Due: {new Date(step.due_date).toLocaleDateString()}
+                                <span className="inline-flex items-center gap-1.5 text-xs text-navy/50 px-3 py-1.5">
+                                  <CalendarIcon size={12} /> Due: {new Date(step.due_date).toLocaleDateString()}
                                 </span>
                               )}
                             </div>
@@ -421,15 +423,15 @@ export default function PlanPage() {
                 <div className="flex flex-wrap gap-3 justify-center">
                   <button
                     onClick={generatePlan}
-                    className="text-coral hover:text-coral/80 font-medium text-sm transition-colors"
+                    className="inline-flex items-center gap-1.5 text-coral hover:text-coral/80 font-medium text-sm transition-colors"
                   >
-                    🔄 Regenerate Plan
+                    <RefreshIcon size={14} /> Regenerate Plan
                   </button>
                   <Link
                     href="/intake"
-                    className="text-navy/50 hover:text-navy/70 font-medium text-sm transition-colors"
+                    className="inline-flex items-center gap-1.5 text-navy/50 hover:text-navy/70 font-medium text-sm transition-colors"
                   >
-                    ✏️ Update My Info
+                    <EditIcon size={14} /> Update My Info
                   </Link>
                 </div>
                 <p className="text-navy/30 text-xs max-w-md mx-auto">
