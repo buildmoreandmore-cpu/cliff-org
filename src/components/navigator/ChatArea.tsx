@@ -134,7 +134,7 @@ export default function ChatArea({ messages, isLoading, onSend, className }: Cha
         <p className="text-[11px] text-amber-800 leading-relaxed">
           <strong>Important:</strong> CLIFF provides general guidance, not legal or medical advice.
           Always verify phone numbers, deadlines, and eligibility with the agency directly before acting.
-          {' '}<a href="/help" className="text-coral underline underline-offset-1 hover:text-coral-dark">Report an issue</a>
+          {' '}<a href="/support" className="text-coral underline underline-offset-1 hover:text-coral-dark">Report an issue</a>
         </p>
       </div>
 

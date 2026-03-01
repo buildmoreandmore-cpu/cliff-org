@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { Suspense, useState, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 import AnimatedSection from '@/components/ui/AnimatedSection'
 import Button from '@/components/ui/Button'
@@ -8,7 +8,7 @@ import AmountSelector from '@/components/donate/AmountSelector'
 import TypeToggle from '@/components/donate/TypeToggle'
 import ImpactCards from '@/components/donate/ImpactCards'
 
-export default function DonatePage() {
+function DonateContent() {
   const [amount, setAmount] = useState<number | null>(50)
   const [custom, setCustom] = useState('')
   const [type, setType] = useState<'one-time' | 'monthly'>('one-time')
@@ -109,5 +109,13 @@ export default function DonatePage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function DonatePage() {
+  return (
+    <Suspense>
+      <DonateContent />
+    </Suspense>
   )
 }

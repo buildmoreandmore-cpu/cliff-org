@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2025-01-27.acacia' as Stripe.LatestApiVersion })
+function getStripe() {
+  return new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2025-01-27.acacia' as Stripe.LatestApiVersion })
+}
 
 export async function POST(request: NextRequest) {
   try {
+    const stripe = getStripe()
     const { amount, type } = await request.json() as {
       amount: number
       type: 'one-time' | 'monthly'
