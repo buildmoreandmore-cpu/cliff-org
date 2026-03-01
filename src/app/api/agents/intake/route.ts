@@ -72,13 +72,13 @@ export async function POST(request: NextRequest) {
       }
 
       try {
-        console.log('Intake: starting MiniMax call, profileId:', profileId, 'messages:', messages.length)
+        const userMessages = messages.length === 0
+          ? [{ role: 'user' as const, content: 'Hi, I\'m new here. Help me get started.' }]
+          : messages.map((m) => ({ role: m.role as 'user' | 'assistant', content: m.content }))
+
         const miniMaxMessages: MiniMaxMessage[] = [
           { role: 'system', content: INTAKE_SYSTEM_PROMPT },
-          ...messages.map((m) => ({
-            role: m.role as 'user' | 'assistant',
-            content: m.content,
-          })),
+          ...userMessages,
         ]
 
         const response = await chatCompletion(miniMaxMessages)
