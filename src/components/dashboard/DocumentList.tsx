@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { EASING } from '@/lib/constants'
-import type { SavedDocument } from '@/lib/types'
+import type { SavedDocument, DocType } from '@/lib/types'
 import { FileIcon, MailIcon, CheckIcon, BellIcon, XIcon } from '@/components/ui/SVGIcons'
 import { createClient } from '@/lib/supabase/client'
 
@@ -21,14 +21,40 @@ const typeLabels: Record<string, string> = {
   other: 'Document',
 }
 
+const ADD_DOC_TYPES: { value: DocType; label: string }[] = [
+  { value: 'form_notes', label: 'Form Notes' },
+  { value: 'checklist', label: 'Checklist' },
+  { value: 'letter', label: 'Letter' },
+  { value: 'other', label: 'Other' },
+]
+
 export default function DocumentList({ documents, profileId, onUpdate }: DocumentListProps) {
   const [expandedId, setExpandedId] = useState<string | null>(null)
   const [reminderDocId, setReminderDocId] = useState<string | null>(null)
   const [reminderForm, setReminderForm] = useState({ title: '', due_date: '', description: '' })
   const [copied, setCopied] = useState<string | null>(null)
+  const [showAddForm, setShowAddForm] = useState(false)
+  const [addForm, setAddForm] = useState({ title: '', content: '', doc_type: 'form_notes' as DocType })
+  const [saving, setSaving] = useState(false)
 
   // Filter out contact docs
   const visibleDocs = documents.filter((d) => !(d.doc_type === 'other' && d.title.startsWith('contact:')))
+
+  async function handleAddDocument() {
+    if (!addForm.title.trim() || !addForm.content.trim()) return
+    setSaving(true)
+    const supabase = createClient()
+    await supabase.from('saved_documents').insert({
+      profile_id: profileId,
+      doc_type: addForm.doc_type,
+      title: addForm.title.trim(),
+      content: addForm.content.trim(),
+    })
+    setSaving(false)
+    setShowAddForm(false)
+    setAddForm({ title: '', content: '', doc_type: 'form_notes' })
+    onUpdate()
+  }
 
   async function handleCopy(content: string, id: string) {
     await navigator.clipboard.writeText(content)
@@ -71,16 +97,68 @@ export default function DocumentList({ documents, profileId, onUpdate }: Documen
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: EASING, delay: 0.3 }}
     >
-      <div className="flex items-center gap-2 mb-4">
-        <FileIcon size={18} className="text-coral" />
-        <h2 className="font-display text-lg font-semibold text-navy">Saved Documents</h2>
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          <FileIcon size={18} className="text-coral" />
+          <h2 className="font-display text-lg font-semibold text-navy">Saved Documents</h2>
+        </div>
+        <button
+          onClick={() => setShowAddForm(!showAddForm)}
+          className="text-xs font-medium text-coral hover:text-coral-dark border border-coral/30 hover:border-coral px-3 py-1.5 rounded-lg transition-colors"
+        >
+          {showAddForm ? 'Cancel' : '+ Add Note'}
+        </button>
       </div>
 
-      {visibleDocs.length === 0 ? (
+      <AnimatePresence>
+        {showAddForm && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="overflow-hidden"
+          >
+            <div className="border border-gray-100 rounded-lg p-3 mb-4 bg-cream/20 space-y-2">
+              <input
+                placeholder="Title"
+                value={addForm.title}
+                onChange={(e) => setAddForm((f) => ({ ...f, title: e.target.value }))}
+                className="w-full text-sm border border-gray-200 rounded-md px-3 py-1.5 text-navy placeholder:text-navy/30"
+              />
+              <select
+                value={addForm.doc_type}
+                onChange={(e) => setAddForm((f) => ({ ...f, doc_type: e.target.value as DocType }))}
+                className="w-full text-sm border border-gray-200 rounded-md px-3 py-1.5 text-navy bg-white"
+              >
+                {ADD_DOC_TYPES.map((t) => (
+                  <option key={t.value} value={t.value}>{t.label}</option>
+                ))}
+              </select>
+              <textarea
+                placeholder="Paste or type your notes here..."
+                value={addForm.content}
+                onChange={(e) => setAddForm((f) => ({ ...f, content: e.target.value }))}
+                rows={4}
+                className="w-full text-sm border border-gray-200 rounded-md px-3 py-2 text-navy placeholder:text-navy/30 resize-none"
+              />
+              <button
+                onClick={handleAddDocument}
+                disabled={saving || !addForm.title.trim() || !addForm.content.trim()}
+                className="text-xs font-medium text-white bg-coral hover:bg-coral-dark disabled:opacity-50 px-4 py-2 rounded-lg transition-colors"
+              >
+                {saving ? 'Saving...' : 'Save Document'}
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {visibleDocs.length === 0 && !showAddForm ? (
         <p className="text-sm text-navy/40 py-4">
           No documents saved. Email drafts and form notes from the Navigator appear here.
         </p>
-      ) : (
+      ) : visibleDocs.length > 0 ? (
         <div className="space-y-2">
           {visibleDocs.map((doc) => {
             const isExpanded = expandedId === doc.id
@@ -194,7 +272,7 @@ export default function DocumentList({ documents, profileId, onUpdate }: Documen
             )
           })}
         </div>
-      )}
+      ) : null}
     </motion.div>
   )
 }
