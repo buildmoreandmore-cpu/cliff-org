@@ -17,6 +17,8 @@ export interface Profile {
   disability_track: string | null
   medically_fragile: boolean
   medicaid_cmo: string | null
+  diagnosis: string | null
+  primary_concern: string | null
   is_admin: boolean
 }
 

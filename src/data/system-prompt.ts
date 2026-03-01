@@ -17,6 +17,11 @@ CURRENT USER CONTEXT:
 - Child: ${profile.child_name || 'Unknown'}${childAge !== null ? `, Age: ${childAge}` : ''}${profile.child_dob ? `, DOB: ${profile.child_dob}` : ''}
 - County: ${profile.county || 'Unknown'}
 - Phone: ${profile.phone || 'Not provided'}
+- Diagnosis: ${profile.diagnosis || 'Not provided'}
+- Disability Track: ${profile.disability_track || 'Not determined'}
+- Medically Fragile: ${profile.medically_fragile ? 'Yes' : 'No'}
+- Medicaid CMO: ${profile.medicaid_cmo || 'Not provided'}
+- Primary Concern: ${profile.primary_concern || 'Not provided'}
 - Active Benefits: ${benefits.filter((b) => b.status === 'active').map((b) => b.benefit_name).join(', ') || 'None'}
 - Pending/Ending Benefits: ${benefits.filter((b) => b.status === 'pending' || b.status === 'ending_soon').map((b) => `${b.benefit_name} (${b.status})`).join(', ') || 'None'}
 - Applications: ${applications.map((a) => `${a.program_name} (${a.status})${a.coordinator_name ? ` — Coordinator: ${a.coordinator_name}` : ''}`).join(', ') || 'None'}

@@ -18,7 +18,7 @@ export async function PATCH(request: NextRequest) {
 
   const body = await request.json()
   // Only allow updating safe fields
-  const allowed = ['parent_name', 'child_name', 'child_dob', 'county', 'phone', 'notification_breaking_news', 'notification_milestones', 'notification_digest', 'notification_email', 'disability_track', 'medically_fragile', 'medicaid_cmo']
+  const allowed = ['parent_name', 'child_name', 'child_dob', 'county', 'phone', 'notification_breaking_news', 'notification_milestones', 'notification_digest', 'notification_email', 'disability_track', 'medically_fragile', 'medicaid_cmo', 'diagnosis', 'primary_concern']
   const updates: Record<string, unknown> = {}
   for (const key of allowed) {
     if (body[key] !== undefined) updates[key] = body[key]
