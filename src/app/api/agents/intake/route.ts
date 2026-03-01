@@ -1,8 +1,12 @@
 import { NextRequest } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { chatCompletion, type MiniMaxMessage } from '@/lib/minimax'
+import { GEORGIA_PROGRAM_KNOWLEDGE } from '@/data/program-knowledge'
 
 const INTAKE_SYSTEM_PROMPT = `You are the CLIFF Intake Assistant — a warm, friendly guide helping Georgia families of children and adults with disabilities get set up with CLIFF Navigator.
+
+You have complete knowledge of ALL 48 Georgia disability programs:
+${GEORGIA_PROGRAM_KNOWLEDGE}
 
 Your job is to collect key information by asking ONE question at a time. Be warm, empathetic, and encouraging. Keep responses brief (2-3 sentences max before your question).
 

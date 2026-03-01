@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { chatCompletion, type MiniMaxMessage } from '@/lib/minimax'
 import { buildSystemPrompt } from '@/data/system-prompt'
 import { toolDefinitions } from '@/data/tool-definitions'
+import { GEORGIA_PROGRAM_KNOWLEDGE } from '@/data/program-knowledge'
 import type { Profile, ChildBenefit, Application, Reminder, EmailDraft } from '@/lib/types'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -58,7 +59,7 @@ export async function POST(request: NextRequest) {
 
       try {
         const miniMaxMessages: MiniMaxMessage[] = [
-          { role: 'system', content: systemPrompt + modePrefix },
+          { role: 'system', content: systemPrompt + modePrefix + '\n\nCOMPLETE PROGRAM REFERENCE:\n' + GEORGIA_PROGRAM_KNOWLEDGE },
           ...messages.map((m) => ({
             role: m.role as 'user' | 'assistant',
             content: m.content,
