@@ -53,7 +53,7 @@ function DonateContent() {
         <AnimatedSection className="text-center max-w-2xl mx-auto mb-12">
           <p className="text-coral font-medium text-sm tracking-wide uppercase">Support CLIFF</p>
           <h1 className="mt-3 font-display text-3xl sm:text-4xl font-bold text-navy">
-            Fund the AI That Fights for Families
+            Keep CLIFF Fighting for Families
           </h1>
           <p className="mt-4 text-navy/60 leading-relaxed">
             CLIFF is 100% free for families. Your donation directly powers the AI that navigates 60+ Georgia disability programs, 
