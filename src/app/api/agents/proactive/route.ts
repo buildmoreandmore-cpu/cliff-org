@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { chatCompletion } from '@/lib/minimax'
+import { GEORGIA_PROGRAM_KNOWLEDGE } from '@/data/program-knowledge'
 
 type TriggerType = 'content_change' | 'breaking_news' | 'milestone_check'
 
@@ -184,7 +185,12 @@ Respond in JSON only (no other text):
 
               const response = await chatCompletion([{
                 role: 'user',
-                content: `Write a personalized, empathetic notification for a Georgia family about their child's approaching ${milestone}th birthday milestone.
+                content: `You are a proactive intelligence agent for CLIFF, a Georgia disability benefits nonprofit. You have complete knowledge of all Georgia disability programs.
+
+PROGRAM KNOWLEDGE:
+${GEORGIA_PROGRAM_KNOWLEDGE}
+
+Write a personalized, empathetic notification for a Georgia family about their child's approaching ${milestone}th birthday milestone.
 
 Child: ${profile.child_name || 'their child'}
 Parent: ${profile.parent_name || 'Parent'}
@@ -192,9 +198,11 @@ Months until ${milestone}th birthday: ${monthsAway}
 Current benefits: ${(benefits || []).map((b: { benefit_name: string; status: string }) => `${b.benefit_name} (${b.status})`).join(', ') || 'None tracked'}
 Upcoming reminders: ${(reminders || []).map((r: { title: string; due_date: string }) => `${r.title} (${r.due_date})`).join(', ') || 'None'}
 
-${milestone === 18 ? 'Key actions: Apply for SSI 3 months before birthday, prepare for Katie Beckett transition, ensure on DBHDD Planning List.' : 'Key actions: Prepare for EPSDT/GAPP/IDEA ending, ensure adult Medicaid pathway, check Planning List status.'}
+Based on their current benefits and the milestone, recommend SPECIFIC programs they should apply for NOW. Use the diagnosis-to-program routing map. Include exact phone numbers and contacts. Don't just say "apply for adult services" — name the specific waiver (ICWP vs NOW/COMP vs SOURCE/EDWP) based on what you know about them.
 
-Keep under 200 words. Be warm and actionable.`,
+Also remind them about: ABLE account, Section 8/811 housing waitlist, GVRA employment services, guardianship planning.
+
+Keep under 250 words. Be warm and actionable.`,
               }])
 
               const body = stripThink(response.choices[0]?.message?.content || '')

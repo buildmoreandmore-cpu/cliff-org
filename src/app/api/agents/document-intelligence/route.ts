@@ -1,11 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { chatCompletion } from '@/lib/minimax'
+import { GEORGIA_PROGRAM_KNOWLEDGE } from '@/data/program-knowledge'
 
 type DocumentType = 'denial_letter' | 'iep' | 'waiver_determination' | 'medical_record' | 'other'
 
 const PROMPTS: Record<DocumentType, string> = {
-  denial_letter: `You are analyzing a DENIAL LETTER for a Georgia disability benefit application. Extract the following as JSON:
+  denial_letter: `You are analyzing a DENIAL LETTER for a Georgia disability benefit application. You have complete knowledge of all Georgia disability programs:
+${GEORGIA_PROGRAM_KNOWLEDGE}
+
+Use this knowledge to suggest alternative programs the family should apply for based on the denial. For example, if denied for NOW/COMP, suggest ICWP if the disability is physical. If denied SSI, suggest Katie Beckett. Always include specific phone numbers.
+
+Extract the following as JSON:
 {
   "program_denied": "name of program/benefit denied",
   "denial_reason": "specific reason given",
@@ -21,7 +27,15 @@ const PROMPTS: Record<DocumentType, string> = {
 
 Be precise with dates. If the appeal deadline isn't explicit, calculate from the denial date (Georgia typically allows 30 days for Medicaid, 60 days for SSI). Mark appeal_viable as true if the denial seems based on missing documentation or procedural issues.`,
 
-  iep: `You are analyzing an IEP (Individualized Education Program) document. Extract the following as JSON:
+  iep: `You are analyzing an IEP (Individualized Education Program) document. You know all Georgia disability programs and transition pathways:
+- GVRA should be contacted during transition (before school exit): 844-367-4872
+- DBHDD Planning List for NOW/COMP waiver if I/DD: (404) 657-2252
+- ICWP if physical disability without I/DD: Alliant 888-669-7195
+- ABLE account should be opened: georgiastable.com
+- Section 8/811 housing application should start NOW
+- Guardianship/alternatives should be explored by age 17
+
+Extract the following as JSON:
 {
   "student_name": "name or null",
   "school": "school name or null",
@@ -39,7 +53,7 @@ Be precise with dates. If the appeal deadline isn't explicit, calculate from the
 
 Common IEP gaps to flag: missing transition plan for students 14+, vague or unmeasurable goals, insufficient service hours, missing assistive technology consideration, no extended school year (ESY) consideration.`,
 
-  waiver_determination: `You are analyzing a WAIVER DETERMINATION letter from Georgia DBHDD. Extract the following as JSON:
+  waiver_determination: `You are analyzing a WAIVER DETERMINATION letter from a Georgia agency. You know all 7 Georgia Medicaid waivers: NOW, COMP, ICWP, SOURCE, CCSP, EDWP, GAPP. If denied one waiver, suggest others based on the individual's condition. Extract the following as JSON:
 {
   "waiver_type": "NOW or COMP or other",
   "determination_result": "approved/denied/waitlisted/planning_list",

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { createClient } from '@/lib/supabase/server'
 import { chatCompletion } from '@/lib/minimax'
+import { GEORGIA_PROGRAM_KNOWLEDGE } from '@/data/program-knowledge'
 
 export async function POST(request: NextRequest) {
   const { trigger_type, profileId, billSlug } = await request.json() as {
@@ -35,6 +36,12 @@ async function handleLegislativeScan(request: NextRequest) {
     'Georgia bill special education',
     'Georgia bill guardianship disability',
     'Georgia bill ABLE account',
+    'Georgia bill ICWP independent care waiver',
+    'Georgia bill PeachCare children',
+    'Georgia bill vocational rehabilitation disability',
+    'Georgia bill Medicaid expansion Pathways',
+    'Georgia bill assistive technology disability',
+    'Georgia bill behavioral health children',
   ]
 
   const allResults: { title: string; url: string; snippet: string }[] = []
@@ -222,6 +229,11 @@ async function handleGenerateEmail(request: NextRequest, profileId: string, bill
     {
       role: 'system',
       content: `You are helping a Georgia parent write a compelling advocacy email to their state legislator about a bill affecting disability services.
+
+You have deep knowledge of all Georgia disability programs:
+${GEORGIA_PROGRAM_KNOWLEDGE}
+
+Use this knowledge to make the email specific — reference exact programs, waivers, waitlist times, and real impacts. Generic emails get ignored; specific ones get attention.
 
 Write a personal, heartfelt but professional email from the parent's perspective. Include:
 1. Brief personal introduction (parent of a child with a disability in [county] County)

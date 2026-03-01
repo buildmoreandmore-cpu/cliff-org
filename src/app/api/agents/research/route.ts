@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { chatCompletion } from '@/lib/minimax'
+import { GEORGIA_PROGRAM_KNOWLEDGE } from '@/data/program-knowledge'
 
 export async function POST(request: NextRequest) {
   const apiKey = request.headers.get('x-api-key')
@@ -53,6 +54,9 @@ export async function POST(request: NextRequest) {
 
     // Step 3: Synthesize with MiniMax
     const synthesisPrompt = `You are a research assistant for CLIFF, a nonprofit helping Georgia families navigate disability benefits.
+
+COMPLETE GEORGIA PROGRAM KNOWLEDGE:
+${GEORGIA_PROGRAM_KNOWLEDGE}
 
 Query: "${query}"
 

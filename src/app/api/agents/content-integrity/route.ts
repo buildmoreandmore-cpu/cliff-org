@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { chatCompletion } from '@/lib/minimax'
+import { GEORGIA_PROGRAM_KNOWLEDGE, ALL_PROGRAM_NAMES } from '@/data/program-knowledge'
 import type { ContentBlock } from '@/lib/types'
 
 export async function POST(request: NextRequest) {
@@ -45,7 +46,11 @@ export async function POST(request: NextRequest) {
           role: 'user',
           content: `You are a content integrity checker for CLIFF, a Georgia disability benefits nonprofit.
 
-Compare our stored content against the source. Identify any factual changes, outdated info, or discrepancies.
+You have deep knowledge of ALL Georgia disability programs:
+${ALL_PROGRAM_NAMES.join(', ')}
+
+Compare our stored content against the source. Identify any factual changes, outdated info, or discrepancies. Also flag if the content is missing important programs or pathways that should be mentioned based on this complete program knowledge:
+${GEORGIA_PROGRAM_KNOWLEDGE.substring(0, 3000)}
 
 OUR CONTENT (title: "${block.title}"):
 ${block.body?.substring(0, 3000)}
