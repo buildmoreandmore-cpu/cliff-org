@@ -4,9 +4,10 @@ import { motion } from 'framer-motion'
 import { EASING } from '@/lib/constants'
 
 const impacts = [
-  { amount: '$10', impact: 'Powers ~50 AI agent conversations — helping a family explore benefits, draft emails, or walk through forms.' },
-  { amount: '$50', impact: 'Funds a full benefits assessment and form walk-through for one Georgia family.' },
-  { amount: '$250', impact: 'Keeps all 7 AI agents running for families across a county for a month.' },
+  { amount: '$10', impact: 'Powers ~50 conversations — helping a family explore benefits, check eligibility, or draft an appeal letter.' },
+  { amount: '$25', impact: 'Funds a full benefits assessment for one Georgia family — personalized action plan with every program they qualify for.' },
+  { amount: '$50', impact: 'Keeps CLIFF\'s real-time research running for a week — searching for policy changes, contacts, and waitlist updates.' },
+  { amount: '$100', impact: 'Powers proactive alerts for 50+ families — deadline reminders, milestone warnings, and HIPAA transition notices.' },
 ]
 
 export default function ImpactCards() {

@@ -7,6 +7,7 @@ import Button from '@/components/ui/Button'
 import AmountSelector from '@/components/donate/AmountSelector'
 import TypeToggle from '@/components/donate/TypeToggle'
 import ImpactCards from '@/components/donate/ImpactCards'
+import GoalTracker from '@/components/donate/GoalTracker'
 
 function DonateContent() {
   const [amount, setAmount] = useState<number | null>(50)
@@ -52,12 +53,12 @@ function DonateContent() {
         <AnimatedSection className="text-center max-w-2xl mx-auto mb-12">
           <p className="text-coral font-medium text-sm tracking-wide uppercase">Support CLIFF</p>
           <h1 className="mt-3 font-display text-3xl sm:text-4xl font-bold text-navy">
-            Help Families Navigate the Cliff
+            Fund the AI That Fights for Families
           </h1>
           <p className="mt-4 text-navy/60 leading-relaxed">
-            CLIFF is 100% free for families. Your donation directly funds the AI tools that help Georgia families
-            navigate disability benefits — from exploring eligibility to drafting appeals to tracking deadlines.
-            Every dollar goes toward keeping this service running and reaching more families who need it.
+            CLIFF is 100% free for families. Your donation directly powers the AI that navigates 60+ Georgia disability programs, 
+            protects HIPAA rights, drafts complaints, and catches deadlines before they pass.
+            Every dollar has a job — see exactly what it funds below.
           </p>
           <div className="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-lg text-sm text-amber-800">
             <strong>Note:</strong> CLIFF is currently a 501(c)(3) pending organization. While your donation is not yet
@@ -104,7 +105,10 @@ function DonateContent() {
           </AnimatedSection>
 
           <AnimatedSection delay={0.2}>
-            <ImpactCards />
+            <div className="space-y-8">
+              <GoalTracker />
+              <ImpactCards />
+            </div>
           </AnimatedSection>
         </div>
       </div>
