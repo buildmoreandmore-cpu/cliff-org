@@ -24,7 +24,7 @@ export default function Footer() {
                 { label: 'Dashboard', href: '/dashboard' },
                 { label: 'Donate', href: '/donate' },
                 { label: 'About', href: '/about' },
-                { label: 'Help & Support', href: '/help' },
+                { label: 'Help & Support', href: '/support' },
               ].map((link) => (
                 <li key={link.href}>
                   <Link
