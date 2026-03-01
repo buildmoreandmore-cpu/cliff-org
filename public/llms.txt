@@ -28,23 +28,51 @@ CLIFF uses 7 specialized AI agents:
 
 ## Key Topics Covered
 
-- Supplemental Security Income (SSI) — eligibility, age 18 redetermination, application process
-- Georgia Medicaid — pathways, coverage, transition from children's to adult programs
-- Katie Beckett / Deeming Waiver — Level of Care statements, application guidance
+### Medicaid Architecture (the hidden layers)
+- Medicaid coverage vs. waiver funding — two separate streams with separate applications
+- Medicaid as secondary payer — stacks with private/employer insurance to cover copays and gaps
+- Section 1915(c) vs 1915(i) — slot-capped waivers vs uncapped state plan services
+- Consumer direction / self-direction — families control the budget, hire their own workers
+- Medicare vs Medicaid — dual eligibility pathway through SSDI after 24 months
+
+### Georgia Waiver Programs
 - NOW & COMP Waivers — DBHDD planning list, services, wait times for I/DD
-- EDWP / CCSP — Elderly and Disabled Waiver Program, Community Care Services for seniors 65+ and physically disabled
+- EDWP / CCSP — Elderly and Disabled Waiver for seniors 65+ and physically disabled
 - SOURCE Waiver — integrated medical care and HCBS for SSI Medicaid recipients
 - ICWP — Independent Care Waiver for adults 21+ with physical disabilities (TBI, spinal cord injury)
 - Money Follows the Person (MFP) — transitioning from nursing homes/institutions to community living
-- HCBS Settings Rule — federal compliance requirements for community-based settings
-- Olmstead v. L.C. — community integration rights under ADA
-- Consumer Direction — self-directed care worker programs across Georgia waivers
 - Structured Family Caregiving — paid family caregiver options under EDWP
-- STABLE Accounts — tax-advantaged savings without affecting SSI/Medicaid
-- Special Needs Trusts — asset protection strategies
+
+### Benefits & Eligibility
+- Supplemental Security Income (SSI) — eligibility, age 18 redetermination, application process
+- Georgia Medicaid — pathways, coverage, transition from children's to adult programs
+- Katie Beckett / Deeming Waiver — Level of Care statements, application guidance
+- ABLE/STABLE Accounts — tax-advantaged savings up to $100K+ without affecting SSI/Medicaid
+- Special Needs Trusts — unlimited asset protection
+- PASS (Plan to Achieve Self-Support) — set aside income for work goals while keeping SSI
+
+### Employment & Work Incentives
+- Ticket to Work, Trial Work Period, Impairment Related Work Expenses
+- Medicaid Buy-In for Workers with Disabilities — keep Medicaid while earning
+- PASS — fund education, training, or business while maintaining benefits
+
+### Additional Federal Programs
+- Title XX Social Services Block Grant — respite, day services, home support through DFCS
+- DD Act organizations — Georgia Advocacy Office, GCDD, UGA Institute on Human Development
+- TRICARE ECHO — supplemental coverage for military family dependents with disabilities
+
+### Legal Framework
+- HCBS Settings Rule — federal compliance requirements for community-based settings
+- Olmstead v. L.C. — community integration rights under ADA, legal leverage against institutionalization
+
+### Transitions
 - Age 18 Transition — SSI redetermination, guardianship, legal adulthood
 - Age 21 Transition — EPSDT ending, IDEA aging out, adult service planning
+- Two-track model: I/DD pathway (DBHDD) vs physical disability pathway (DCH)
+
+### Advocacy
 - Georgia Disability Legislation — bill tracking, advocacy tools
+- Long-Term Care Ombudsman — nursing home rights and complaints
 
 ## Public Pages
 
