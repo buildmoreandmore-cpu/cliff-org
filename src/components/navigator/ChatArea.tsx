@@ -16,6 +16,9 @@ export default function ChatArea({ messages, isLoading, onSend }: ChatAreaProps)
   const [input, setInput] = useState('')
   const [uploading, setUploading] = useState(false)
   const [uploadedFile, setUploadedFile] = useState<{ name: string; text: string } | null>(null)
+  const [docType, setDocType] = useState<string>('')
+  const [analyzingDoc, setAnalyzingDoc] = useState(false)
+  const [docAnalysis, setDocAnalysis] = useState<{ analysis: Record<string, unknown> } | null>(null)
   const scrollRef = useRef<HTMLDivElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -46,6 +49,8 @@ export default function ChatArea({ messages, isLoading, onSend }: ChatAreaProps)
 
       const data = await res.json()
       setUploadedFile({ name: file.name, text: data.extractedText })
+      setDocType('')
+      setDocAnalysis(null)
     } catch (err) {
       console.error('Upload error:', err)
       alert(err instanceof Error ? err.message : 'Failed to upload file')
@@ -72,8 +77,52 @@ export default function ChatArea({ messages, isLoading, onSend }: ChatAreaProps)
     setInput('')
   }
 
+  async function analyzeDocument() {
+    if (!uploadedFile || !docType) return
+    setAnalyzingDoc(true)
+    try {
+      const profileRes = await fetch('/api/profile')
+      const profileData = await profileRes.json()
+      const profileId = profileData.profile?.id
+
+      if (!profileId) {
+        alert('Please complete your profile first.')
+        return
+      }
+
+      const res = await fetch('/api/agents/document-intelligence', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          profileId,
+          documentText: uploadedFile.text,
+          documentType: docType,
+          filename: uploadedFile.name,
+        }),
+      })
+
+      if (!res.ok) throw new Error('Analysis failed')
+      const data = await res.json()
+      setDocAnalysis(data)
+
+      // Send the analysis summary to the chat
+      const summary = data.analysis?.summary || 'Document analyzed successfully.'
+      onSend(`[Document Analysis: ${uploadedFile.name}]\n\n${summary}\n\nFull analysis has been saved to your dashboard.`)
+      setUploadedFile(null)
+      setDocType('')
+      if (fileInputRef.current) fileInputRef.current.value = ''
+    } catch (err) {
+      console.error('Document analysis error:', err)
+      alert('Failed to analyze document. You can still send it as a regular upload.')
+    } finally {
+      setAnalyzingDoc(false)
+    }
+  }
+
   function removeUpload() {
     setUploadedFile(null)
+    setDocType('')
+    setDocAnalysis(null)
     if (fileInputRef.current) fileInputRef.current.value = ''
   }
 
@@ -96,19 +145,51 @@ export default function ChatArea({ messages, isLoading, onSend }: ChatAreaProps)
         {isLoading && messages[messages.length - 1]?.content === '' && <TypingIndicator />}
       </div>
 
-      {/* Upload preview */}
+      {/* Upload preview with document type selector */}
       {uploadedFile && (
-        <div className="mx-3 sm:mx-4 px-3 py-2 bg-blue-50 border border-blue-200 rounded-lg flex items-center justify-between">
-          <div className="flex items-center gap-2 min-w-0">
-            <FileIcon size={16} className="text-blue-600 flex-shrink-0" />
-            <span className="text-xs text-blue-800 truncate">{uploadedFile.name}</span>
+        <div className="mx-3 sm:mx-4 px-3 py-2 bg-blue-50 border border-blue-200 rounded-lg space-y-2">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2 min-w-0">
+              <FileIcon size={16} className="text-blue-600 flex-shrink-0" />
+              <span className="text-xs text-blue-800 truncate">{uploadedFile.name}</span>
+            </div>
+            <button
+              onClick={removeUpload}
+              className="text-blue-400 hover:text-blue-600 text-xs font-medium flex-shrink-0 ml-2"
+            >
+              Remove
+            </button>
           </div>
-          <button
-            onClick={removeUpload}
-            className="text-blue-400 hover:text-blue-600 text-xs font-medium flex-shrink-0 ml-2"
-          >
-            Remove
-          </button>
+          <div className="flex items-center gap-2">
+            <select
+              value={docType}
+              onChange={(e) => setDocType(e.target.value)}
+              className="flex-1 text-xs px-2 py-1.5 rounded-lg border border-blue-200 bg-white text-navy focus:outline-none focus:ring-1 focus:ring-coral/30"
+            >
+              <option value="">What type of document is this?</option>
+              <option value="denial_letter">Denial Letter</option>
+              <option value="iep">IEP</option>
+              <option value="waiver_determination">Waiver Determination</option>
+              <option value="medical_record">Medical Record</option>
+              <option value="other">Other Form</option>
+            </select>
+            {docType && (
+              <button
+                onClick={analyzeDocument}
+                disabled={analyzingDoc}
+                className="text-xs px-3 py-1.5 bg-coral text-white rounded-lg hover:bg-coral-dark transition-colors disabled:opacity-50 flex items-center gap-1"
+              >
+                {analyzingDoc ? (
+                  <>
+                    <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    Analyzing...
+                  </>
+                ) : (
+                  'Analyze'
+                )}
+              </button>
+            )}
+          </div>
         </div>
       )}
 
