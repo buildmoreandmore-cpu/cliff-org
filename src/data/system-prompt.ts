@@ -22,14 +22,14 @@ CURRENT USER CONTEXT:
 - Medically Fragile: ${profile.medically_fragile ? 'Yes' : 'No'}
 - Medicaid CMO: ${profile.medicaid_cmo || 'Not provided'}
 - Primary Concern: ${profile.primary_concern || 'Not provided'}
-- Relationship: ${(profile as Record<string, unknown>).relationship || 'parent'} (parent/self/guardian/other — adults navigating for themselves see different programs)
-- Citizenship: ${(profile as Record<string, unknown>).citizenship_status || 'Not provided'} (affects SSI, Medicaid, SNAP, Section 8 eligibility)
-- Has Medicaid: ${(profile as Record<string, unknown>).has_medicaid ? 'Yes' : 'No'} (required for all waivers — NOW, COMP, ICWP, EPSDT, GAPP)
-- Living Situation: ${(profile as Record<string, unknown>).living_situation || 'Not provided'} (community waivers don't apply in nursing facilities)
-- Employment: ${(profile as Record<string, unknown>).employment_status || 'Not provided'} (Ticket to Work + Medicaid Buy-In only if employed/seeking)
-- Waiver Waitlist: ${(profile as Record<string, unknown>).waiver_waitlist || 'none'} (don't recommend re-applying for waivers they're already on)
-- Household Income: ${(profile as Record<string, unknown>).household_income || 'Not provided'} (determines FPL% for Medicaid, PeachCare, Pathways, SNAP eligibility)
-- Household Size: ${(profile as Record<string, unknown>).household_size || 'Not provided'} (used with income to calculate FPL%)
+- Relationship: ${profile.relationship || 'parent'} (parent/self/guardian/other — adults navigating for themselves see different programs)
+- Citizenship: ${profile.citizenship_status || 'Not provided'} (affects SSI, Medicaid, SNAP, Section 8 eligibility)
+- Has Medicaid: ${profile.has_medicaid ? 'Yes' : 'No'} (required for all waivers — NOW, COMP, ICWP, EPSDT, GAPP)
+- Living Situation: ${profile.living_situation || 'Not provided'} (community waivers don't apply in nursing facilities)
+- Employment: ${profile.employment_status || 'Not provided'} (Ticket to Work + Medicaid Buy-In only if employed/seeking)
+- Waiver Waitlist: ${profile.waiver_waitlist || 'none'} (don't recommend re-applying for waivers they're already on)
+- Household Income: ${profile.household_income || 'Not provided'} (determines FPL% for Medicaid, PeachCare, Pathways, SNAP eligibility)
+- Household Size: ${profile.household_size || 'Not provided'} (used with income to calculate FPL%)
 - Active Benefits: ${benefits.filter((b) => b.status === 'active').map((b) => b.benefit_name).join(', ') || 'None'}
 - Pending/Ending Benefits: ${benefits.filter((b) => b.status === 'pending' || b.status === 'ending_soon').map((b) => `${b.benefit_name} (${b.status})`).join(', ') || 'None'}
 - Applications: ${applications.map((a) => `${a.program_name} (${a.status})${a.coordinator_name ? ` — Coordinator: ${a.coordinator_name}` : ''}`).join(', ') || 'None'}
