@@ -55,9 +55,15 @@ export default function DonatePage() {
             Help Families Navigate the Cliff
           </h1>
           <p className="mt-4 text-navy/60 leading-relaxed">
-            CLIFF is 100% free for families. Your donation directly funds the 7 AI agents — Benefits Explorer,
-            Form Walk-Through, Email Drafter, Research, Content Integrity, Proactive Alerts, and Benefit Tracker — that serve Georgia families every day.
+            CLIFF is 100% free for families. Your donation directly funds the AI tools that help Georgia families
+            navigate disability benefits — from exploring eligibility to drafting appeals to tracking deadlines.
+            Every dollar goes toward keeping this service running and reaching more families who need it.
           </p>
+          <div className="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-lg text-sm text-amber-800">
+            <strong>Note:</strong> CLIFF is currently a 501(c)(3) pending organization. While your donation is not yet
+            tax-deductible, it directly helps real Georgia families navigate the benefits cliff at ages 18 and 21.
+            We will update donors once our tax-exempt status is approved.
+          </div>
         </AnimatedSection>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 max-w-4xl mx-auto">
@@ -91,7 +97,7 @@ export default function DonatePage() {
                       : 'Select an Amount'}
                 </Button>
                 <p className="mt-3 text-xs text-navy/40 text-center">
-                  Secure payment processed by Stripe. CLIFF is a 501(c)(3) nonprofit (pending).
+                  Secure payment processed by Stripe. 501(c)(3) status pending — donations are not yet tax-deductible.
                 </p>
               </div>
             </div>

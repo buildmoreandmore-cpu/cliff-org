@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { EASING } from '@/lib/constants'
 import { ExternalLinkIcon, AlertIcon } from '@/components/ui/SVGIcons'
+import FlagButton from '@/components/community/FlagButton'
 import type { ResourcePanel as ResourcePanelType } from '@/data/resources'
 
 interface ResourcePanelProps {
@@ -17,6 +18,7 @@ export default function ResourcePanel({ panel }: ResourcePanelProps) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -8 }}
       transition={{ duration: 0.3, ease: EASING }}
+      className="relative"
     >
       <h2 className="font-display text-2xl font-bold text-navy">{panel.title}</h2>
       <p className="mt-2 text-navy/60">{panel.summary}</p>
@@ -34,6 +36,10 @@ export default function ResourcePanel({ panel }: ResourcePanelProps) {
             {paragraph}
           </p>
         ))}
+      </div>
+
+      <div className="absolute top-4 right-4">
+        <FlagButton contentBlockSlug={panel.id} />
       </div>
 
       {panel.links.length > 0 && (
