@@ -3,14 +3,26 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
 import type { ChatMessage, NavigatorMode } from '@/lib/types'
 
-function buildAutoMessage(mode: NavigatorMode, program: string): string {
+function buildAutoMessage(mode: NavigatorMode, program?: string): string {
+  if (program) {
+    switch (mode) {
+      case 'apply':
+        return `I need help applying for ${program}. What forms do I need and how do I get started?`
+      case 'explore':
+        return `I'd like to learn about ${program}. What should my family know?`
+      case 'email':
+        return `I need to draft a communication about ${program}.`
+    }
+  }
+
+  // No specific program — send a contextual opener based on mode
   switch (mode) {
-    case 'apply':
-      return `I need help applying for ${program}. What forms do I need and how do I get started?`
     case 'explore':
-      return `I'd like to learn about ${program}. What should my family know?`
+      return `I want to explore what benefits and programs my family might qualify for. Can you look at my profile and tell me what I should know about?`
+    case 'apply':
+      return `I need help filling out forms and applications. Based on my profile, what should I be applying for right now? Walk me through the most important one.`
     case 'email':
-      return `I need to draft a communication about ${program}.`
+      return `I need to write to a caseworker or agency. Based on my situation, what's the most important communication I should send right now? Help me draft it.`
   }
 }
 
@@ -146,16 +158,18 @@ export function useChat(initialMode?: NavigatorMode, initialProgram?: string) {
     [messages, mode, isLoading]
   )
 
+  // Auto-send when mode is set (from URL or selection)
   useEffect(() => {
-    if (initialMode && initialProgram && !autoSentRef.current) {
+    if (mode && !autoSentRef.current && messages.length === 0) {
       autoSentRef.current = true
-      sendMessage(buildAutoMessage(initialMode, initialProgram))
+      sendMessage(buildAutoMessage(mode, initialProgram))
     }
-  }, [initialMode, initialProgram, sendMessage])
+  }, [mode, initialProgram, sendMessage, messages.length])
 
   const reset = useCallback(() => {
     setMessages([])
     setMode(null)
+    autoSentRef.current = false
   }, [])
 
   return { messages, isLoading, mode, setMode, sendMessage, reset }
