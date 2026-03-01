@@ -1,0 +1,52 @@
+# CLIFF — Benefits Cliff Navigator for Georgia Disability Families
+
+> CLIFF is a free AI-powered platform helping Georgia families of children with disabilities prepare for the "benefits cliff" — critical transition points at ages 18 and 21 when eligibility rules, programs, and services change dramatically.
+
+## What CLIFF Does
+
+CLIFF provides free, personalized guidance on disability benefits, Medicaid waivers, and transition planning for Georgia families. The platform uses AI agents to help families understand their options and take action before critical deadlines.
+
+## Who CLIFF Serves
+
+- Georgia families with children or young adults with disabilities
+- Parents preparing for the age 18 SSI transition
+- Families navigating Katie Beckett / Deeming Waiver applications
+- Caregivers seeking NOW, COMP, or SOURCE waiver information
+- Families needing help with Medicaid, guardianship, and financial planning
+
+## AI Agents
+
+CLIFF uses 7 specialized AI agents:
+
+1. **Intake Agent** — Conducts conversational intake interviews to understand each family's unique situation
+2. **Research Agent** — Retrieves current Georgia disability benefits information and eligibility rules
+3. **Advocacy Agent** — Tracks Georgia disability legislation and helps families contact representatives
+4. **Proactive Agent** — Identifies upcoming deadlines and sends reminders for benefit transitions
+5. **Document Intelligence Agent** — Helps families understand and prepare required documents
+6. **Content Integrity Agent** — Verifies information accuracy against official Georgia sources
+7. **Navigator Agent** — General-purpose assistant that coordinates across all other agents
+
+## Key Topics Covered
+
+- Supplemental Security Income (SSI) — eligibility, age 18 redetermination, application process
+- Georgia Medicaid — pathways, coverage, transition from children's to adult programs
+- Katie Beckett / Deeming Waiver — Level of Care statements, application guidance
+- NOW & COMP Waivers — DBHDD planning list, services, wait times
+- SOURCE Waiver — community-based services for elderly and disabled Georgians
+- STABLE Accounts — tax-advantaged savings without affecting SSI/Medicaid
+- Special Needs Trusts — asset protection strategies
+- Age 18 Transition — SSI redetermination, guardianship, legal adulthood
+- Age 21 Transition — EPSDT ending, IDEA aging out, adult service planning
+- Georgia Disability Legislation — bill tracking, advocacy tools
+
+## Public Pages
+
+- https://cliff.org/ — Homepage
+- https://cliff.org/about — About CLIFF and its mission
+- https://cliff.org/resources — Comprehensive Georgia disability benefits guide
+- https://cliff.org/donate — Support CLIFF's mission
+- https://cliff.org/advocacy — Georgia disability legislation tracker
+
+## Contact
+
+Website: https://cliff.org

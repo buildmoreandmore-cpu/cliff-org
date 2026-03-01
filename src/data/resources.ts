@@ -117,6 +117,23 @@ export const resourcePanels: ResourcePanel[] = [
     ],
   },
   {
+    id: 'source',
+    title: 'SOURCE Medicaid Waiver',
+    icon: 'home',
+    summary: 'In-home and community-based services for elderly and disabled Georgians who meet nursing home level of care.',
+    content: [
+      'The SOURCE (Service Options Using Resources in a Community Environment) waiver provides in-home and community-based services as an alternative to nursing home placement for Georgia residents aged 65+ or those with disabilities.',
+      'Eligible individuals must meet nursing home level of care criteria and be enrolled in Georgia Medicaid. SOURCE covers services including personal support, home-delivered meals, adult day health, emergency response systems, respite care, and home modifications.',
+      'SOURCE is managed through Care Management Organizations (CMOs) that coordinate services. Your CMO will develop a person-centered care plan and connect you with providers in your area.',
+      'To apply, contact the Georgia Department of Community Health or your local Area Agency on Aging. A functional assessment will determine if you meet the nursing home level of care requirement.',
+    ],
+    links: [
+      { label: 'Georgia Department of Community Health', url: 'https://dch.georgia.gov' },
+      { label: 'Georgia Area Agencies on Aging', url: 'https://aging.georgia.gov' },
+    ],
+    alertText: 'SOURCE can help avoid nursing home placement — apply as soon as the need for long-term care services is identified.',
+  },
+  {
     id: 'advocacy',
     title: 'Advocacy & Support',
     icon: 'users',

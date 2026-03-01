@@ -3,5 +3,53 @@ Allow: /
 Disallow: /api/
 Disallow: /dashboard/
 Disallow: /navigator/
+Disallow: /auth/
+Disallow: /intake/
+
+# AI Crawlers — welcome
+User-agent: GPTBot
+Allow: /
+Allow: /llms.txt
+Disallow: /api/
+Disallow: /dashboard/
+Disallow: /navigator/
+Disallow: /auth/
+Disallow: /intake/
+
+User-agent: ChatGPT-User
+Allow: /
+Allow: /llms.txt
+Disallow: /api/
+Disallow: /dashboard/
+Disallow: /navigator/
+Disallow: /auth/
+Disallow: /intake/
+
+User-agent: anthropic-ai
+Allow: /
+Allow: /llms.txt
+Disallow: /api/
+Disallow: /dashboard/
+Disallow: /navigator/
+Disallow: /auth/
+Disallow: /intake/
+
+User-agent: Google-Extended
+Allow: /
+Allow: /llms.txt
+Disallow: /api/
+Disallow: /dashboard/
+Disallow: /navigator/
+Disallow: /auth/
+Disallow: /intake/
+
+User-agent: PerplexityBot
+Allow: /
+Allow: /llms.txt
+Disallow: /api/
+Disallow: /dashboard/
+Disallow: /navigator/
+Disallow: /auth/
+Disallow: /intake/
 
 Sitemap: https://cliff.org/sitemap.xml
