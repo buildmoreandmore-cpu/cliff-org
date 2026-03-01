@@ -31,8 +31,15 @@ CLIFF uses 7 specialized AI agents:
 - Supplemental Security Income (SSI) — eligibility, age 18 redetermination, application process
 - Georgia Medicaid — pathways, coverage, transition from children's to adult programs
 - Katie Beckett / Deeming Waiver — Level of Care statements, application guidance
-- NOW & COMP Waivers — DBHDD planning list, services, wait times
-- SOURCE Waiver — community-based services for elderly and disabled Georgians
+- NOW & COMP Waivers — DBHDD planning list, services, wait times for I/DD
+- EDWP / CCSP — Elderly and Disabled Waiver Program, Community Care Services for seniors 65+ and physically disabled
+- SOURCE Waiver — integrated medical care and HCBS for SSI Medicaid recipients
+- ICWP — Independent Care Waiver for adults 21+ with physical disabilities (TBI, spinal cord injury)
+- Money Follows the Person (MFP) — transitioning from nursing homes/institutions to community living
+- HCBS Settings Rule — federal compliance requirements for community-based settings
+- Olmstead v. L.C. — community integration rights under ADA
+- Consumer Direction — self-directed care worker programs across Georgia waivers
+- Structured Family Caregiving — paid family caregiver options under EDWP
 - STABLE Accounts — tax-advantaged savings without affecting SSI/Medicaid
 - Special Needs Trusts — asset protection strategies
 - Age 18 Transition — SSI redetermination, guardianship, legal adulthood
