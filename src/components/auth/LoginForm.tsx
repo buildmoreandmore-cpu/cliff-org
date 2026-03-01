@@ -27,7 +27,18 @@ export default function LoginForm() {
       return
     }
 
-    router.push('/dashboard')
+    // Check if profile is complete — if not, go to intake
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('child_name')
+      .eq('user_id', (await supabase.auth.getUser()).data.user?.id)
+      .single()
+
+    if (!profile?.child_name) {
+      router.push('/intake')
+    } else {
+      router.push('/dashboard')
+    }
     router.refresh()
   }
 

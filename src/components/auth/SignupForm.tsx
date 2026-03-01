@@ -12,9 +12,6 @@ export default function SignupForm() {
     email: '',
     password: '',
     parentName: '',
-    childName: '',
-    childDob: '',
-    county: '',
   })
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -35,9 +32,6 @@ export default function SignupForm() {
       options: {
         data: {
           parent_name: form.parentName,
-          child_name: form.childName,
-          child_dob: form.childDob || null,
-          county: form.county,
         },
       },
     })
@@ -48,7 +42,8 @@ export default function SignupForm() {
       return
     }
 
-    router.push('/dashboard')
+    // Go straight to intake — the AI will ask the rest
+    router.push('/intake')
     router.refresh()
   }
 
@@ -100,55 +95,17 @@ export default function SignupForm() {
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label htmlFor="childName" className="block text-sm font-medium text-navy mb-1.5">
-            Child&apos;s Name
-          </label>
-          <input
-            id="childName"
-            type="text"
-            value={form.childName}
-            onChange={(e) => update('childName', e.target.value)}
-            className="w-full px-4 py-3 rounded-lg border border-gray-200 text-navy placeholder:text-navy/30 focus:outline-none focus:ring-2 focus:ring-coral/30 focus:border-coral"
-            placeholder="Optional"
-          />
-        </div>
-        <div>
-          <label htmlFor="childDob" className="block text-sm font-medium text-navy mb-1.5">
-            Child&apos;s Date of Birth
-          </label>
-          <input
-            id="childDob"
-            type="date"
-            value={form.childDob}
-            onChange={(e) => update('childDob', e.target.value)}
-            className="w-full px-4 py-3 rounded-lg border border-gray-200 text-navy placeholder:text-navy/30 focus:outline-none focus:ring-2 focus:ring-coral/30 focus:border-coral"
-          />
-        </div>
-      </div>
-
-      <div>
-        <label htmlFor="county" className="block text-sm font-medium text-navy mb-1.5">
-          Georgia County
-        </label>
-        <input
-          id="county"
-          type="text"
-          value={form.county}
-          onChange={(e) => update('county', e.target.value)}
-          className="w-full px-4 py-3 rounded-lg border border-gray-200 text-navy placeholder:text-navy/30 focus:outline-none focus:ring-2 focus:ring-coral/30 focus:border-coral"
-          placeholder="e.g. Fulton, DeKalb, Gwinnett"
-        />
-      </div>
-
       {error && (
         <p className="text-sm text-red-600 bg-red-50 px-4 py-2 rounded-lg">{error}</p>
       )}
 
       <Button type="submit" className="w-full" disabled={loading}>
-        {loading ? 'Creating account...' : 'Create Account'}
+        {loading ? 'Creating account...' : 'Get Started'}
       </Button>
+
+      <p className="text-xs text-navy/30 text-center">
+        Our AI guide will walk you through everything next.
+      </p>
 
       <p className="text-sm text-navy/50 text-center">
         Already have an account?{' '}

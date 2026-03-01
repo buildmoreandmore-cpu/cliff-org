@@ -33,11 +33,11 @@ export default function IntakePage() {
           return
         }
         const data = await res.json()
-        if (data.profile?.child_name) {
+        if (data?.child_name) {
           router.push('/dashboard')
           return
         }
-        setProfileId(data.profile?.id || null)
+        setProfileId(data?.id || null)
       } catch {
         router.push('/auth/login')
       } finally {

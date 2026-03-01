@@ -1,6 +1,7 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useMemo } from 'react'
+import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { createClient } from '@/lib/supabase/client'
 import { useUser } from '@/hooks/useUser'
@@ -25,6 +26,7 @@ function calcAge(dob: string | null): string {
 }
 
 export default function DashboardPage() {
+  const router = useRouter()
   const { user, loading: userLoading, error: userError } = useUser()
   const [profile, setProfile] = useState<Profile | null>(null)
   const [benefits, setBenefits] = useState<ChildBenefit[]>([])
@@ -43,6 +45,10 @@ export default function DashboardPage() {
 
       const profileRes = await supabase.from('profiles').select('*').eq('user_id', user.id).single()
       const prof = profileRes.data as Profile | null
+      if (prof && !prof.child_name) {
+        router.push('/intake')
+        return
+      }
       setProfile(prof)
 
       if (prof) {
