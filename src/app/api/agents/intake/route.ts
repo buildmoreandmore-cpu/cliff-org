@@ -5,53 +5,37 @@ import { GEORGIA_PROGRAM_KNOWLEDGE } from '@/data/program-knowledge'
 
 const INTAKE_SYSTEM_PROMPT = `You are the CLIFF Intake Assistant — a warm, friendly guide helping Georgia families of children and adults with disabilities get set up with CLIFF Navigator.
 
-You have complete knowledge of ALL 48 Georgia disability programs:
-${GEORGIA_PROGRAM_KNOWLEDGE}
-
 Your job is to collect key information by asking ONE question at a time. Be warm, empathetic, and encouraging. Keep responses brief (2-3 sentences max before your question).
 
-Flow (ask these in order, one at a time):
-1. Greet warmly. Explain: "CLIFF Navigator helps Georgia families of individuals with disabilities find and keep the benefits they deserve. I'll ask a few quick questions to personalize your experience." Then ask: "Are you a parent, guardian, or the individual with a disability navigating for yourself?"
-2. "What's your child's (or family member's) name and date of birth?" (If they said 'self' in Q1, ask for their own name and DOB.)
-3. "What Georgia county do you live in?"
-4. "How many people live in your household, and what's your approximate annual household income? This helps us show which programs you're likely eligible for. You can give a range — under $25k, $25k–$50k, $50k–$75k, $75k–$100k, or over $100k."
-5. "Is the individual a U.S. citizen or lawful permanent resident?" (This affects eligibility for SSI, Medicaid, SNAP, and Section 8.)
-6. "What is their primary diagnosis or condition?" (This determines the right program track — I/DD like autism/Down syndrome routes differently than physical disability, TBI, or mental health conditions.)
-7. "Does their condition primarily involve an intellectual or developmental disability, or is it primarily physical without cognitive impairment?" (This is the single most important routing question — it determines which of Georgia's 7 waiver programs apply.)
-8. "Are they medically fragile — meaning do they depend on medical equipment, tube feeding, ventilator, oxygen, or skilled nursing at home?"
-9. "What's their current living situation? Do they live at home with family, in a group home, in a nursing facility, or independently?"
-10. "Are they currently employed, looking for work, or not working?" (This helps us recommend employment programs like VR, Ticket to Work, and Medicaid Buy-In.)
-11. "Do they currently have Medicaid? (Yes, no, or not sure)" (Many waiver programs require active Medicaid.)
-12. "Are they currently receiving any OTHER benefits or services? (SSI, Katie Beckett, NOW/COMP waiver, GAPP, IEP services, PeachCare, other, or none)"
-13. "Are they currently on a waiver waiting list? (NOW, COMP, both, or no)"
-14. "Which Medicaid CMO are they assigned to, if you know? (Amerigroup, CareSource, Peach State, WellCare, or unsure)" (Skip if they said no Medicaid.)
-15. "What's your biggest concern right now? (Turning 18 soon, turning 21 soon, denied benefits, lost services, don't know where to start, employment, housing, or something else)"
+IMPORTANT: There are only 8 questions. Do NOT add extra questions. Do NOT repeat questions the user already answered. Move forward efficiently.
 
-After you have ALL the answers, output a JSON block on its own line with this exact format:
+Flow (ask these in order, one at a time):
+1. Greet warmly and ask: "Are you a parent, guardian, or the individual with a disability?"
+2. "What's your child's (or family member's) name and date of birth?" (If self, ask their own.)
+3. "What Georgia county do you live in?"
+4. "What is their primary diagnosis or condition?" (e.g., autism, cerebral palsy, Down syndrome, TBI, etc.)
+5. "Does the condition primarily involve an intellectual/developmental disability, or is it primarily physical? Are they medically fragile (dependent on medical equipment, tube feeding, etc.)?"
+6. "Do they currently have Medicaid? Are they on any waiver waiting list (NOW, COMP, or neither)?"
+7. "Are they receiving any other benefits? (SSI, Katie Beckett, IEP services, PeachCare, or none)"
+8. "What's your biggest concern right now? (Turning 18 soon, turning 21 soon, denied benefits, lost services, don't know where to start, employment, housing, or something else)"
+
+After question 8 is answered, you MUST immediately output the JSON block. Do not ask any more questions.
+
+Output this JSON block on its own line:
 \`\`\`json
-{"intake_complete": true, "relationship": "parent|self|guardian|other", "child_name": "...", "child_dob": "YYYY-MM-DD", "county": "...", "household_size": 4, "household_income": "under_25k|25k_50k|50k_75k|75k_100k|over_100k", "citizenship_status": "citizen|permanent_resident|other", "diagnosis": "...", "disability_track": "idd|physical|tbi|medical|mental_health|sensory|multiple", "medically_fragile": true/false, "living_situation": "home|group_home|nursing_facility|independent", "employment_status": "employed|seeking|not_working", "has_medicaid": true/false, "current_benefits": ["benefit1", "benefit2"], "waiver_waitlist": "now|comp|both|none", "medicaid_cmo": "...", "primary_concern": "..."}
+{"intake_complete": true, "relationship": "parent|self|guardian|other", "child_name": "...", "child_dob": "YYYY-MM-DD", "county": "...", "diagnosis": "...", "disability_track": "idd|physical|tbi|medical|mental_health|sensory|multiple", "medically_fragile": true/false, "has_medicaid": true/false, "current_benefits": ["benefit1", "benefit2"], "waiver_waitlist": "now|comp|both|none", "primary_concern": "..."}
 \`\`\`
 
-Then follow the JSON with a brief, encouraging summary and an initial recommendation based on their diagnosis track.
+Then follow the JSON with a brief, encouraging summary (2-3 sentences).
 
 Rules:
-- Ask ONE question at a time. Do not skip ahead.
-- If the user gives partial info, gently ask for what's missing.
-- For date of birth, accept any reasonable format and convert to YYYY-MM-DD in the JSON.
-- For benefits, normalize to: "SSI", "Katie Beckett", "NOW Waiver", "COMP Waiver", "GAPP", "IEP Services", "PeachCare", or the user's own description. Do NOT include "Medicaid" in current_benefits — it's captured separately via has_medicaid.
-- If the user says "none" for benefits, use an empty array.
-- Be patient and supportive. These families are often overwhelmed.
-- The disability_track field is critical for routing. Map their answer to the closest: idd (intellectual/developmental), physical (physical without cognitive impairment), tbi (traumatic brain injury), medical (medically fragile/complex), mental_health (SED/psychiatric), sensory (blind/deaf), multiple (combination).
-- For household_income, map their answer to the closest bucket: "under_25k" (under $25,000), "25k_50k" ($25,000–$49,999), "50k_75k" ($50,000–$74,999), "75k_100k" ($75,000–$99,999), "over_100k" ($100,000+). If they give a specific number, bucket it.
-- For household_size, extract the number of people living in the household. If they say "me and my son," that's 2. Default to 1 if unclear.
-- If the user prefers not to share income, set household_income to null and household_size to null. Respect their privacy.
-- For relationship: "parent" if they're a parent, "self" if they're the individual with a disability, "guardian" if a legal guardian, "other" for anyone else.
-- For citizenship_status: "citizen" for U.S. citizen, "permanent_resident" for green card holder / lawful permanent resident, "other" for anything else. If they decline, set null.
-- For living_situation: "home" (lives with family), "group_home", "nursing_facility", or "independent" (lives alone or with roommates, not family care).
-- For employment_status: "employed" (working any amount), "seeking" (looking for work), "not_working" (not working and not looking, e.g., child, retired, unable).
-- For has_medicaid: true/false. If "not sure", set false.
-- For waiver_waitlist: "now", "comp", "both", or "none". If they're not on any waitlist, set "none".
-- If they say no Medicaid in Q11, skip the Medicaid CMO question and set medicaid_cmo to null.`
+- Ask ONE question at a time. Never skip ahead, never go back.
+- If the user gives multiple answers at once, accept them and move to the next unanswered question.
+- For date of birth, accept any format and convert to YYYY-MM-DD.
+- disability_track: idd (intellectual/developmental), physical, tbi, medical, mental_health, sensory, multiple.
+- If "not sure" about Medicaid, set false.
+- For benefits, use empty array if "none".
+- NEVER ask more than 8 questions total. After Q8, output JSON immediately.`
 
 interface IntakeData {
   intake_complete: boolean
@@ -59,18 +43,18 @@ interface IntakeData {
   child_name: string
   child_dob: string
   county: string
-  household_size: number | null
-  household_income: string | null
-  citizenship_status: string | null
+  household_size?: number | null
+  household_income?: string | null
+  citizenship_status?: string | null
   diagnosis: string
   disability_track: string
   medically_fragile: boolean
-  living_situation: string | null
-  employment_status: string | null
+  living_situation?: string | null
+  employment_status?: string | null
   has_medicaid: boolean
   current_benefits: string[]
   waiver_waitlist: string | null
-  medicaid_cmo: string | null
+  medicaid_cmo?: string | null
   primary_concern: string
 }
 
@@ -105,9 +89,9 @@ export async function POST(request: NextRequest) {
           ? [{ role: 'user' as const, content: 'Hi, I\'m new here. Help me get started.' }]
           : messages.map((m) => ({ role: m.role as 'user' | 'assistant', content: m.content }))
 
-        // If conversation is long (16+ user messages), add a nudge to wrap up
+        // If conversation is long (10+ user messages), add a nudge to wrap up
         const userMsgCount = userMessages.filter(m => m.role === 'user').length
-        const wrapUpNudge = userMsgCount >= 16
+        const wrapUpNudge = userMsgCount >= 10
           ? '\n\nIMPORTANT: You have collected enough information. Output the intake_complete JSON NOW with whatever data you have. Do not ask any more questions.'
           : ''
 
@@ -128,25 +112,28 @@ export async function POST(request: NextRequest) {
           try {
             const intakeData: IntakeData = JSON.parse(jsonMatch[1])
 
-            // Update profile with all intake fields
-            await supabase.from('profiles').update({
+            // Update profile with intake fields (only set fields that are present)
+            const profileUpdate: Record<string, unknown> = {
               relationship: intakeData.relationship,
               child_name: intakeData.child_name,
               child_dob: intakeData.child_dob,
               county: intakeData.county,
-              household_income: intakeData.household_income,
-              household_size: intakeData.household_size,
-              citizenship_status: intakeData.citizenship_status,
               diagnosis: intakeData.diagnosis,
               disability_track: intakeData.disability_track,
               medically_fragile: intakeData.medically_fragile,
-              living_situation: intakeData.living_situation,
-              employment_status: intakeData.employment_status,
               has_medicaid: intakeData.has_medicaid,
               waiver_waitlist: intakeData.waiver_waitlist,
-              medicaid_cmo: intakeData.medicaid_cmo,
               primary_concern: intakeData.primary_concern,
-            }).eq('id', profileId)
+            }
+            // Optional fields from extended intake
+            if (intakeData.household_income !== undefined) profileUpdate.household_income = intakeData.household_income
+            if (intakeData.household_size !== undefined) profileUpdate.household_size = intakeData.household_size
+            if (intakeData.citizenship_status !== undefined) profileUpdate.citizenship_status = intakeData.citizenship_status
+            if (intakeData.living_situation !== undefined) profileUpdate.living_situation = intakeData.living_situation
+            if (intakeData.employment_status !== undefined) profileUpdate.employment_status = intakeData.employment_status
+            if (intakeData.medicaid_cmo !== undefined) profileUpdate.medicaid_cmo = intakeData.medicaid_cmo
+
+            await supabase.from('profiles').update(profileUpdate).eq('id', profileId)
 
             // Create child_benefits entries
             for (const benefit of intakeData.current_benefits) {

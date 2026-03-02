@@ -125,21 +125,24 @@ export default function IntakePage() {
               } else if (parsed.type === 'intake_complete') {
                 setChildName(parsed.data?.child_name || null)
                 setIntakeComplete(true)
+                // Redirect to welcome guide after a brief delay to show the summary
+                setTimeout(() => { router.push('/welcome') }, 3000)
               }
             } catch {}
           }
         }
       }
 
-      // Safety net: if we've had 16+ exchanges and the model didn't emit intake_complete,
+      // Safety net: if we've had 10+ exchanges and the model didn't emit intake_complete,
       // check if the profile is now filled and force completion
-      if (!intakeComplete && questionCount.current >= 16) {
+      if (!intakeComplete && questionCount.current >= 10) {
         try {
           const profileRes = await fetch('/api/profile')
           const profileData = await profileRes.json()
           if (profileData?.child_name && profileData?.diagnosis) {
             setChildName(profileData.child_name)
             setIntakeComplete(true)
+            setTimeout(() => { router.push('/welcome') }, 2000)
           }
         } catch {}
       }
