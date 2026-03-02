@@ -105,8 +105,14 @@ export async function POST(request: NextRequest) {
           ? [{ role: 'user' as const, content: 'Hi, I\'m new here. Help me get started.' }]
           : messages.map((m) => ({ role: m.role as 'user' | 'assistant', content: m.content }))
 
+        // If conversation is long (16+ user messages), add a nudge to wrap up
+        const userMsgCount = userMessages.filter(m => m.role === 'user').length
+        const wrapUpNudge = userMsgCount >= 16
+          ? '\n\nIMPORTANT: You have collected enough information. Output the intake_complete JSON NOW with whatever data you have. Do not ask any more questions.'
+          : ''
+
         const miniMaxMessages: MiniMaxMessage[] = [
-          { role: 'system', content: INTAKE_SYSTEM_PROMPT },
+          { role: 'system', content: INTAKE_SYSTEM_PROMPT + wrapUpNudge },
           ...userMessages,
         ]
 
