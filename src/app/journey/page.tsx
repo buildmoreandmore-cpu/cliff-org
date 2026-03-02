@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useUser } from '@/hooks/useUser'
 import { EASING } from '@/lib/constants'
+import { BookIcon, GlobeIcon, CalendarIcon, HeartIcon } from '@/components/ui/SVGIcons'
 
 interface JourneyMessage {
   role: 'user' | 'assistant'
@@ -157,10 +158,8 @@ export default function JourneyPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: EASING }}
           >
-            <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-coral/10 flex items-center justify-center">
-              <svg className="w-8 h-8 text-coral" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.331 0 4.472.89 6.076 2.348M12 6.042a8.967 8.967 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.348m0-14.656v14.656" />
-              </svg>
+            <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-coral/10 flex items-center justify-center text-coral">
+              <BookIcon size={32} />
             </div>
 
             <h1 className="font-display text-3xl sm:text-4xl font-bold text-navy">
@@ -174,12 +173,14 @@ export default function JourneyPage() {
 
             <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-lg mx-auto text-left">
               {[
-                { icon: '📊', text: 'Real statistics and research about your child\'s specific condition' },
-                { icon: '🗺️', text: 'Life stage planning from early childhood through adulthood' },
-                { icon: '💛', text: 'Goes at your pace — ask questions, take breaks, come back anytime' },
+                { Icon: GlobeIcon, text: 'Real statistics and research about your child\'s specific condition' },
+                { Icon: CalendarIcon, text: 'Life stage planning from early childhood through adulthood' },
+                { Icon: HeartIcon, text: 'Goes at your pace — ask questions, take breaks, come back anytime' },
               ].map((item) => (
-                <div key={item.text} className="flex items-start gap-2 p-3 bg-white rounded-lg border border-gray-100">
-                  <span className="text-lg flex-shrink-0">{item.icon}</span>
+                <div key={item.text} className="flex items-start gap-2.5 p-3 bg-white rounded-lg border border-gray-100">
+                  <div className="w-8 h-8 rounded-lg bg-coral/10 flex items-center justify-center text-coral flex-shrink-0">
+                    <item.Icon size={16} />
+                  </div>
                   <p className="text-xs text-navy/60 leading-relaxed">{item.text}</p>
                 </div>
               ))}
