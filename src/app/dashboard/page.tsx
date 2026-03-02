@@ -14,6 +14,7 @@ import DocumentList from '@/components/dashboard/DocumentList'
 import ContactsManager from '@/components/dashboard/ContactsManager'
 import NotificationInbox from '@/components/dashboard/NotificationInbox'
 import NavigatorDrawer from '@/components/dashboard/NavigatorDrawer'
+import FeatureGuideCard from '@/components/dashboard/FeatureGuideCard'
 import { HeartIcon, XIcon } from '@/components/ui/SVGIcons'
 import type { ChildBenefit, Application, Reminder, SavedDocument, Profile, Notification } from '@/lib/types'
 
@@ -39,6 +40,16 @@ export default function DashboardPage() {
   const [profileForm, setProfileForm] = useState<Partial<Profile>>({})
   const [savingProfile, setSavingProfile] = useState(false)
   const [drawerProgram, setDrawerProgram] = useState<string | null>(null)
+  const [showGuide, setShowGuide] = useState(false)
+
+  useEffect(() => {
+    if (!localStorage.getItem('cliff_guide_dismissed')) setShowGuide(true)
+  }, [])
+
+  function dismissGuide() {
+    localStorage.setItem('cliff_guide_dismissed', '1')
+    setShowGuide(false)
+  }
 
   const fetchData = useCallback(async () => {
     if (!user) return
@@ -157,6 +168,11 @@ export default function DashboardPage() {
           </div>
         </a>
       </motion.div>
+
+      {/* First-Login Feature Guide */}
+      <AnimatePresence>
+        {showGuide && <FeatureGuideCard onDismiss={dismissGuide} />}
+      </AnimatePresence>
 
       {/* Profile Card */}
       <motion.div

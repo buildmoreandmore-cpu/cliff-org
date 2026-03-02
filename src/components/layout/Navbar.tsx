@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { NAV_LINKS } from '@/lib/constants'
+import { PUBLIC_NAV_LINKS, PRIVATE_NAV_LINKS } from '@/lib/constants'
 import { MenuIcon, BellIcon } from '@/components/ui/SVGIcons'
 import { useUser } from '@/hooks/useUser'
 import { createClient } from '@/lib/supabase/client'
@@ -43,7 +43,7 @@ export default function Navbar() {
             </Link>
 
             <nav className="hidden md:flex items-center gap-8">
-              {NAV_LINKS.map((link) => (
+              {loading ? null : (user ? [...PRIVATE_NAV_LINKS, { label: 'Resources', href: '/resources' }] : PUBLIC_NAV_LINKS).map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
@@ -66,12 +66,6 @@ export default function Navbar() {
                         {unreadCount > 9 ? '9+' : unreadCount}
                       </span>
                     )}
-                  </Link>
-                  <Link
-                    href="/dashboard"
-                    className="text-sm font-medium text-navy/70 hover:text-coral transition-colors"
-                  >
-                    Dashboard
                   </Link>
                   <button
                     onClick={handleSignOut}

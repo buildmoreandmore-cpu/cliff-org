@@ -39,14 +39,20 @@ export const CONTACTS = {
   katieBeckettPacket: '(678) 248-7449',
 } as const
 
-export const NAV_LINKS = [
+export const PUBLIC_NAV_LINKS = [
   { label: 'Resources', href: '/resources' },
+  { label: 'Community', href: '/community' },
+  { label: 'Advocacy', href: '/advocacy' },
+  { label: 'Donate', href: '/donate' },
+  { label: 'About', href: '/about' },
+] as const
+
+export const PRIVATE_NAV_LINKS = [
   { label: 'Navigator', href: '/navigator' },
   { label: 'Dashboard', href: '/dashboard' },
   { label: 'My Plan', href: '/plan' },
   { label: 'Journey', href: '/journey' },
-  { label: 'Advocacy', href: '/advocacy' },
-  { label: 'Community', href: '/community' },
-  { label: 'Donate', href: '/donate' },
-  { label: 'About', href: '/about' },
 ] as const
+
+// Backward-compat alias
+export const NAV_LINKS = [...PRIVATE_NAV_LINKS, ...PUBLIC_NAV_LINKS]

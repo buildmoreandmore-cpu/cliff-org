@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { NAV_LINKS, EASING } from '@/lib/constants'
+import { PUBLIC_NAV_LINKS, PRIVATE_NAV_LINKS, EASING } from '@/lib/constants'
 import { XIcon, BellIcon } from '@/components/ui/SVGIcons'
 import type { User } from '@supabase/supabase-js'
 
@@ -41,7 +41,7 @@ export default function MobileMenu({ open, onClose, user, onSignOut, unreadCount
             </div>
 
             <nav className="flex flex-col p-4 gap-1">
-              {NAV_LINKS.map((link) => (
+              {(user ? [...PRIVATE_NAV_LINKS, { label: 'Resources', href: '/resources' }] : PUBLIC_NAV_LINKS).map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
@@ -65,13 +65,6 @@ export default function MobileMenu({ open, onClose, user, onSignOut, unreadCount
                         {unreadCount > 9 ? '9+' : unreadCount}
                       </span>
                     )}
-                  </Link>
-                  <Link
-                    href="/dashboard"
-                    onClick={onClose}
-                    className="px-4 py-3 text-navy/80 hover:text-coral hover:bg-cream rounded-lg transition-colors"
-                  >
-                    Dashboard
                   </Link>
                   <button
                     onClick={() => { onSignOut(); onClose() }}
