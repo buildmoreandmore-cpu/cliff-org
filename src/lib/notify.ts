@@ -60,13 +60,15 @@ export async function notify({ profileId, triggerType, triggerId, subject, body 
   if (!user?.email) return
 
   // 4. Send email via Composio Gmail
-  if (emailEnabled) {
-    try {
-      await sendEmailViaComposio(user.email, subject, body)
-    } catch (err) {
-      console.error('Failed to send email notification:', err)
-    }
-  }
+  // DISABLED: sender shows "Martin Francis" instead of "CLIFF" — re-enable once
+  // noreply@meetcliff.org is set up (needs DNS fix first)
+  // if (emailEnabled) {
+  //   try {
+  //     await sendEmailViaComposio(user.email, subject, body)
+  //   } catch (err) {
+  //     console.error('Failed to send email notification:', err)
+  //   }
+  // }
 
   // 5. Send SMS if enabled and phone exists
   const smsPhone = profile.notification_phone || profile.phone
