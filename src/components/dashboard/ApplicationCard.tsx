@@ -4,8 +4,9 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { EASING } from '@/lib/constants'
 import type { Application, ApplicationStatus, Profile } from '@/lib/types'
-import { ClipboardIcon, CheckIcon, ArrowRightIcon, AlertIcon } from '@/components/ui/SVGIcons'
+import { ClipboardIcon, CheckIcon, ArrowRightIcon, AlertIcon, ExternalLinkIcon } from '@/components/ui/SVGIcons'
 import { createClient } from '@/lib/supabase/client'
+import { getApplicationLink } from '@/data/application-links'
 
 
 interface ApplicationCardProps {
@@ -408,14 +409,33 @@ export default function ApplicationCard({ applications, profile, onUpdate, onSta
                                         </div>
                                       </div>
                                     ) : (
-                                      <div className="flex items-center justify-between">
+                                      <div className="space-y-2">
                                         <p className="text-xs text-navy/40">No application started yet.</p>
-                                        <button
-                                          onClick={() => onStartApplication(prog.name)}
-                                          className="inline-flex items-center gap-1 text-xs font-medium text-coral hover:text-coral-dark transition-colors"
-                                        >
-                                          Start Application <ArrowRightIcon size={12} />
-                                        </button>
+                                        <div className="flex flex-wrap items-center gap-3">
+                                          {(() => {
+                                            const appLink = getApplicationLink(prog.name)
+                                            if (appLink) {
+                                              return (
+                                                <a
+                                                  href={appLink.url}
+                                                  target="_blank"
+                                                  rel="noopener noreferrer"
+                                                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-white bg-coral hover:bg-coral/90 px-3 py-1.5 rounded-md transition-colors"
+                                                >
+                                                  <ExternalLinkIcon size={12} />
+                                                  {appLink.label}
+                                                </a>
+                                              )
+                                            }
+                                            return null
+                                          })()}
+                                          <button
+                                            onClick={() => onStartApplication(prog.name)}
+                                            className="inline-flex items-center gap-1 text-xs font-medium text-coral hover:text-coral-dark transition-colors"
+                                          >
+                                            Need help applying? <ArrowRightIcon size={12} />
+                                          </button>
+                                        </div>
                                       </div>
                                     )}
                                   </div>
