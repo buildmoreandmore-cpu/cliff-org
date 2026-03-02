@@ -15,7 +15,7 @@ import ContactsManager from '@/components/dashboard/ContactsManager'
 import NotificationInbox from '@/components/dashboard/NotificationInbox'
 import NavigatorDrawer from '@/components/dashboard/NavigatorDrawer'
 import FeatureGuideCard from '@/components/dashboard/FeatureGuideCard'
-import { HeartIcon, XIcon } from '@/components/ui/SVGIcons'
+import { HeartIcon, XIcon, ClipboardIcon } from '@/components/ui/SVGIcons'
 import type { ChildBenefit, Application, Reminder, SavedDocument, Profile, Notification } from '@/lib/types'
 
 function calcAge(dob: string | null): string {
@@ -164,7 +164,7 @@ export default function DashboardPage() {
                 A step-by-step guide tailored to {profile?.child_name || 'your child'}&apos;s needs
               </p>
             </div>
-            <span className="text-3xl">📋</span>
+            <ClipboardIcon size={32} className="text-white/80 shrink-0" />
           </div>
         </a>
       </motion.div>
