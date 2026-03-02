@@ -302,21 +302,10 @@ export default function DashboardPage() {
                 </div>
               </div>
               <div className="space-y-2">
-                <p className="text-xs font-medium text-navy/60">Notification Preferences</p>
-                <div className="flex flex-wrap gap-4">
-                  {[
-                    { key: 'notification_breaking_news' as const, label: 'Breaking News' },
-                    { key: 'notification_milestones' as const, label: 'Milestones' },
-                    { key: 'notification_digest' as const, label: 'Weekly Digest' },
-                  ].map(({ key, label }) => (
-                    <label key={key} className="flex items-center gap-2 text-sm text-navy/70 cursor-pointer">
-                      <input type="checkbox" checked={!!profileForm[key]}
-                        onChange={(e) => setProfileForm((f) => ({ ...f, [key]: e.target.checked }))}
-                        className="w-4 h-4 rounded border-gray-300 text-coral focus:ring-coral" />
-                      {label}
-                    </label>
-                  ))}
-                </div>
+                <p className="text-xs font-medium text-navy/60">Notifications</p>
+                <a href="/settings" className="inline-flex items-center gap-2 text-sm text-coral hover:text-coral-dark font-medium transition-colors">
+                  Manage email &amp; text message preferences →
+                </a>
               </div>
               <button onClick={saveProfile} disabled={savingProfile}
                 className="text-sm font-medium text-white bg-coral hover:bg-coral-dark disabled:opacity-50 px-4 py-2 rounded-lg transition-colors">

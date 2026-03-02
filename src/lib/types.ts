@@ -14,6 +14,8 @@ export interface Profile {
   notification_milestones: boolean
   notification_digest: boolean
   notification_email: boolean
+  notification_sms: boolean
+  notification_phone: string | null
   disability_track: string | null
   medically_fragile: boolean
   medicaid_cmo: string | null

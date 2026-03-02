@@ -11,6 +11,10 @@ export async function GET() {
   return NextResponse.json(data)
 }
 
+export async function PUT(request: NextRequest) {
+  return PATCH(request)
+}
+
 export async function PATCH(request: NextRequest) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -18,7 +22,7 @@ export async function PATCH(request: NextRequest) {
 
   const body = await request.json()
   // Only allow updating safe fields
-  const allowed = ['parent_name', 'child_name', 'child_dob', 'county', 'phone', 'notification_breaking_news', 'notification_milestones', 'notification_digest', 'notification_email', 'disability_track', 'medically_fragile', 'medicaid_cmo', 'diagnosis', 'primary_concern', 'relationship', 'citizenship_status', 'has_medicaid', 'living_situation', 'employment_status', 'waiver_waitlist', 'household_income', 'household_size']
+  const allowed = ['parent_name', 'child_name', 'child_dob', 'county', 'phone', 'notification_breaking_news', 'notification_milestones', 'notification_digest', 'notification_email', 'notification_sms', 'notification_phone', 'disability_track', 'medically_fragile', 'medicaid_cmo', 'diagnosis', 'primary_concern', 'relationship', 'citizenship_status', 'has_medicaid', 'living_situation', 'employment_status', 'waiver_waitlist', 'household_income', 'household_size']
   const updates: Record<string, unknown> = {}
   for (const key of allowed) {
     if (body[key] !== undefined) updates[key] = body[key]
