@@ -130,48 +130,11 @@ export default function AboutPage() {
             </p>
           </div>
 
-          {/* CEO Card */}
-          <motion.div
-            className="relative bg-gradient-to-br from-navy to-navy/90 rounded-2xl p-6 sm:p-8 text-white mb-8 overflow-hidden"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: EASING }}
-          >
-            <div className="absolute top-0 right-0 w-48 h-48 bg-coral/10 rounded-full -translate-y-1/2 translate-x-1/2" />
-            <div className="relative flex flex-col sm:flex-row items-center sm:items-start gap-5">
-              <div className="w-20 h-20 rounded-2xl bg-coral flex items-center justify-center flex-shrink-0">
-                <StarIcon size={32} className="text-white" />
-              </div>
-              <div className="text-center sm:text-left">
-                <p className="text-coral text-xs font-semibold tracking-wider uppercase">President &amp; CEO</p>
-                <h3 className="mt-1 font-display text-2xl font-bold">Martin Francis</h3>
-                <p className="mt-2 text-white/70 leading-relaxed max-w-xl">
-                  Founder of CLIFF and martin.builds. The only human in the organization — responsible for
-                  strategy, fundraising, partnerships, and ensuring every AI officer serves families first.
-                  All operational decisions, legal compliance, and fiduciary duties rest here.
-                </p>
-                <div className="mt-4 flex flex-wrap gap-2 justify-center sm:justify-start">
-                  <span className="px-3 py-1 text-xs rounded-full bg-white/10 text-white/80">Strategy</span>
-                  <span className="px-3 py-1 text-xs rounded-full bg-white/10 text-white/80">Fundraising</span>
-                  <span className="px-3 py-1 text-xs rounded-full bg-white/10 text-white/80">Partnerships</span>
-                  <span className="px-3 py-1 text-xs rounded-full bg-white/10 text-white/80">Legal &amp; Compliance</span>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Org line */}
-          <div className="flex justify-center mb-6">
-            <div className="w-px h-8 bg-gray-200" />
-          </div>
-          <div className="text-center mb-6">
+          {/* Council label */}
+          <div className="text-center mb-8">
             <span className="inline-block px-4 py-1.5 bg-coral/10 text-coral text-xs font-semibold rounded-full tracking-wide uppercase">
               AI Advisory Council
             </span>
-          </div>
-          <div className="flex justify-center mb-8">
-            <div className="w-px h-6 bg-gray-200" />
           </div>
 
           {/* AI Council Grid */}
