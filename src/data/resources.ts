@@ -6,6 +6,8 @@ export interface ResourcePanel {
   content: string[]
   links: { label: string; url: string }[]
   alertText?: string
+  applyUrl?: string
+  applyLabel?: string
 }
 
 export const resourcePanels: ResourcePanel[] = [
@@ -24,6 +26,8 @@ export const resourcePanels: ResourcePanel[] = [
       { label: 'SSI for Children', url: 'https://www.ssa.gov/benefits/ssi' },
     ],
     alertText: 'Apply 3 months before your child turns 18 — do not wait until their birthday.',
+    applyUrl: 'https://www.ssa.gov/benefits/ssi',
+    applyLabel: 'Apply for SSI at SSA.gov',
   },
   {
     id: 'medicaid',
@@ -39,6 +43,8 @@ export const resourcePanels: ResourcePanel[] = [
       { label: 'Georgia Medicaid', url: 'https://medicaid.georgia.gov' },
     ],
     alertText: 'Katie Beckett requires a Level of Care Statement — this is the most critical document in the application.',
+    applyUrl: 'https://gateway.ga.gov/',
+    applyLabel: 'Apply at Georgia Gateway',
   },
   {
     id: 'medicaid-layers',
@@ -90,6 +96,8 @@ export const resourcePanels: ResourcePanel[] = [
       { label: 'DBHDD Waivers', url: 'https://dbhdd.georgia.gov' },
     ],
     alertText: 'Get on the Planning List immediately — wait times can exceed 10 years.',
+    applyUrl: 'https://dbhdd.georgia.gov/now-comp-waivers',
+    applyLabel: 'Apply for NOW/COMP Waiver',
   },
   {
     id: 'katie-beckett',
@@ -106,6 +114,8 @@ export const resourcePanels: ResourcePanel[] = [
       { label: 'Georgia Medicaid', url: 'https://medicaid.georgia.gov' },
     ],
     alertText: 'Write the Level of Care Statement describing the worst day, not the best. Detail every support and supervision need.',
+    applyUrl: 'https://medicaid.georgia.gov/programs/all-programs/katie-beckett',
+    applyLabel: 'Request Katie Beckett Application Packet',
   },
   {
     id: 'transition',
@@ -139,6 +149,8 @@ export const resourcePanels: ResourcePanel[] = [
       { label: 'Ticket to Work', url: 'https://choosework.ssa.gov' },
       { label: 'DBHDD', url: 'https://dbhdd.georgia.gov' },
     ],
+    applyUrl: 'https://gvs.georgia.gov/vocational-rehabilitation',
+    applyLabel: 'Apply for Vocational Rehabilitation',
     alertText: 'Your child can work without losing Medicaid. Ask about Medicaid Buy-In, Trial Work Period, and PASS before assuming employment means losing benefits.',
   },
   {
@@ -156,6 +168,8 @@ export const resourcePanels: ResourcePanel[] = [
       { label: 'Georgia STABLE Account', url: 'https://georgiastable.com' },
       { label: 'ABLE National Resource Center', url: 'https://www.ablenrc.org' },
     ],
+    applyUrl: 'https://www.georgiastable.com',
+    applyLabel: 'Open a Georgia STABLE Account',
     alertText: 'ABLE/STABLE accounts let your child save $100,000+ without losing SSI. Family members can contribute. If they work, they can save even more under ABLE to Work.',
   },
   {
@@ -174,6 +188,8 @@ export const resourcePanels: ResourcePanel[] = [
       { label: 'GCDD', url: 'https://gcdd.org' },
       { label: 'TRICARE ECHO', url: 'https://tricare.mil/echo' },
     ],
+    applyUrl: 'https://www.benefits.gov/benefit/4412',
+    applyLabel: 'Check Federal Program Eligibility',
     alertText: 'Don\'t assume you\'ve found every program. Title XX, DD Act organizations, and TRICARE ECHO are real funding sources most families miss entirely.',
   },
   {
@@ -330,6 +346,8 @@ export const resourcePanels: ResourcePanel[] = [
       { label: 'GA Dept of Community Affairs', url: 'https://www.dca.ga.gov' },
       { label: 'HUD Section 811', url: 'https://www.hud.gov/program_offices/housing/mfh/progdesc/disab811' },
     ],
+    applyUrl: 'https://www.dca.ga.gov/safe-affordable-housing/rental-housing/rental-assistance',
+    applyLabel: 'Find Housing Assistance',
     alertText: 'Housing waitlists can take years. Apply to multiple housing authorities NOW — don\'t wait until your child needs to leave the family home.',
   },
   {

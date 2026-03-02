@@ -57,6 +57,7 @@ export async function notify({ profileId, triggerType, triggerId, subject, body 
 
   // 3. Look up user email from auth.users
   const { data: { user } } = await supabase.auth.admin.getUserById(profile.user_id)
+  if (!user?.email) return
 
   // 4. Send email via Composio Gmail
   if (emailEnabled) {

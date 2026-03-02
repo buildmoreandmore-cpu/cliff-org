@@ -45,7 +45,7 @@ export default function ResourcePanel({ panel }: ResourcePanelProps) {
       {panel.links.length > 0 && (
         <div className="mt-8">
           <h3 className="text-sm font-semibold text-navy uppercase tracking-wider mb-3">
-            Official Links
+            Official Links & Applications
           </h3>
           <div className="space-y-2">
             {panel.links.map((link) => (
@@ -60,6 +60,28 @@ export default function ResourcePanel({ panel }: ResourcePanelProps) {
                 {link.label}
               </a>
             ))}
+          </div>
+
+          {panel.applyUrl && (
+            <a
+              href={panel.applyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 inline-flex items-center gap-2 px-4 py-2.5 bg-coral text-white text-sm font-semibold rounded-lg hover:bg-coral/90 transition-colors"
+            >
+              <ExternalLinkIcon size={14} />
+              {panel.applyLabel || 'Start Application'}
+            </a>
+          )}
+
+          <div className="mt-4 pt-4 border-t border-gray-100">
+            <p className="text-xs text-navy/40 mb-2">Need help with this program?</p>
+            <a
+              href={`/navigator?mode=apply&program=${encodeURIComponent(panel.title)}`}
+              className="inline-flex items-center gap-2 text-sm font-medium text-coral hover:text-coral-dark transition-colors"
+            >
+              Get step-by-step help from CLIFF →
+            </a>
           </div>
         </div>
       )}

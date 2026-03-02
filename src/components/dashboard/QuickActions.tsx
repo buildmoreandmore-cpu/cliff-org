@@ -9,19 +9,19 @@ const actions = [
   {
     label: 'Explore Benefits',
     description: 'Learn what you qualify for',
-    href: '/navigator',
+    href: '/navigator?mode=explore',
     Icon: SearchIcon,
   },
   {
     label: 'Walk Through a Form',
     description: 'Get step-by-step help',
-    href: '/navigator',
+    href: '/navigator?mode=apply',
     Icon: ClipboardIcon,
   },
   {
     label: 'Draft an Email',
     description: 'Write to an agency',
-    href: '/navigator',
+    href: '/navigator?mode=email',
     Icon: MailIcon,
   },
   {

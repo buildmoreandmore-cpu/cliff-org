@@ -52,6 +52,8 @@ export const PRIVATE_NAV_LINKS = [
   { label: 'Dashboard', href: '/dashboard' },
   { label: 'My Plan', href: '/plan' },
   { label: 'Journey', href: '/journey' },
+  { label: 'Advocacy', href: '/advocacy' },
+  { label: 'Donate', href: '/donate' },
 ] as const
 
 // Backward-compat alias
